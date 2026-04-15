@@ -1,5 +1,7 @@
 package com.betolara1.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -45,17 +47,23 @@ public class ModuleFatherService {
     }
 
     @Transactional
-    public ModuleFatherDTO save(SaveModuleFatherRequest request) {
+    public ModuleFatherDTO getModuleFatherByDateCreated(@NotNull LocalDateTime dateCreated){
+        ModuleFather moduleFather = moduleFatherRepository.findByDateCreated(dateCreated).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com data de criação: " + dateCreated));
+        return new ModuleFatherDTO(moduleFather);
+    }
+
+    @Transactional
+    public ModuleFather save(SaveModuleFatherRequest request) {
         ModuleFather moduleFather = new ModuleFather();
 
         moduleFather.setName(request.getName());
         moduleFather.setDateCreated(request.getDateCreated());
 
-        return new ModuleFatherDTO(moduleFatherRepository.save(moduleFather));
+        return moduleFatherRepository.save(moduleFather);
     }
 
     @Transactional
-    public ModuleFatherDTO update(@NotNull Long id, UpdateModuleFatherRequest request){
+    public ModuleFather update(@NotNull Long id, UpdateModuleFatherRequest request){
         ModuleFather moduleFather = moduleFatherRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com ID: " + id));
 
         if(request.getName() != null){
@@ -66,7 +74,7 @@ public class ModuleFatherService {
             moduleFather.setDateUpdated(request.getDateUpdated());
         }
 
-        return new ModuleFatherDTO(moduleFatherRepository.save(moduleFather));
+        return moduleFatherRepository.save(moduleFather);
     }
 
     @Transactional

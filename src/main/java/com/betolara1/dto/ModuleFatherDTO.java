@@ -21,9 +21,4 @@ public class ModuleFatherDTO {
         this.dateCreated = moduleFather.getDateCreated();
         this.dateUpdated = moduleFather.getDateUpdated();
     }
-
-    public ModuleFatherDTO orElseThrow(Object object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
-    }
 }

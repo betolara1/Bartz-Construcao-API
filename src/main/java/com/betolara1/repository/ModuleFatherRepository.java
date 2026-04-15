@@ -2,6 +2,7 @@ package com.betolara1.repository;
 
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -19,5 +20,6 @@ public interface ModuleFatherRepository extends JpaRepository<ModuleFather, Long
     @NonNull
     Optional<ModuleFather> findByName(@NonNull String name);
 
-
+    @NonNull
+    Optional<ModuleFather> findByDateCreated(@NonNull LocalDateTime dateCreated);
 }
