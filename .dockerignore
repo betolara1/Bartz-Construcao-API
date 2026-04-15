@@ -1,0 +1,10 @@
+target/
+.git/
+.mvn/
+.vscode/
+mvnw
+mvnw.cmd
+Dockerfile
+.dockerignore
+DOCKER_CHEATSHEET.md
+HELP.md
