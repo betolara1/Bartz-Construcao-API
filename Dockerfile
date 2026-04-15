@@ -1,7 +1,7 @@
 # Esse é um docker padrão para aplicações Java com Spring Boot
 
 # 1. ESTÁGIO DE BUILD (Construção)
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
 
 # Cache do Maven: Se o pom.xml não mudar, o Docker reutiliza as dependências baixadas
@@ -9,12 +9,12 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 # Copia o resto do código
-COPY . .
+COPY src ./src
 # Compila o projeto
 RUN mvn clean package -DskipTests
 
 # 2. ESTÁGIO DE EXECUÇÃO (Rodar o app)
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 # Metadados para ajudar a saberem do que se trata aquela imagem.

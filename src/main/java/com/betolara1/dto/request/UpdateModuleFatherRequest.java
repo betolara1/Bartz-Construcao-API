@@ -2,6 +2,8 @@ package com.betolara1.dto.request;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,5 +18,6 @@ public class UpdateModuleFatherRequest {
     private String name;
 
     @NotNull(message = "A data de atualização é obrigatória.")
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dateUpdated;
 }

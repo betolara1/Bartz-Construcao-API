@@ -24,7 +24,7 @@ import com.betolara1.service.ModuleFatherService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/module-fathers")
+@RequestMapping("/moduleFather")
 public class ModuleFatherController {
 
     private final ModuleFatherService moduleFatherService;
@@ -37,18 +37,18 @@ public class ModuleFatherController {
         return ResponseEntity.ok(moduleFatherService.findAll(page, size));
     }
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<ModuleFatherDTO> getModuleFatherById(@RequestParam Long id){
+    @GetMapping("/id={id}")
+    public ResponseEntity<ModuleFatherDTO> getModuleFatherById(@PathVariable Long id){
         return ResponseEntity.ok(moduleFatherService.getModuleFatherById(id));
     }
 
-    @GetMapping("/name/{name}")
-    public ResponseEntity<ModuleFatherDTO> getModuleFatherByName(@RequestParam String name){
+    @GetMapping("/name={name}")
+    public ResponseEntity<ModuleFatherDTO> getModuleFatherByName(@PathVariable String name){
         return ResponseEntity.ok(moduleFatherService.getModuleFatherByName(name));
     }
 
-    @GetMapping("DateCreated/{dateCreated}")
-    public ResponseEntity<ModuleFatherDTO> getModuleFatherByDateCreated(@RequestParam LocalDateTime dateCreated){
+    @GetMapping("DateCreated={dateCreated}")
+    public ResponseEntity<ModuleFatherDTO> getModuleFatherByDateCreated(@PathVariable LocalDateTime dateCreated){
         return ResponseEntity.ok(moduleFatherService.getModuleFatherByDateCreated(dateCreated));
     }
 
@@ -68,7 +68,7 @@ public class ModuleFatherController {
         return ResponseEntity.status(HttpStatus.OK).body(moduleFatherDTO);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteModeuleFather(@PathVariable Long id){
         moduleFatherService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body("Módulo pai deletado com sucesso.");
