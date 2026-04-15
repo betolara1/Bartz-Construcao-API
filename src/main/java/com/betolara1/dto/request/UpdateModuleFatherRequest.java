@@ -1,0 +1,20 @@
+package com.betolara1.dto.request;
+
+import java.time.LocalDateTime;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+@Data
+public class UpdateModuleFatherRequest {
+    private Long id;
+
+    @NotBlank(message = "O nome do módulo pai é obrigatório.")
+    @Size(min = 2, max = 100, message = "O nome do módulo pai deve ter entre 2 e 100 caracteres.")
+    private String name;
+
+    @NotNull(message = "A data de atualização é obrigatória.")
+    private LocalDateTime dateUpdated;
+}
