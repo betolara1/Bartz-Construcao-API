@@ -18,12 +18,14 @@ import jakarta.transaction.Transactional;
 @Service
 public class ModuleFatherService {
 
+    // Injeção de dependência
     private ModuleFatherRepository moduleFatherRepository;
     public ModuleFatherService(ModuleFatherRepository moduleFatherRepository) {
         this.moduleFatherRepository = moduleFatherRepository;
     }
 
-    @Transactional
+    // Método para buscar todos os módulos pais
+    @Transactional // Transação de leitura
     public Page<ModuleFatherDTO> findAll(int page, int size) {
         Page<ModuleFather> moduleFathers = moduleFatherRepository.findAll(PageRequest.of(page, size));
 
@@ -33,25 +35,29 @@ public class ModuleFatherService {
         return moduleFathers.map(ModuleFatherDTO::new);
     }
 
-    @Transactional
+    // Método para buscar um módulo pai por ID
+    @Transactional // Transação de leitura
     public ModuleFatherDTO getModuleFatherById(Long id){
         ModuleFather moduleFather = moduleFatherRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com ID: " + id));
         return new ModuleFatherDTO(moduleFather);
     }
 
-    @Transactional
+    // Método para buscar um módulo pai por nome
+    @Transactional // Transação de leitura
     public ModuleFatherDTO getModuleFatherByName(String name){
         ModuleFather moduleFather = moduleFatherRepository.findByName(name).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com nome: " + name));
         return new ModuleFatherDTO(moduleFather);
     }
 
-    @Transactional
+    // Método para buscar um módulo pai por data de criação
+    @Transactional // Transação de leitura
     public ModuleFatherDTO getModuleFatherByDateCreated(LocalDateTime dateCreated){
         ModuleFather moduleFather = moduleFatherRepository.findByDateCreated(dateCreated).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com data de criação: " + dateCreated));
         return new ModuleFatherDTO(moduleFather);
     }
 
-    @Transactional
+    // Método para salvar um módulo pai
+    @Transactional // Transação de escrita
     public ModuleFather save(SaveModuleFatherRequest request) {
         ModuleFather moduleFather = new ModuleFather();
 
@@ -61,7 +67,8 @@ public class ModuleFatherService {
         return moduleFatherRepository.save(moduleFather);
     }
 
-    @Transactional
+    // Método para atualizar um módulo pai
+    @Transactional // Transação de escrita
     public ModuleFather update(Long id, UpdateModuleFatherRequest request){
         ModuleFather moduleFather = moduleFatherRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com ID: " + id));
 
@@ -76,7 +83,8 @@ public class ModuleFatherService {
         return moduleFatherRepository.save(moduleFather);
     }
 
-    @Transactional
+    // Método para deletar um módulo pai
+    @Transactional // Transação de escrita
     public void delete(Long id) {
         if (!moduleFatherRepository.existsById(id)) {
             throw new NotFoundException("Módulo pai não encontrado com ID: " + id);
