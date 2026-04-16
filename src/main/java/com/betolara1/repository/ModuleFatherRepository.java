@@ -17,9 +17,7 @@ public interface ModuleFatherRepository extends JpaRepository<ModuleFather, Long
     @NonNull
     Page<ModuleFather> findAll(@NonNull Pageable pageable);
 
-    @NonNull
-    Optional<ModuleFather> findByName(@NonNull String name);
+    Optional<ModuleFather> findByName(String name);
 
-    @NonNull
-    Optional<ModuleFather> findByDateCreated(@NonNull LocalDateTime dateCreated);
+    Optional<ModuleFather> findByDateCreated(LocalDateTime dateCreated);
 }

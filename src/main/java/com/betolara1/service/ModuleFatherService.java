@@ -14,7 +14,6 @@ import com.betolara1.model.ModuleFather;
 import com.betolara1.repository.ModuleFatherRepository;
 
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotNull;
 
 @Service
 public class ModuleFatherService {
@@ -35,19 +34,19 @@ public class ModuleFatherService {
     }
 
     @Transactional
-    public ModuleFatherDTO getModuleFatherById(@NotNull Long id){
+    public ModuleFatherDTO getModuleFatherById(Long id){
         ModuleFather moduleFather = moduleFatherRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com ID: " + id));
         return new ModuleFatherDTO(moduleFather);
     }
 
     @Transactional
-    public ModuleFatherDTO getModuleFatherByName(@NotNull String name){
+    public ModuleFatherDTO getModuleFatherByName(String name){
         ModuleFather moduleFather = moduleFatherRepository.findByName(name).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com nome: " + name));
         return new ModuleFatherDTO(moduleFather);
     }
 
     @Transactional
-    public ModuleFatherDTO getModuleFatherByDateCreated(@NotNull LocalDateTime dateCreated){
+    public ModuleFatherDTO getModuleFatherByDateCreated(LocalDateTime dateCreated){
         ModuleFather moduleFather = moduleFatherRepository.findByDateCreated(dateCreated).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com data de criação: " + dateCreated));
         return new ModuleFatherDTO(moduleFather);
     }
@@ -63,7 +62,7 @@ public class ModuleFatherService {
     }
 
     @Transactional
-    public ModuleFather update(@NotNull Long id, UpdateModuleFatherRequest request){
+    public ModuleFather update(Long id, UpdateModuleFatherRequest request){
         ModuleFather moduleFather = moduleFatherRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com ID: " + id));
 
         if(request.getName() != null){
@@ -78,7 +77,7 @@ public class ModuleFatherService {
     }
 
     @Transactional
-    public void delete(@NotNull Long id) {
+    public void delete(Long id) {
         if (!moduleFatherRepository.existsById(id)) {
             throw new NotFoundException("Módulo pai não encontrado com ID: " + id);
         }
