@@ -17,7 +17,7 @@ public interface ModuleChildRepository extends JpaRepository<ModuleChild, Long> 
     @NonNull
     Page<ModuleChild> findAll(Pageable pageable);
 
-    Optional<ModuleChild> findByModuleFatherId(Long id);
+    //Optional<ModuleChild> findByModuleFatherId(Long id);
     Optional<ModuleChild> findByName(String name);
 
     @NonNull

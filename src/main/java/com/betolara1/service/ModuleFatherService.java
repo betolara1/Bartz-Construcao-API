@@ -1,6 +1,10 @@
 package com.betolara1.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +28,7 @@ public class ModuleFatherService {
         this.moduleFatherRepository = moduleFatherRepository;
     }
 
+
     // Método para buscar todos os módulos pais
     @Transactional // Transação de leitura
     public Page<ModuleFatherDTO> findAll(int page, int size) {
@@ -35,12 +40,14 @@ public class ModuleFatherService {
         return moduleFathers.map(ModuleFatherDTO::new);
     }
 
+
     // Método para buscar um módulo pai por ID
     @Transactional // Transação de leitura
     public ModuleFatherDTO getModuleFatherById(Long id){
         ModuleFather moduleFather = moduleFatherRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com ID: " + id));
         return new ModuleFatherDTO(moduleFather);
     }
+
 
     // Método para buscar um módulo pai por nome
     @Transactional // Transação de leitura
@@ -49,12 +56,52 @@ public class ModuleFatherService {
         return new ModuleFatherDTO(moduleFather);
     }
 
+
     // Método para buscar um módulo pai por data de criação
     @Transactional // Transação de leitura
-    public ModuleFatherDTO getModuleFatherByDateCreated(LocalDateTime dateCreated){
-        ModuleFather moduleFather = moduleFatherRepository.findByDateCreated(dateCreated).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com data de criação: " + dateCreated));
-        return new ModuleFatherDTO(moduleFather);
+    public Page<ModuleFatherDTO> getModuleFatherByDateCreated(String dateString, int page, int size){
+        // 1. Converte a String para LocalDate (apenas data)
+        LocalDate date = parseDate(dateString);
+
+        // 2. Cria o início do dia (00:00:00) e o fim do dia (23:59:59)
+        LocalDateTime startDay = date.atStartOfDay();
+        LocalDateTime endDay = date.atTime(LocalTime.MAX);
+
+        // 3. Chama o repositório com o intervalo
+        Page<ModuleFather> moduleFather = moduleFatherRepository.findByDateCreatedBetween(startDay, endDay, PageRequest.of(page, size));
+
+        // 4. Verifica se algum módulo pai foi encontrado
+        if(moduleFather.isEmpty()){
+            throw new NotFoundException("Nenhum módulo pai encontrado na data: " + dateString);
+        }
+
+        // 5. Retorna os módulos pais
+        return moduleFather.map(ModuleFatherDTO::new);
     }
+
+
+    // Método para buscar um módulo pai por data de atualização
+    @Transactional // Transação de leitura
+    public Page<ModuleFatherDTO> getModuleFatherByDateUpdated(String dateString, int page, int size){
+        // 1. Converte a String para LocalDate (apenas data)
+        LocalDate date = parseDate(dateString);
+
+        // 2. Cria o início do dia (00:00:00) e o fim do dia (23:59:59)
+        LocalDateTime startDay = date.atStartOfDay();
+        LocalDateTime endDay = date.atTime(LocalTime.MAX);
+
+        // 3. Chama o repositório com o intervalo
+        Page<ModuleFather> moduleFather = moduleFatherRepository.findByDateUpdatedBetween(startDay, endDay, PageRequest.of(page, size));
+
+        // 4. Verifica se algum módulo pai foi encontrado
+        if(moduleFather.isEmpty()){
+            throw new NotFoundException("Nenhum módulo pai encontrado na data: " + dateString);
+        }
+        
+        // 5. Retorna os módulos pais
+        return moduleFather.map(ModuleFatherDTO::new);
+    }
+
 
     // Método para salvar um módulo pai
     @Transactional // Transação de escrita
@@ -66,6 +113,7 @@ public class ModuleFatherService {
 
         return moduleFatherRepository.save(moduleFather);
     }
+
 
     // Método para atualizar um módulo pai
     @Transactional // Transação de escrita
@@ -83,6 +131,7 @@ public class ModuleFatherService {
         return moduleFatherRepository.save(moduleFather);
     }
 
+
     // Método para deletar um módulo pai
     @Transactional // Transação de escrita
     public void delete(Long id) {
@@ -90,5 +139,22 @@ public class ModuleFatherService {
             throw new NotFoundException("Módulo pai não encontrado com ID: " + id);
         }
         moduleFatherRepository.deleteById(id);
+    }
+    
+
+    // Método para converter String para LocalDate
+    private LocalDate parseDate(String dateString){
+        // Lista de formatos que você quer aceitar
+        String[] formats = {"dd/MM/yyyy", "dd-MM-yyyy", "yyyy-MM-dd", "yyyy/MM/dd"};
+
+        for(String format : formats){
+            try{
+                return LocalDate.parse(dateString, DateTimeFormatter.ofPattern(format));
+            }catch(DateTimeParseException e){
+                continue;
+            }
+        }
+
+        throw new IllegalArgumentException("Formato de data inválido: " + dateString);
     }
 }

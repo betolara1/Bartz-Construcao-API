@@ -14,10 +14,16 @@ import com.betolara1.model.ModuleFather;
 
 @Repository
 public interface ModuleFatherRepository extends JpaRepository<ModuleFather, Long> {
-    @NonNull
+    // Busca todos os módulos pais
+    @NonNull // Indica que o retorno não pode ser nulo
     Page<ModuleFather> findAll(@NonNull Pageable pageable);
 
+    // Busca um módulo pai por nome
     Optional<ModuleFather> findByName(String name);
 
-    Optional<ModuleFather> findByDateCreated(LocalDateTime dateCreated);
+    // Busca tudo que foi criado entre o início do dia (00:00:00) e o fim (23:59:59)
+    Page<ModuleFather> findByDateCreatedBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
+
+    // Busca tudo que foi atualizado entre o início do dia (00:00:00) e o fim (23:59:59)
+    Page<ModuleFather> findByDateUpdatedBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
 }

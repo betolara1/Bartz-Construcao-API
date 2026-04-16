@@ -37,19 +37,30 @@ public class ModuleFatherController {
         return ResponseEntity.ok(moduleFatherService.findAll(page, size));
     }
 
-    @GetMapping("/id={id}")
-    public ResponseEntity<ModuleFatherDTO> getModuleFatherById(@PathVariable Long id){
+    @GetMapping("/id")
+    public ResponseEntity<ModuleFatherDTO> getModuleFatherById(@RequestParam Long id){
         return ResponseEntity.ok(moduleFatherService.getModuleFatherById(id));
     }
 
-    @GetMapping("/name={name}")
-    public ResponseEntity<ModuleFatherDTO> getModuleFatherByName(@PathVariable String name){
+    @GetMapping("/name")
+    public ResponseEntity<ModuleFatherDTO> getModuleFatherByName(@RequestParam String name){
         return ResponseEntity.ok(moduleFatherService.getModuleFatherByName(name));
     }
 
-    @GetMapping("DateCreated={dateCreated}")
-    public ResponseEntity<ModuleFatherDTO> getModuleFatherByDateCreated(@PathVariable LocalDateTime dateCreated){
-        return ResponseEntity.ok(moduleFatherService.getModuleFatherByDateCreated(dateCreated));
+    @GetMapping("/dateCreated")
+    public ResponseEntity<Page<ModuleFatherDTO>> getModuleFatherByDateCreated(@RequestParam String date, 
+                                                                        @RequestParam(defaultValue = "0") int page, 
+                                                                        @RequestParam(defaultValue = "10") int size){
+        
+        return ResponseEntity.ok(moduleFatherService.getModuleFatherByDateCreated(date, page, size));
+    }
+
+    @GetMapping("/dateUpdated")
+    public ResponseEntity<Page<ModuleFatherDTO>> getModuleFatherByDateUpdated(@RequestParam String date, 
+                                                                        @RequestParam(defaultValue = "0") int page, 
+                                                                        @RequestParam(defaultValue = "10") int size){
+        
+        return ResponseEntity.ok(moduleFatherService.getModuleFatherByDateUpdated(date, page, size));
     }
 
     @PostMapping
