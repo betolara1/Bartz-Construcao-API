@@ -30,7 +30,7 @@ public class ModuleFatherService {
 
 
     // Método para buscar todos os módulos pais
-    @Transactional // Transação de leitura
+    @Transactional
     public Page<ModuleFatherDTO> findAll(int page, int size) {
         Page<ModuleFather> moduleFathers = moduleFatherRepository.findAll(PageRequest.of(page, size));
 
@@ -42,7 +42,7 @@ public class ModuleFatherService {
 
 
     // Método para buscar um módulo pai por ID
-    @Transactional // Transação de leitura
+    @Transactional
     public ModuleFatherDTO getModuleFatherById(Long id){
         ModuleFather moduleFather = moduleFatherRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com ID: " + id));
         return new ModuleFatherDTO(moduleFather);
@@ -50,7 +50,7 @@ public class ModuleFatherService {
 
 
     // Método para buscar um módulo pai por nome
-    @Transactional // Transação de leitura
+    @Transactional
     public ModuleFatherDTO getModuleFatherByName(String name){
         ModuleFather moduleFather = moduleFatherRepository.findByName(name).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com nome: " + name));
         return new ModuleFatherDTO(moduleFather);
@@ -58,7 +58,7 @@ public class ModuleFatherService {
 
 
     // Método para buscar um módulo pai por data de criação
-    @Transactional // Transação de leitura
+    @Transactional
     public Page<ModuleFatherDTO> getModuleFatherByDateCreated(String dateString, int page, int size){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = parseDate(dateString);
@@ -81,7 +81,7 @@ public class ModuleFatherService {
 
 
     // Método para buscar um módulo pai por data de atualização
-    @Transactional // Transação de leitura
+    @Transactional
     public Page<ModuleFatherDTO> getModuleFatherByDateUpdated(String dateString, int page, int size){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = parseDate(dateString);
@@ -104,7 +104,7 @@ public class ModuleFatherService {
 
 
     // Método para salvar um módulo pai
-    @Transactional // Transação de escrita
+    @Transactional
     public ModuleFather save(SaveModuleFatherRequest request) {
         ModuleFather moduleFather = new ModuleFather();
 
@@ -116,7 +116,7 @@ public class ModuleFatherService {
 
 
     // Método para atualizar um módulo pai
-    @Transactional // Transação de escrita
+    @Transactional
     public ModuleFather update(Long id, UpdateModuleFatherRequest request){
         ModuleFather moduleFather = moduleFatherRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com ID: " + id));
 
@@ -133,14 +133,14 @@ public class ModuleFatherService {
 
 
     // Método para deletar um módulo pai
-    @Transactional // Transação de escrita
+    @Transactional
     public void delete(Long id) {
         if (!moduleFatherRepository.existsById(id)) {
             throw new NotFoundException("Módulo pai não encontrado com ID: " + id);
         }
         moduleFatherRepository.deleteById(id);
     }
-    
+
 
     // Método para converter String para LocalDate
     private LocalDate parseDate(String dateString){

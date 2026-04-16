@@ -17,12 +17,13 @@ public interface ModuleChildRepository extends JpaRepository<ModuleChild, Long> 
     @NonNull
     Page<ModuleChild> findAll(Pageable pageable);
 
-    //Optional<ModuleChild> findByModuleFatherId(Long id);
+    Page<ModuleChild> findByIdModuleFather(Long id, Pageable pageable);
+
     Optional<ModuleChild> findByName(String name);
 
-    @NonNull
-    Page<ModuleChild> findByDateCreated(LocalDateTime dateCreated, Pageable pageable);
-    
-    @NonNull
-    Page<ModuleChild> findByDateUpdated(LocalDateTime dateUpdated, Pageable pageable);
+    // Busca tudo que foi criado entre o início do dia (00:00:00) e o fim (23:59:59)
+    Page<ModuleChild> findByDateCreatedBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
+
+    // Busca tudo que foi atualizado entre o início do dia (00:00:00) e o fim (23:59:59)
+    Page<ModuleChild> findByDateUpdatedBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
 }
