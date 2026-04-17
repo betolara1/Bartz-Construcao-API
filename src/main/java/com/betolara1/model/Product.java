@@ -17,7 +17,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String type_product;
+    private String typeProduct;
     private LocalToPut localToPut;
     private Long idModuleFather;
     private Long idModuleChild;

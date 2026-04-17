@@ -10,7 +10,7 @@ import lombok.Data;
 public class ProductDTO {
     private Long id;
     private String name;
-    private String type_product;
+    private String typeProduct;
     private Product.LocalToPut localToPut;
     private Long idModuleFather;
     private Long idModuleChild;
@@ -23,7 +23,7 @@ public class ProductDTO {
     public ProductDTO(Product product) {
         this.id = product.getId();
         this.name = product.getName();
-        this.type_product = product.getType_product();
+        this.typeProduct = product.getTypeProduct();
         this.localToPut = product.getLocalToPut();
         this.idModuleFather = product.getIdModuleFather();
         this.idModuleChild = product.getIdModuleChild();
