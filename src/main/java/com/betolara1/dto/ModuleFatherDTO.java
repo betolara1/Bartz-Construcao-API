@@ -18,7 +18,5 @@ public class ModuleFatherDTO {
     public ModuleFatherDTO(ModuleFather moduleFather) {
         this.id = moduleFather.getId();
         this.name = moduleFather.getName();
-        this.dateCreated = moduleFather.getDateCreated();
-        this.dateUpdated = moduleFather.getDateUpdated();
     }
 }

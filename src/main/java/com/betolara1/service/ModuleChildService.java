@@ -123,7 +123,6 @@ public class ModuleChildService {
         ModuleChild module = new ModuleChild();
 
         module.setName(request.getName());
-        module.setDateCreated(request.getDateCreated());
         module.setIdModuleFather(request.getIdModuleFather());
 
         return new ModuleChildDTO(moduleChildRepository.save(module));
@@ -140,9 +139,6 @@ public class ModuleChildService {
         }
         if(request.getIdModuleFather() != null){
             module.setIdModuleFather(request.getIdModuleFather());
-        }
-        if(request.getDateUpdated() != null){
-            module.setDateUpdated(request.getDateUpdated());
         }
 
         return new ModuleChildDTO(moduleChildRepository.save(module));

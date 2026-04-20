@@ -10,12 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.betolara1.dto.ModuleFatherDTO;
 import com.betolara1.dto.ProductDTO;
 import com.betolara1.dto.request.SaveProductRequest;
 import com.betolara1.dto.request.UpdateProductRequest;
 import com.betolara1.exception.NotFoundException;
-import com.betolara1.model.ModuleFather;
 import com.betolara1.model.Product;
 import com.betolara1.repository.ProductRepository;
 
@@ -167,35 +165,12 @@ public class ProductService {
     public Product save(SaveProductRequest request) {
         Product product = new Product();
 
-        if(request.getName() == null){
-            throw new NotFoundException("Nome do produto não pode ser nulo");
-        }
-        if(request.getTypeProduct() == null){
-            throw new NotFoundException("Tipo do produto não pode ser nulo");
-        }
-        if(request.getLocalToPut() == null){
-            throw new NotFoundException("Local de colocação do produto não pode ser nulo");
-        }
-        if(request.getIdModuleFather() == null){
-            throw new NotFoundException("ID do módulo pai não pode ser nulo");
-        }
-        if(request.getIdModuleChild() == null){
-            throw new NotFoundException("ID do módulo filho não pode ser nulo");
-        }
-        if(request.getIsActive() == null){
-            throw new NotFoundException("Status de atividade do produto não pode ser nulo");
-        }
-        if(request.getDateCreated() == null){
-            throw new NotFoundException("Data de criação do produto não pode ser nula");
-        }
-
         product.setName(request.getName());
         product.setTypeProduct(request.getTypeProduct());
         product.setLocalToPut(Product.LocalToPut.valueOf(request.getLocalToPut().name()));
         product.setIdModuleFather(request.getIdModuleFather());
         product.setIdModuleChild(request.getIdModuleChild());
         product.setIsActive(request.getIsActive());
-        product.setDateCreated(request.getDateCreated());
 
         return productRepository.save(product);
     }
@@ -224,8 +199,6 @@ public class ProductService {
         if(request.getIsActive() != null){
             product.setIsActive(request.getIsActive());
         }
-        
-        product.setDateUpdated(request.getDateUpdated());
 
         return productRepository.save(product);
     }

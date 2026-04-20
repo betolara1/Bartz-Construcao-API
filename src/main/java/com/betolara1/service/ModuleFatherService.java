@@ -109,7 +109,6 @@ public class ModuleFatherService {
         ModuleFather moduleFather = new ModuleFather();
 
         moduleFather.setName(request.getName());
-        moduleFather.setDateCreated(request.getDateCreated());
 
         return moduleFatherRepository.save(moduleFather);
     }
@@ -122,10 +121,6 @@ public class ModuleFatherService {
 
         if(request.getName() != null){
             moduleFather.setName(request.getName());
-        }
-
-        if(request.getDateUpdated() != null){
-            moduleFather.setDateUpdated(request.getDateUpdated());
         }
 
         return moduleFatherRepository.save(moduleFather);

@@ -1,9 +1,6 @@
 package com.betolara1.dto.request;
 
-import java.time.LocalDateTime;
-
 import com.betolara1.model.Product.LocalToPut;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,10 +14,6 @@ public class SaveProductRequest {
     @NotBlank(message = "O nome do produto é obrigatório.")
     @Size(min = 2, max = 100, message = "O nome do produto deve ter entre 2 e 100 caracteres.")
     private String name;
-
-    @NotNull(message = "A data de criação é obrigatória.")
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDateTime dateCreated;
 
     @NotNull(message = "O ID do módulo pai é obrigatório.")
     private Long idModuleFather;
