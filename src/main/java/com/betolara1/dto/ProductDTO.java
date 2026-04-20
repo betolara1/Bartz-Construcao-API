@@ -28,5 +28,7 @@ public class ProductDTO {
         this.idModuleFather = product.getIdModuleFather();
         this.idModuleChild = product.getIdModuleChild();
         this.isActive = product.getIsActive();
+        this.dateCreated = product.getDateCreated();
+        this.dateUpdated = product.getDateUpdated();
     }
 }
