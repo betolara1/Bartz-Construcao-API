@@ -18,7 +18,7 @@ import com.betolara1.dto.request.UpdateProductRequest;
 import com.betolara1.model.Product;
 import com.betolara1.service.ProductService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 
 @RestController

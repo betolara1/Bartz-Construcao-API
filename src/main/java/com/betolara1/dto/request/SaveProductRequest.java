@@ -34,6 +34,6 @@ public class SaveProductRequest {
     @NotNull(message = "O ID do módulo filho é obrigatório.")
     private Long idModuleChild;
 
-    @NotNull(message = "O status de atividade é obrigatório.")
+    @NotNull(message = "O status do produto é obrigatório.")
     private Boolean isActive;
 }

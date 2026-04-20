@@ -167,6 +167,28 @@ public class ProductService {
     public Product save(SaveProductRequest request) {
         Product product = new Product();
 
+        if(request.getName() == null){
+            throw new NotFoundException("Nome do produto não pode ser nulo");
+        }
+        if(request.getTypeProduct() == null){
+            throw new NotFoundException("Tipo do produto não pode ser nulo");
+        }
+        if(request.getLocalToPut() == null){
+            throw new NotFoundException("Local de colocação do produto não pode ser nulo");
+        }
+        if(request.getIdModuleFather() == null){
+            throw new NotFoundException("ID do módulo pai não pode ser nulo");
+        }
+        if(request.getIdModuleChild() == null){
+            throw new NotFoundException("ID do módulo filho não pode ser nulo");
+        }
+        if(request.getIsActive() == null){
+            throw new NotFoundException("Status de atividade do produto não pode ser nulo");
+        }
+        if(request.getDateCreated() == null){
+            throw new NotFoundException("Data de criação do produto não pode ser nula");
+        }
+
         product.setName(request.getName());
         product.setTypeProduct(request.getTypeProduct());
         product.setLocalToPut(Product.LocalToPut.valueOf(request.getLocalToPut().name()));
@@ -184,12 +206,25 @@ public class ProductService {
     public Product update(Long id, UpdateProductRequest request) {
         Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("Produto não encontrado com ID: " + id));
 
-        product.setName(request.getName());
-        product.setTypeProduct(request.getTypeProduct());
-        product.setLocalToPut(Product.LocalToPut.valueOf(request.getLocalToPut().name()));
-        product.setIdModuleFather(request.getIdModuleFather());
-        product.setIdModuleChild(request.getIdModuleChild());
-        product.setIsActive(request.getIsActive());
+        if(request.getName() != null){
+            product.setName(request.getName());
+        }
+        if(request.getTypeProduct() != null){
+            product.setTypeProduct(request.getTypeProduct());
+        }
+        if(request.getLocalToPut() != null){
+            product.setLocalToPut(Product.LocalToPut.valueOf(request.getLocalToPut().name()));
+        }
+        if(request.getIdModuleFather() != null){
+            product.setIdModuleFather(request.getIdModuleFather());
+        }
+        if(request.getIdModuleChild() != null){
+            product.setIdModuleChild(request.getIdModuleChild());
+        }
+        if(request.getIsActive() != null){
+            product.setIsActive(request.getIsActive());
+        }
+        
         product.setDateUpdated(request.getDateUpdated());
 
         return productRepository.save(product);
