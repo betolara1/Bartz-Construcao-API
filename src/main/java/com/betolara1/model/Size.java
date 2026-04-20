@@ -30,16 +30,16 @@ public class Size {
     private Double depthMax;
     private Double depthMin;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime dateCreated;
+    private LocalDateTime dateUpdated;
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
+        dateCreated = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        dateUpdated = LocalDateTime.now();
     }
 }
