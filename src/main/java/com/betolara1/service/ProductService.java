@@ -35,6 +35,15 @@ public class ProductService {
         return product.map(ProductDTO::new);
     }
 
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> findByName(String name, int page, int size){
+        Page<Product> product = productRepository.findByNameContainingIgnoreCase(name, PageRequest.of(page, size));
+        if(product.isEmpty()){
+            throw new NotFoundException("Nenhum produto encontrado com o nome: " + name);
+        }
+        return product.map(ProductDTO::new);
+    }
+
 
     // Método para buscar produtos por tipo
     @Transactional(readOnly = true)

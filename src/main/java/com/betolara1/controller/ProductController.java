@@ -40,6 +40,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.findByTypeProduct(type, page, size));
     }
 
+    @GetMapping("/name")
+    public ResponseEntity<Page<ProductDTO>> findByName(@RequestParam String name, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
+        return ResponseEntity.ok(productService.findByName(name, page, size));
+    }
+
     @GetMapping("/id")
     public ResponseEntity<ProductDTO> findById(@RequestParam Long id){
         return ResponseEntity.ok(productService.findById(id));
