@@ -1,6 +1,9 @@
 package com.betolara1.controller;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,8 +33,16 @@ public class SizeController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<SizeDTO>> findAll(@RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
-        return ResponseEntity.ok(sizeService.findAll(page, size));
+    public ResponseEntity<Page<SizeDTO>> findAll(
+                                                @RequestParam(defaultValue="0") int page, 
+                                                @RequestParam(defaultValue="10") int size,
+                                                @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return ResponseEntity.ok(sizeService.findAll(pageable));
     }
 
     @GetMapping("/id")
@@ -45,13 +56,31 @@ public class SizeController {
     }
 
     @GetMapping("/dateCreated")
-    public ResponseEntity<Page<SizeDTO>> getSizeByDateCreated(@RequestParam String dateString, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
-        return ResponseEntity.ok(sizeService.getSizeByDateCreated(dateString, page, size));
+    public ResponseEntity<Page<SizeDTO>> getSizeByDateCreated(
+                                                            @RequestParam String dateString,
+                                                            @RequestParam(defaultValue="0") int page, 
+                                                            @RequestParam(defaultValue="10") int size,
+                                                            @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                            @RequestParam(defaultValue = "desc") String direction){
+                
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(sizeService.getSizeByDateCreated(dateString, pageable));
     }
 
     @GetMapping("/dateUpdated")
-    public ResponseEntity<Page<SizeDTO>> getSizeByDateUpdated(@RequestParam String dateString, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
-        return ResponseEntity.ok(sizeService.getSizeByDateUpdated(dateString, page, size));
+    public ResponseEntity<Page<SizeDTO>> getSizeByDateUpdated(
+                                                            @RequestParam String dateString,                                                 
+                                                            @RequestParam(defaultValue="0") int page, 
+                                                            @RequestParam(defaultValue="10") int size,
+                                                            @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                            @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(sizeService.getSizeByDateUpdated(dateString, pageable));
     }
 
     @PostMapping

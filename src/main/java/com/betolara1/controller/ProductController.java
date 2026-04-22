@@ -1,6 +1,9 @@
 package com.betolara1.controller;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,18 +34,43 @@ public class ProductController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<ProductDTO>> findAll(@RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
-        return ResponseEntity.ok(productService.findAll(page, size));
+    public ResponseEntity<Page<ProductDTO>> findAll(
+                                                    @RequestParam(defaultValue="0") int page, 
+                                                    @RequestParam(defaultValue="10") int size,
+                                                    @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                    @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        
+        return ResponseEntity.ok(productService.findAll(pageable));
     }
 
     @GetMapping("/type")
-    public ResponseEntity<Page<ProductDTO>> findByTypeProduct(@RequestParam String type, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
-        return ResponseEntity.ok(productService.findByTypeProduct(type, page, size));
+    public ResponseEntity<Page<ProductDTO>> findByTypeProduct(  @RequestParam String type,
+                                                                @RequestParam(defaultValue="0") int page, 
+                                                                @RequestParam(defaultValue="10") int size,
+                                                                @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                                @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(productService.findByTypeProduct(type, pageable));
     }
 
     @GetMapping("/name")
-    public ResponseEntity<Page<ProductDTO>> findByName(@RequestParam String name, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
-        return ResponseEntity.ok(productService.findByName(name, page, size));
+    public ResponseEntity<Page<ProductDTO>> findByName( @RequestParam String name, 
+                                                        @RequestParam(defaultValue="0") int page, 
+                                                        @RequestParam(defaultValue="10") int size,
+                                                        @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                        @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(productService.findByName(name, pageable));
     }
 
     @GetMapping("/id")
@@ -51,33 +79,81 @@ public class ProductController {
     }
 
     @GetMapping("/localToPut")
-    public ResponseEntity<Page<ProductDTO>> findByLocalToPut(@RequestParam Long idLocalToPut, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
-        return ResponseEntity.ok(productService.findByLocalToPut(idLocalToPut, page, size));
+    public ResponseEntity<Page<ProductDTO>> findByLocalToPut(@RequestParam Long idLocalToPut, 
+                                                            @RequestParam(defaultValue="0") int page, 
+                                                            @RequestParam(defaultValue="10") int size,
+                                                            @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                            @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(productService.findByLocalToPut(idLocalToPut, pageable));
     }
 
     @GetMapping("/idModuleFather")
-    public ResponseEntity<Page<ProductDTO>> findByIdModuleFather(@RequestParam Long idModuleFather, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
-        return ResponseEntity.ok(productService.findByIdModuleFather(idModuleFather, page, size));
+    public ResponseEntity<Page<ProductDTO>> findByIdModuleFather(@RequestParam Long idModuleFather, 
+                                                                @RequestParam(defaultValue="0") int page, 
+                                                                @RequestParam(defaultValue="10") int size,
+                                                                @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                                @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(productService.findByIdModuleFather(idModuleFather, pageable));
     }
 
     @GetMapping("/idModuleChild")
-    public ResponseEntity<Page<ProductDTO>> findByIdModuleChild(@RequestParam Long idModuleChild, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
-        return ResponseEntity.ok(productService.findByIdModuleChild(idModuleChild, page, size));
+    public ResponseEntity<Page<ProductDTO>> findByIdModuleChild(@RequestParam Long idModuleChild,
+                                                                @RequestParam(defaultValue="0") int page, 
+                                                                @RequestParam(defaultValue="10") int size,
+                                                                @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                                @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(productService.findByIdModuleChild(idModuleChild, pageable));
     }
 
     @GetMapping("/isActive")
-    public ResponseEntity<Page<ProductDTO>> findByIsActive(@RequestParam Boolean isActive, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
-        return ResponseEntity.ok(productService.findByIsActive(isActive, page, size));
+    public ResponseEntity<Page<ProductDTO>> findByIsActive( @RequestParam Boolean isActive, 
+                                                            @RequestParam(defaultValue="0") int page, 
+                                                            @RequestParam(defaultValue="10") int size,
+                                                            @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                            @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(productService.findByIsActive(isActive, pageable));
     }
 
     @GetMapping("/dateCreated")
-    public ResponseEntity<Page<ProductDTO>> getProductByDateCreated(@RequestParam String dateString, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
-        return ResponseEntity.ok(productService.getProductByDateCreated(dateString, page, size));
+    public ResponseEntity<Page<ProductDTO>> getProductByDateCreated(@RequestParam String dateString,
+                                                                    @RequestParam(defaultValue="0") int page, 
+                                                                    @RequestParam(defaultValue="10") int size,
+                                                                    @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                                    @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(productService.getProductByDateCreated(dateString, pageable));
     }
 
     @GetMapping("/dateUpdated")
-    public ResponseEntity<Page<ProductDTO>> getProductByDateUpdated(@RequestParam String dateString, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="10") int size){
-        return ResponseEntity.ok(productService.getProductByDateUpdated(dateString, page, size));
+    public ResponseEntity<Page<ProductDTO>> getProductByDateUpdated(@RequestParam String dateString,                                                 
+                                                                    @RequestParam(defaultValue="0") int page, 
+                                                                    @RequestParam(defaultValue="10") int size,
+                                                                    @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                                    @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(productService.getProductByDateUpdated(dateString, pageable));
     }
 
     @PostMapping

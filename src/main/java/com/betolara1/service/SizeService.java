@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.betolara1.dto.SizeDTO;
@@ -26,8 +26,8 @@ public class SizeService {
     }
 
     @Transactional(readOnly = true)
-    public Page<SizeDTO> findAll(int page, int size){
-        Page<Size> sizes = sizeRepository.findAll(PageRequest.of(page, size));
+    public Page<SizeDTO> findAll(Pageable pageable){
+        Page<Size> sizes = sizeRepository.findAll(pageable);
 
         return sizes.map(SizeDTO::new);
     }
@@ -46,7 +46,7 @@ public class SizeService {
 
         // Método para buscar produtos por data de criação
     @Transactional(readOnly = true)
-    public Page<SizeDTO> getSizeByDateCreated(String dateString, int page, int size){
+    public Page<SizeDTO> getSizeByDateCreated(String dateString, Pageable pageable){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
 
@@ -55,7 +55,7 @@ public class SizeService {
         LocalDateTime endDay = date.atTime(LocalTime.MAX);
 
         // 3. Chama o repositório com o intervalo
-        Page<Size> sizes = sizeRepository.findByDateCreatedBetween(startDay, endDay, PageRequest.of(page, size));
+        Page<Size> sizes = sizeRepository.findByDateCreatedBetween(startDay, endDay, pageable);
 
         // 4. Verifica se algum módulo pai foi encontrado
         if(sizes.isEmpty()){
@@ -69,7 +69,7 @@ public class SizeService {
 
     // Método para buscar produtos por data de atualização
     @Transactional(readOnly = true)
-    public Page<SizeDTO> getSizeByDateUpdated(String dateString, int page, int size){
+    public Page<SizeDTO> getSizeByDateUpdated(String dateString, Pageable pageable){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
 
@@ -78,7 +78,7 @@ public class SizeService {
         LocalDateTime endDay = date.atTime(LocalTime.MAX);
 
         // 3. Chama o repositório com o intervalo
-        Page<Size> sizes = sizeRepository.findByDateUpdatedBetween(startDay, endDay, PageRequest.of(page, size));
+        Page<Size> sizes = sizeRepository.findByDateUpdatedBetween(startDay, endDay, pageable);
 
         // 4. Verifica se algum módulo pai foi encontrado
         if(sizes.isEmpty()){

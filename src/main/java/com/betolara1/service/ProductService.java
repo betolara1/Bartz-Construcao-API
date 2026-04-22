@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.betolara1.dto.ProductDTO;
@@ -29,15 +29,15 @@ public class ProductService {
 
     // Método para buscar todos os produtos
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(int page, int size){
-        Page<Product> product = productRepository.findAll(PageRequest.of(page, size));
+    public Page<ProductDTO> findAll(Pageable pageable){
+        Page<Product> product = productRepository.findAll(pageable);
 
         return product.map(ProductDTO::new);
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findByName(String name, int page, int size){
-        Page<Product> product = productRepository.findByNameContainingIgnoreCase(name, PageRequest.of(page, size));
+    public Page<ProductDTO> findByName(String name, Pageable pageable){
+        Page<Product> product = productRepository.findByNameContainingIgnoreCase(name, pageable);
         if(product.isEmpty()){
             throw new NotFoundException("Nenhum produto encontrado com o nome: " + name);
         }
@@ -47,8 +47,8 @@ public class ProductService {
 
     // Método para buscar produtos por tipo
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findByTypeProduct(String type, int page, int size){
-        Page<Product> product = productRepository.findByTypeProduct(type, PageRequest.of(page, size));
+    public Page<ProductDTO> findByTypeProduct(String type, Pageable pageable){
+        Page<Product> product = productRepository.findByTypeProduct(type, pageable);
 
         if(product.isEmpty()){
             throw new NotFoundException("Nenhum produto encontrado com o tipo: " + type);
@@ -68,8 +68,8 @@ public class ProductService {
 
     // Método para buscar produtos por local de colocação
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findByLocalToPut(Long idLocalToPut, int page, int size){
-        Page<Product> product = productRepository.findByIdLocalToPut(idLocalToPut, PageRequest.of(page, size));
+    public Page<ProductDTO> findByLocalToPut(Long idLocalToPut, Pageable pageable){
+        Page<Product> product = productRepository.findByIdLocalToPut(idLocalToPut, pageable);
 
         if(product.isEmpty()){
             throw new NotFoundException("Nenhum produto encontrado com o local de colocação: " + idLocalToPut);
@@ -81,8 +81,8 @@ public class ProductService {
 
     // Método para buscar produtos por ID do módulo pai
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findByIdModuleFather(Long idModuleFather, int page, int size){
-        Page<Product> product = productRepository.findByIdModuleFather(idModuleFather, PageRequest.of(page, size));
+    public Page<ProductDTO> findByIdModuleFather(Long idModuleFather, Pageable pageable){
+        Page<Product> product = productRepository.findByIdModuleFather(idModuleFather, pageable);
 
         if(product.isEmpty()){
             throw new NotFoundException("Nenhum produto encontrado com o ID do módulo pai: " + idModuleFather);
@@ -94,8 +94,8 @@ public class ProductService {
 
     // Método para buscar produtos por ID do módulo filho
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findByIdModuleChild(Long idModuleChild, int page, int size){
-        Page<Product> product = productRepository.findByIdModuleChild(idModuleChild, PageRequest.of(page, size));
+    public Page<ProductDTO> findByIdModuleChild(Long idModuleChild, Pageable pageable){
+        Page<Product> product = productRepository.findByIdModuleChild(idModuleChild, pageable);
 
         if(product.isEmpty()){
             throw new NotFoundException("Nenhum produto encontrado com o ID do módulo filho: " + idModuleChild);
@@ -107,8 +107,8 @@ public class ProductService {
 
     // Método para buscar produtos por status de atividade
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findByIsActive(Boolean isActive, int page, int size){
-        Page<Product> product = productRepository.findByIsActive(isActive, PageRequest.of(page, size));
+    public Page<ProductDTO> findByIsActive(Boolean isActive, Pageable pageable){
+        Page<Product> product = productRepository.findByIsActive(isActive, pageable);
 
         if(product.isEmpty()){
             throw new NotFoundException("Nenhum produto encontrado com o status de atividade: " + isActive);
@@ -120,7 +120,7 @@ public class ProductService {
 
     // Método para buscar produtos por data de criação
     @Transactional(readOnly = true)
-    public Page<ProductDTO> getProductByDateCreated(String dateString, int page, int size){
+    public Page<ProductDTO> getProductByDateCreated(String dateString, Pageable pageable){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
 
@@ -129,7 +129,7 @@ public class ProductService {
         LocalDateTime endDay = date.atTime(LocalTime.MAX);
 
         // 3. Chama o repositório com o intervalo
-        Page<Product> product = productRepository.findByDateCreatedBetween(startDay, endDay, PageRequest.of(page, size));
+        Page<Product> product = productRepository.findByDateCreatedBetween(startDay, endDay, pageable);
 
         // 4. Verifica se algum módulo pai foi encontrado
         if(product.isEmpty()){
@@ -143,7 +143,7 @@ public class ProductService {
 
     // Método para buscar produtos por data de atualização
     @Transactional(readOnly = true)
-    public Page<ProductDTO> getProductByDateUpdated(String dateString, int page, int size){
+    public Page<ProductDTO> getProductByDateUpdated(String dateString, Pageable pageable){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
 
@@ -152,7 +152,7 @@ public class ProductService {
         LocalDateTime endDay = date.atTime(LocalTime.MAX);
 
         // 3. Chama o repositório com o intervalo
-        Page<Product> product = productRepository.findByDateUpdatedBetween(startDay, endDay, PageRequest.of(page, size));
+        Page<Product> product = productRepository.findByDateUpdatedBetween(startDay, endDay, pageable);
 
         // 4. Verifica se algum módulo pai foi encontrado
         if(product.isEmpty()){

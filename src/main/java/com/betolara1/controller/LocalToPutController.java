@@ -1,6 +1,9 @@
 package com.betolara1.controller;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,8 +32,16 @@ public class LocalToPutController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<LocalToPutDTO>> findAll(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "size", defaultValue = "10") int size){
-        return ResponseEntity.ok(localToPutService.findAll(page, size));
+    public ResponseEntity<Page<LocalToPutDTO>> findAll(                                                
+                                                    @RequestParam(defaultValue="0") int page, 
+                                                    @RequestParam(defaultValue="10") int size,
+                                                    @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                    @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(localToPutService.findAll(pageable));
     }
 
     @GetMapping("/id")

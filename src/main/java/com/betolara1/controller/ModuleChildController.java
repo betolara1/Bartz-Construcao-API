@@ -1,6 +1,9 @@
 package com.betolara1.controller;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,8 +35,16 @@ public class ModuleChildController {
 
     // Método para buscar todos os módulos filhos
     @GetMapping("/all")
-    public ResponseEntity<Page<ModuleChildDTO>> findAll(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "size", defaultValue = "10") int size){
-        return ResponseEntity.ok(moduleChildService.findAll(page, size));
+    public ResponseEntity<Page<ModuleChildDTO>> findAll(
+                                                        @RequestParam(defaultValue="0") int page, 
+                                                        @RequestParam(defaultValue="10") int size,
+                                                        @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                        @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(moduleChildService.findAll(pageable));
     }
 
 
@@ -53,30 +64,48 @@ public class ModuleChildController {
 
     // Método para buscar um módulo filho por ID do módulo pai
     @GetMapping("/idModuleFather")
-    public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByIdModuleFather(@RequestParam Long id, 
-                                                                        @RequestParam(defaultValue = "0") int page, 
-                                                                        @RequestParam(defaultValue = "10") int size){
-        return ResponseEntity.ok(moduleChildService.getModuleChildByIdModuleFather(id, page, size));
+    public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByIdModuleFather( @RequestParam Long id, 
+                                                                                @RequestParam(defaultValue="0") int page, 
+                                                                                @RequestParam(defaultValue="10") int size,
+                                                                                @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                                                @RequestParam(defaultValue = "desc") String direction){
+        
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+        return ResponseEntity.ok(moduleChildService.getModuleChildByIdModuleFather(id, pageable));
     }
 
 
     // Método para buscar um módulo filho por data de criação
     @GetMapping("/dateCreated")
     public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByDateCreated(@RequestParam String date, 
-                                                                        @RequestParam(defaultValue = "0") int page, 
-                                                                        @RequestParam(defaultValue = "10") int size){
+                                                                            @RequestParam(defaultValue="0") int page, 
+                                                                            @RequestParam(defaultValue="10") int size,
+                                                                            @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                                            @RequestParam(defaultValue = "desc") String direction){
         
-        return ResponseEntity.ok(moduleChildService.getModuleChildByDateCreated(date, page, size));
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+
+        return ResponseEntity.ok(moduleChildService.getModuleChildByDateCreated(date, pageable));
     }
 
 
     // Método para buscar um módulo filho por data de atualização
     @GetMapping("/dateUpdated")
     public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByDateUpdated(@RequestParam String date, 
-                                                                        @RequestParam(defaultValue = "0") int page, 
-                                                                        @RequestParam(defaultValue = "10") int size){
+                                                                            @RequestParam(defaultValue="0") int page, 
+                                                                            @RequestParam(defaultValue="10") int size,
+                                                                            @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                                            @RequestParam(defaultValue = "desc") String direction){
         
-        return ResponseEntity.ok(moduleChildService.getModuleChildByDateUpdated(date, page, size));
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        
+
+        return ResponseEntity.ok(moduleChildService.getModuleChildByDateUpdated(date, pageable));
     }
 
 

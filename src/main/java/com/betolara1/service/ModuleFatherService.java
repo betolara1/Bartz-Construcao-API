@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.betolara1.dto.ModuleFatherDTO;
@@ -30,8 +30,8 @@ public class ModuleFatherService {
 
     // Método para buscar todos os módulos pais
     @Transactional(readOnly = true)
-    public Page<ModuleFatherDTO> findAll(int page, int size) {
-        Page<ModuleFather> moduleFathers = moduleFatherRepository.findAll(PageRequest.of(page, size));
+    public Page<ModuleFatherDTO> findAll(Pageable pageable) {
+        Page<ModuleFather> moduleFathers = moduleFatherRepository.findAll(pageable);
 
         return moduleFathers.map(ModuleFatherDTO::new);
     }
@@ -55,7 +55,7 @@ public class ModuleFatherService {
 
     // Método para buscar um módulo pai por data de criação
     @Transactional(readOnly = true)
-    public Page<ModuleFatherDTO> getModuleFatherByDateCreated(String dateString, int page, int size){
+    public Page<ModuleFatherDTO> getModuleFatherByDateCreated(String dateString, Pageable pageable){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
 
@@ -64,7 +64,7 @@ public class ModuleFatherService {
         LocalDateTime endDay = date.atTime(LocalTime.MAX);
 
         // 3. Chama o repositório com o intervalo
-        Page<ModuleFather> moduleFather = moduleFatherRepository.findByDateCreatedBetween(startDay, endDay, PageRequest.of(page, size));
+        Page<ModuleFather> moduleFather = moduleFatherRepository.findByDateCreatedBetween(startDay, endDay, pageable);
 
         // 4. Verifica se algum módulo pai foi encontrado
         if(moduleFather.isEmpty()){
@@ -78,7 +78,7 @@ public class ModuleFatherService {
 
     // Método para buscar um módulo pai por data de atualização
     @Transactional(readOnly = true)
-    public Page<ModuleFatherDTO> getModuleFatherByDateUpdated(String dateString, int page, int size){
+    public Page<ModuleFatherDTO> getModuleFatherByDateUpdated(String dateString, Pageable pageable){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
 
@@ -87,7 +87,7 @@ public class ModuleFatherService {
         LocalDateTime endDay = date.atTime(LocalTime.MAX);
 
         // 3. Chama o repositório com o intervalo
-        Page<ModuleFather> moduleFather = moduleFatherRepository.findByDateUpdatedBetween(startDay, endDay, PageRequest.of(page, size));
+        Page<ModuleFather> moduleFather = moduleFatherRepository.findByDateUpdatedBetween(startDay, endDay, pageable);
 
         // 4. Verifica se algum módulo pai foi encontrado
         if(moduleFather.isEmpty()){

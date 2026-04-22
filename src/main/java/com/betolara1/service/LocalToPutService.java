@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.betolara1.dto.LocalToPutDTO;
@@ -39,8 +39,8 @@ public class LocalToPutService {
     }
 
     @Transactional(readOnly = true)
-    public Page<LocalToPutDTO> findAll(int page, int size){
-        Page<LocalToPut> localToPut = localToPutRepository.findAll(PageRequest.of(page, size));
+    public Page<LocalToPutDTO> findAll(Pageable pageable){
+        Page<LocalToPut> localToPut = localToPutRepository.findAll(pageable);
         
         return localToPut.map(LocalToPutDTO::new);
     }
@@ -48,7 +48,7 @@ public class LocalToPutService {
     
     // Método para buscar produtos por data de criação
     @Transactional(readOnly = true)
-    public Page<LocalToPutDTO> getLocalToPutsByDateCreated(String dateString, int page, int size){
+    public Page<LocalToPutDTO> getLocalToPutsByDateCreated(String dateString, Pageable pageable){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
 
@@ -57,7 +57,7 @@ public class LocalToPutService {
         LocalDateTime endDay = date.atTime(LocalTime.MAX);
 
         // 3. Chama o repositório com o intervalo
-        Page<LocalToPut> localToPut = localToPutRepository.findByDateCreatedBetween(startDay, endDay, PageRequest.of(page, size));
+        Page<LocalToPut> localToPut = localToPutRepository.findByDateCreatedBetween(startDay, endDay, pageable);
 
         // 4. Verifica se algum módulo pai foi encontrado
         if(localToPut.isEmpty()){
@@ -71,7 +71,7 @@ public class LocalToPutService {
 
     // Método para buscar produtos por data de atualização
     @Transactional(readOnly = true)
-    public Page<LocalToPutDTO> getLocalToPutsByDateUpdated(String dateString, int page, int size){
+    public Page<LocalToPutDTO> getLocalToPutsByDateUpdated(String dateString, Pageable pageable){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
 
@@ -80,7 +80,7 @@ public class LocalToPutService {
         LocalDateTime endDay = date.atTime(LocalTime.MAX);
 
         // 3. Chama o repositório com o intervalo
-        Page<LocalToPut> localToPut = localToPutRepository.findByDateUpdatedBetween(startDay, endDay, PageRequest.of(page, size));
+        Page<LocalToPut> localToPut = localToPutRepository.findByDateUpdatedBetween(startDay, endDay, pageable);
 
         // 4. Verifica se algum módulo pai foi encontrado
         if(localToPut.isEmpty()){

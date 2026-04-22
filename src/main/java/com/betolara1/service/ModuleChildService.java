@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.betolara1.dto.ModuleChildDTO;
@@ -30,9 +30,9 @@ public class ModuleChildService {
 
     // Método para buscar todos os módulos filhos
     @Transactional(readOnly = true)
-    public Page<ModuleChildDTO> findAll(int page, int size){
+    public Page<ModuleChildDTO> findAll(Pageable pageable){
         // Busca todos os módulos filhos
-        Page<ModuleChild> moduleChild = moduleChildRepository.findAll(PageRequest.of(page, size));
+        Page<ModuleChild> moduleChild = moduleChildRepository.findAll(pageable);
 
         // Retorna os módulos filhos
         return moduleChild.map(ModuleChildDTO::new); 
@@ -56,8 +56,8 @@ public class ModuleChildService {
 
     // Método para buscar um módulo filho por ID do módulo pai
     @Transactional(readOnly = true)
-    public Page<ModuleChildDTO> getModuleChildByIdModuleFather(Long id, int page, int size){
-        Page<ModuleChild> moduleChild = moduleChildRepository.findByIdModuleFather(id, PageRequest.of(page, size));
+    public Page<ModuleChildDTO> getModuleChildByIdModuleFather(Long id, Pageable pageable){
+        Page<ModuleChild> moduleChild = moduleChildRepository.findByIdModuleFather(id, pageable);
         
         if(moduleChild.isEmpty()){
             throw new NotFoundException("Nenhum módulo filho encontrado com ID do módulo pai: " + id);
@@ -69,7 +69,7 @@ public class ModuleChildService {
 
     // Método para buscar um módulo filho por data de criação
     @Transactional(readOnly = true)
-    public Page<ModuleChildDTO> getModuleChildByDateCreated(String dateString, int page, int size){
+    public Page<ModuleChildDTO> getModuleChildByDateCreated(String dateString, Pageable pageable){
 
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
@@ -79,7 +79,7 @@ public class ModuleChildService {
         LocalDateTime endDay = date.atTime(LocalTime.MAX);
 
         // 3. Chama o repositório com o intervalo
-        Page<ModuleChild> moduleChild = moduleChildRepository.findByDateCreatedBetween(startDay, endDay, PageRequest.of(page, size));
+        Page<ModuleChild> moduleChild = moduleChildRepository.findByDateCreatedBetween(startDay, endDay, pageable);
 
         if(moduleChild.isEmpty()){
             throw new NotFoundException("Nenhum módulo filho encontrado com data de criação: " + date);
@@ -90,7 +90,7 @@ public class ModuleChildService {
 
     // Método para buscar um módulo pai por data de atualização
     @Transactional(readOnly = true)
-    public Page<ModuleChildDTO> getModuleChildByDateUpdated(String dateString, int page, int size){
+    public Page<ModuleChildDTO> getModuleChildByDateUpdated(String dateString, Pageable pageable){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
 
@@ -99,7 +99,7 @@ public class ModuleChildService {
         LocalDateTime endDay = date.atTime(LocalTime.MAX);
 
         // 3. Chama o repositório com o intervalo
-        Page<ModuleChild> moduleChild = moduleChildRepository.findByDateUpdatedBetween(startDay, endDay, PageRequest.of(page, size));
+        Page<ModuleChild> moduleChild = moduleChildRepository.findByDateUpdatedBetween(startDay, endDay, pageable);
 
         // 4. Verifica se algum módulo pai foi encontrado
         if(moduleChild.isEmpty()){
