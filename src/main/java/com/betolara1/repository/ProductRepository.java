@@ -20,7 +20,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByTypeProduct(String typeProduct, Pageable pageable);
     
     // Busca por local de colocação
-    Page<Product> findByLocalToPut(Product.LocalToPut localToPut, Pageable pageable);
+    Page<Product> findByIdLocalToPut(Long idLocalToPut, Pageable pageable);
     
     // Busca por ID do módulo pai
     Page<Product> findByIdModuleFather(Long idModuleFather, Pageable pageable);

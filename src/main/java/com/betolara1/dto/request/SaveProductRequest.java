@@ -1,7 +1,5 @@
 package com.betolara1.dto.request;
 
-import com.betolara1.model.Product.LocalToPut;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -22,7 +20,7 @@ public class SaveProductRequest {
     private String typeProduct;
 
     @NotNull(message = "O local de colocação é obrigatório.")
-    private LocalToPut localToPut;
+    private Long idLocalToPut;
 
     @NotNull(message = "O ID do módulo filho é obrigatório.")
     private Long idModuleChild;

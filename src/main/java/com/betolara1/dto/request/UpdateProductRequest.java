@@ -1,7 +1,5 @@
 package com.betolara1.dto.request;
 
-import com.betolara1.model.Product.LocalToPut;
-
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -16,7 +14,7 @@ public class UpdateProductRequest {
 
     private String typeProduct;
 
-    private LocalToPut localToPut;
+    private Long idLocalToPut;
 
     private Long idModuleChild;
 

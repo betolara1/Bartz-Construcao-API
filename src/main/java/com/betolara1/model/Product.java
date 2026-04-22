@@ -20,16 +20,12 @@ public class Product {
     private Long id;
     private String name;
     private String typeProduct;
-    private LocalToPut localToPut;
+    private Long idLocalToPut;
     private Long idModuleFather;
     private Long idModuleChild;
     private Boolean isActive;
     private LocalDateTime dateCreated;
     private LocalDateTime dateUpdated;
-
-    public enum LocalToPut {
-        PAREDE, CHAO
-    }
 
     @PrePersist
     protected void onCreated(){

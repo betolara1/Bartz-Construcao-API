@@ -64,11 +64,11 @@ public class ProductService {
 
     // Método para buscar produtos por local de colocação
     @Transactional
-    public Page<ProductDTO> findByLocalToPut(Product.LocalToPut localToPut, int page, int size){
-        Page<Product> product = productRepository.findByLocalToPut(localToPut, PageRequest.of(page, size));
+    public Page<ProductDTO> findByLocalToPut(Long idLocalToPut, int page, int size){
+        Page<Product> product = productRepository.findByIdLocalToPut(idLocalToPut, PageRequest.of(page, size));
 
         if(product.isEmpty()){
-            throw new NotFoundException("Nenhum produto encontrado com o local de colocação: " + localToPut);
+            throw new NotFoundException("Nenhum produto encontrado com o local de colocação: " + idLocalToPut);
         }
 
         return product.map(ProductDTO::new);
@@ -167,7 +167,7 @@ public class ProductService {
 
         product.setName(request.getName());
         product.setTypeProduct(request.getTypeProduct());
-        product.setLocalToPut(Product.LocalToPut.valueOf(request.getLocalToPut().name()));
+        product.setIdLocalToPut(request.getIdLocalToPut());
         product.setIdModuleFather(request.getIdModuleFather());
         product.setIdModuleChild(request.getIdModuleChild());
         product.setIsActive(request.getIsActive());
@@ -187,8 +187,8 @@ public class ProductService {
         if(request.getTypeProduct() != null){
             product.setTypeProduct(request.getTypeProduct());
         }
-        if(request.getLocalToPut() != null){
-            product.setLocalToPut(Product.LocalToPut.valueOf(request.getLocalToPut().name()));
+        if(request.getIdLocalToPut() != null){
+            product.setIdLocalToPut(request.getIdLocalToPut());
         }
         if(request.getIdModuleFather() != null){
             product.setIdModuleFather(request.getIdModuleFather());

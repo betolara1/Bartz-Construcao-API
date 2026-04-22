@@ -11,7 +11,7 @@ public class ProductDTO {
     private Long id;
     private String name;
     private String typeProduct;
-    private Product.LocalToPut localToPut;
+    private Long idLocalToPut;
     private Long idModuleFather;
     private Long idModuleChild;
     private Boolean isActive;
@@ -24,7 +24,7 @@ public class ProductDTO {
         this.id = product.getId();
         this.name = product.getName();
         this.typeProduct = product.getTypeProduct();
-        this.localToPut = product.getLocalToPut();
+        this.idLocalToPut = product.getIdLocalToPut();
         this.idModuleFather = product.getIdModuleFather();
         this.idModuleChild = product.getIdModuleChild();
         this.isActive = product.getIsActive();
