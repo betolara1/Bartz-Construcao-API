@@ -34,7 +34,7 @@ public class LocalToPutService {
 
     @Transactional(readOnly = true)
     public LocalToPutDTO findByName(String name){
-        LocalToPut localToPut = localToPutRepository.findByName(name).orElseThrow(() -> new RuntimeException("Local não encontrado"));
+        LocalToPut localToPut = localToPutRepository.findByName(name).orElseThrow(() -> new NotFoundException("Local não encontrado"));
         return new LocalToPutDTO(localToPut);
     }
 
@@ -113,7 +113,7 @@ public class LocalToPutService {
 
     @Transactional
     public void delete(Long id){
-        if(localToPutRepository.existsById(id)){
+        if(!localToPutRepository.existsById(id)){
             throw new NotFoundException("Local não encontrado com o ID: " +id);
         }
         localToPutRepository.deleteById(id);
