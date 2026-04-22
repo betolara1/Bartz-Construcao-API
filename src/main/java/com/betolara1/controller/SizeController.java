@@ -39,9 +39,9 @@ public class SizeController {
         return ResponseEntity.ok(sizeService.findById(id));
     }
 
-    @GetMapping("/productId")
-    public ResponseEntity<SizeDTO> findByProductId(@RequestParam Long productId){
-        return ResponseEntity.ok(sizeService.findByProductId(productId));
+    @GetMapping("/idProduct")
+    public ResponseEntity<SizeDTO> findByIdProduct(@RequestParam Long idProduct){
+        return ResponseEntity.ok(sizeService.findByIdProduct(idProduct));
     }
 
     @GetMapping("/dateCreated")

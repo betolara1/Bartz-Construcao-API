@@ -43,8 +43,8 @@ public class SizeService {
     }
 
     @Transactional
-    public SizeDTO findByProductId(Long productId){
-        Size size = sizeRepository.findByProductId(productId).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID do produto: " + productId));
+    public SizeDTO findByIdProduct(Long idProduct){
+        Size size = sizeRepository.findByIdProduct(idProduct).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID do produto: " + idProduct));
         return new SizeDTO(size);
     }
 
@@ -96,7 +96,7 @@ public class SizeService {
     @Transactional
     public Size save(SaveSizeRequest saveSizeRequest){
         Size size = new Size();
-        size.setProductId(saveSizeRequest.getProductId());
+        size.setIdProduct(saveSizeRequest.getIdProduct());
         size.setHeightMax(saveSizeRequest.getHeightMax());
         size.setHeightMin(saveSizeRequest.getHeightMin());
         size.setWidthMax(saveSizeRequest.getWidthMax());
@@ -109,7 +109,7 @@ public class SizeService {
     @Transactional
     public Size update(Long id, UpdateSizeRequest updateSizeRequest){
         Size size = sizeRepository.findById(id).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID: " + id));
-        size.setProductId(updateSizeRequest.getProductId());
+        size.setIdProduct(updateSizeRequest.getIdProduct());
         size.setHeightMax(updateSizeRequest.getHeightMax());
         size.setHeightMin(updateSizeRequest.getHeightMin());
         size.setWidthMax(updateSizeRequest.getWidthMax());

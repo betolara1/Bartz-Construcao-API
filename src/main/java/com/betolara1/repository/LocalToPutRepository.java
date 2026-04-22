@@ -8,20 +8,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
-
-import com.betolara1.model.Size;
+import com.betolara1.model.LocalToPut;
 
 @Repository
-public interface SizeRepository extends JpaRepository<Size, Long> {
+public interface LocalToPutRepository extends JpaRepository<LocalToPut, Long> {
     @NonNull
-    Page<Size> findAll(Pageable pageable);
+    Optional<LocalToPut> findByName(String name);
 
     @NonNull
-    Optional<Size> findByIdProduct(Long idProduct);
+    Page<LocalToPut> findAll(Pageable pageable);
 
     // Busca tudo que foi criado entre o início do dia (00:00:00) e o fim (23:59:59)
-    Page<Size> findByDateCreatedBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
+    Page<LocalToPut> findByDateCreatedBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
     
     // Busca tudo que foi atualizado entre o início do dia (00:00:00) e o fim (23:59:59)
-    Page<Size> findByDateUpdatedBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
+    Page<LocalToPut> findByDateUpdatedBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
+    
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class SizeDTO {
     private Long id;
-    private Long productId;
+    private Long idProduct;
     
     private Double heightMax;
     private Double heightMin;
@@ -22,7 +22,7 @@ public class SizeDTO {
 
     public SizeDTO(Size size) {
         this.id = size.getId();
-        this.productId = size.getProductId();
+        this.idProduct = size.getIdProduct();
         this.heightMax = size.getHeightMax();
         this.heightMin = size.getHeightMin();
         this.widthMax = size.getWidthMax();

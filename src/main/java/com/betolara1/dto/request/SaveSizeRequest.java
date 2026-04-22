@@ -8,7 +8,7 @@ public class SaveSizeRequest {
     private Long id;
 
     @NotNull(message = "O ID do produto é obrigatório.")
-    private Long productId;
+    private Long idProduct;
     
     @NotNull(message = "A altura máxima é obrigatória.")
     private Double heightMax;

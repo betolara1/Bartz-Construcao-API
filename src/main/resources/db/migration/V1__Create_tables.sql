@@ -1,18 +1,3 @@
-CREATE TABLE IF NOT EXISTS "products"(
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    type_product VARCHAR(255) NOT NULL,
-    id_local_to_put BIGINT NOT NULL,
-    id_module_father BIGINT NOT NULL,
-    id_module_child BIGINT NOT NULL,
-    is_active BOOLEAN NOT NULL,
-    date_created TIMESTAMP NOT NULL,
-    date_updated TIMESTAMP NOT NULL,
-    CONSTRAINT fk_local_to_put FOREIGN KEY (id_local_to_put) REFERENCES local_to_put(id),
-    CONSTRAINT fk_module_father FOREIGN KEY (id_module_father) REFERENCES module_father(id),
-    CONSTRAINT fk_module_child FOREIGN KEY (id_module_child) REFERENCES module_child(id)
-);
-
 CREATE TABLE IF NOT EXISTS "local_to_put"(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -36,6 +21,21 @@ CREATE TABLE IF NOT EXISTS "module_child"(
     CONSTRAINT fk_module_father FOREIGN KEY (id_module_father) REFERENCES module_father(id)
 );
 
+CREATE TABLE IF NOT EXISTS "products"(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    type_product VARCHAR(255) NOT NULL,
+    id_local_to_put BIGINT NOT NULL,
+    id_module_father BIGINT NOT NULL,
+    id_module_child BIGINT NOT NULL,
+    is_active BOOLEAN NOT NULL,
+    date_created TIMESTAMP NOT NULL,
+    date_updated TIMESTAMP NOT NULL,
+    CONSTRAINT fk_local_to_put FOREIGN KEY (id_local_to_put) REFERENCES local_to_put(id),
+    CONSTRAINT fk_module_father FOREIGN KEY (id_module_father) REFERENCES module_father(id),
+    CONSTRAINT fk_module_child FOREIGN KEY (id_module_child) REFERENCES module_child(id)
+);
+
 CREATE TABLE IF NOT EXISTS "sizes"(
     id BIGSERIAL PRIMARY KEY,
     id_product BIGINT NOT NULL,
@@ -49,4 +49,3 @@ CREATE TABLE IF NOT EXISTS "sizes"(
     date_updated TIMESTAMP NOT NULL,
     CONSTRAINT fk_product FOREIGN KEY (id_product) REFERENCES products(id)
 );
-

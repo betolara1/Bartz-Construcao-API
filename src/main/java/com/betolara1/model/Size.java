@@ -19,7 +19,7 @@ public class Size {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long productId;
+    private Long idProduct;
     
     private Double heightMax;
     private Double heightMin;

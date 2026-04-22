@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class UpdateSizeRequest {
-    private Long productId;
+    private Long idProduct;
     
     private Double heightMax;
     private Double heightMin;
