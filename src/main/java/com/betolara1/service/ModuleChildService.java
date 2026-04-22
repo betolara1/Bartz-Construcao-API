@@ -3,8 +3,6 @@ package com.betolara1.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +14,7 @@ import com.betolara1.dto.request.UpdateModuleChildRequest;
 import com.betolara1.exception.NotFoundException;
 import com.betolara1.model.ModuleChild;
 import com.betolara1.repository.ModuleChildRepository;
+import com.betolara1.util.DateUtils;
 
 import jakarta.transaction.Transactional;
 
@@ -78,7 +77,7 @@ public class ModuleChildService {
     public Page<ModuleChildDTO> getModuleChildByDateCreated(String dateString, int page, int size){
 
         // 1. Converte a String para LocalDate (apenas data)
-        LocalDate date = parseDate(dateString);
+        LocalDate date = DateUtils.parseDate(dateString);
 
         // 2. Cria o início do dia (00:00:00) e o fim do dia (23:59:59)
         LocalDateTime startDay = date.atStartOfDay();
@@ -98,7 +97,7 @@ public class ModuleChildService {
     @Transactional
     public Page<ModuleChildDTO> getModuleChildByDateUpdated(String dateString, int page, int size){
         // 1. Converte a String para LocalDate (apenas data)
-        LocalDate date = parseDate(dateString);
+        LocalDate date = DateUtils.parseDate(dateString);
 
         // 2. Cria o início do dia (00:00:00) e o fim do dia (23:59:59)
         LocalDateTime startDay = date.atStartOfDay();
@@ -153,22 +152,4 @@ public class ModuleChildService {
         }
         moduleChildRepository.deleteById(id);
     }
-
-
-    // Método para converter String para LocalDate
-    private LocalDate parseDate(String dateString){
-        // Lista de formatos que você quer aceitar
-        String[] formats = {"dd/MM/yyyy", "dd-MM-yyyy", "yyyy-MM-dd", "yyyy/MM/dd"};
-
-        for(String format : formats){
-            try{
-                return LocalDate.parse(dateString, DateTimeFormatter.ofPattern(format));
-            }catch(DateTimeParseException e){
-                continue;
-            }
-        }
-
-        throw new IllegalArgumentException("Formato de data inválido: " + dateString);
-    }
-
 }

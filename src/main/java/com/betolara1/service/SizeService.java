@@ -3,8 +3,6 @@ package com.betolara1.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +14,7 @@ import com.betolara1.dto.request.UpdateSizeRequest;
 import com.betolara1.exception.NotFoundException;
 import com.betolara1.model.Size;
 import com.betolara1.repository.SizeRepository;
+import com.betolara1.util.DateUtils;
 
 import jakarta.transaction.Transactional;
 
@@ -52,7 +51,7 @@ public class SizeService {
     @Transactional
     public Page<SizeDTO> getSizeByDateCreated(String dateString, int page, int size){
         // 1. Converte a String para LocalDate (apenas data)
-        LocalDate date = parseDate(dateString);
+        LocalDate date = DateUtils.parseDate(dateString);
 
         // 2. Cria o início do dia (00:00:00) e o fim do dia (23:59:59)
         LocalDateTime startDay = date.atStartOfDay();
@@ -75,7 +74,7 @@ public class SizeService {
     @Transactional
     public Page<SizeDTO> getSizeByDateUpdated(String dateString, int page, int size){
         // 1. Converte a String para LocalDate (apenas data)
-        LocalDate date = parseDate(dateString);
+        LocalDate date = DateUtils.parseDate(dateString);
 
         // 2. Cria o início do dia (00:00:00) e o fim do dia (23:59:59)
         LocalDateTime startDay = date.atStartOfDay();
@@ -109,13 +108,29 @@ public class SizeService {
     @Transactional
     public Size update(Long id, UpdateSizeRequest updateSizeRequest){
         Size size = sizeRepository.findById(id).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID: " + id));
-        size.setIdProduct(updateSizeRequest.getIdProduct());
-        size.setHeightMax(updateSizeRequest.getHeightMax());
-        size.setHeightMin(updateSizeRequest.getHeightMin());
-        size.setWidthMax(updateSizeRequest.getWidthMax());
-        size.setWidthMin(updateSizeRequest.getWidthMin());
-        size.setDepthMax(updateSizeRequest.getDepthMax());
-        size.setDepthMin(updateSizeRequest.getDepthMin());
+
+        if(updateSizeRequest.getIdProduct() != null){
+            size.setIdProduct(updateSizeRequest.getIdProduct());
+        }
+        if(updateSizeRequest.getHeightMax() != null){
+            size.setHeightMax(updateSizeRequest.getHeightMax());
+        }
+        if(updateSizeRequest.getHeightMin() != null){
+            size.setHeightMin(updateSizeRequest.getHeightMin());
+        }
+        if(updateSizeRequest.getWidthMax() != null){
+            size.setWidthMax(updateSizeRequest.getWidthMax());
+        }
+        if(updateSizeRequest.getWidthMin() != null){
+            size.setWidthMin(updateSizeRequest.getWidthMin());
+        }
+        if(updateSizeRequest.getDepthMax() != null){
+            size.setDepthMax(updateSizeRequest.getDepthMax());
+        }       
+        if(updateSizeRequest.getDepthMin() != null){
+            size.setDepthMin(updateSizeRequest.getDepthMin());
+        }
+        
         return sizeRepository.save(size);
     }
 
@@ -123,21 +138,5 @@ public class SizeService {
     public void delete(Long id){
         Size size = sizeRepository.findById(id).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID: " + id));
         sizeRepository.delete(size);
-    }
-
-    // Método para converter String para LocalDate
-    private LocalDate parseDate(String dateString){
-        // Lista de formatos que você quer aceitar
-        String[] formats = {"dd/MM/yyyy", "dd-MM-yyyy", "yyyy-MM-dd", "yyyy/MM/dd"};
-
-        for(String format : formats){
-            try{
-                return LocalDate.parse(dateString, DateTimeFormatter.ofPattern(format));
-            }catch(DateTimeParseException e){
-                continue;
-            }
-        }
-
-        throw new IllegalArgumentException("Formato de data inválido: " + dateString);
     }
 }
