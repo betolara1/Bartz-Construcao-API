@@ -16,7 +16,7 @@ import com.betolara1.model.ModuleFather;
 import com.betolara1.repository.ModuleFatherRepository;
 import com.betolara1.util.DateUtils;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ModuleFatherService {
@@ -29,7 +29,7 @@ public class ModuleFatherService {
 
 
     // Método para buscar todos os módulos pais
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ModuleFatherDTO> findAll(int page, int size) {
         Page<ModuleFather> moduleFathers = moduleFatherRepository.findAll(PageRequest.of(page, size));
 
@@ -41,7 +41,7 @@ public class ModuleFatherService {
 
 
     // Método para buscar um módulo pai por ID
-    @Transactional
+    @Transactional(readOnly = true)
     public ModuleFatherDTO getModuleFatherById(Long id){
         ModuleFather moduleFather = moduleFatherRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com ID: " + id));
         return new ModuleFatherDTO(moduleFather);
@@ -49,7 +49,7 @@ public class ModuleFatherService {
 
 
     // Método para buscar um módulo pai por nome
-    @Transactional
+    @Transactional(readOnly = true)
     public ModuleFatherDTO getModuleFatherByName(String name){
         ModuleFather moduleFather = moduleFatherRepository.findByName(name).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com nome: " + name));
         return new ModuleFatherDTO(moduleFather);
@@ -57,7 +57,7 @@ public class ModuleFatherService {
 
 
     // Método para buscar um módulo pai por data de criação
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ModuleFatherDTO> getModuleFatherByDateCreated(String dateString, int page, int size){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
@@ -80,7 +80,7 @@ public class ModuleFatherService {
 
 
     // Método para buscar um módulo pai por data de atualização
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ModuleFatherDTO> getModuleFatherByDateUpdated(String dateString, int page, int size){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);

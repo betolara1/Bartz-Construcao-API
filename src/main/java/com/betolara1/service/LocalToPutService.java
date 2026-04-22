@@ -16,7 +16,7 @@ import com.betolara1.model.LocalToPut;
 import com.betolara1.repository.LocalToPutRepository;
 import com.betolara1.util.DateUtils;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LocalToPutService {
@@ -26,22 +26,68 @@ public class LocalToPutService {
         this.localToPutRepository = localToPutRepository;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public LocalToPutDTO findById(Long id){
         LocalToPut localToPut = localToPutRepository.findById(id).orElseThrow(() -> new NotFoundException("ID não Encontrado"));
         return new LocalToPutDTO(localToPut);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public LocalToPutDTO findByName(String name){
         LocalToPut localToPut = localToPutRepository.findByName(name).orElseThrow(() -> new RuntimeException("Local não encontrado"));
         return new LocalToPutDTO(localToPut);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<LocalToPutDTO> findAll(int page, int size){
         Page<LocalToPut> localToPut = localToPutRepository.findAll(PageRequest.of(page, size));
         
+        return localToPut.map(LocalToPutDTO::new);
+    }
+
+    
+    // Método para buscar produtos por data de criação
+    @Transactional(readOnly = true)
+    public Page<LocalToPutDTO> getLocalToPutsByDateCreated(String dateString, int page, int size){
+        // 1. Converte a String para LocalDate (apenas data)
+        LocalDate date = DateUtils.parseDate(dateString);
+
+        // 2. Cria o início do dia (00:00:00) e o fim do dia (23:59:59)
+        LocalDateTime startDay = date.atStartOfDay();
+        LocalDateTime endDay = date.atTime(LocalTime.MAX);
+
+        // 3. Chama o repositório com o intervalo
+        Page<LocalToPut> localToPut = localToPutRepository.findByDateCreatedBetween(startDay, endDay, PageRequest.of(page, size));
+
+        // 4. Verifica se algum módulo pai foi encontrado
+        if(localToPut.isEmpty()){
+            throw new NotFoundException("Nenhum tamanho encontrado na data: " + dateString);
+        }
+
+        // 5. Retorna os módulos pais
+        return localToPut.map(LocalToPutDTO::new);
+    }
+
+
+    // Método para buscar produtos por data de atualização
+    @Transactional(readOnly = true)
+    public Page<LocalToPutDTO> getLocalToPutsByDateUpdated(String dateString, int page, int size){
+        // 1. Converte a String para LocalDate (apenas data)
+        LocalDate date = DateUtils.parseDate(dateString);
+
+        // 2. Cria o início do dia (00:00:00) e o fim do dia (23:59:59)
+        LocalDateTime startDay = date.atStartOfDay();
+        LocalDateTime endDay = date.atTime(LocalTime.MAX);
+
+        // 3. Chama o repositório com o intervalo
+        Page<LocalToPut> localToPut = localToPutRepository.findByDateUpdatedBetween(startDay, endDay, PageRequest.of(page, size));
+
+        // 4. Verifica se algum módulo pai foi encontrado
+        if(localToPut.isEmpty()){
+            throw new NotFoundException("Nenhum tamanho encontrado na data: " + dateString);
+        }
+        
+        // 5. Retorna os módulos pais
         return localToPut.map(LocalToPutDTO::new);
     }
 
@@ -71,50 +117,5 @@ public class LocalToPutService {
             throw new NotFoundException("Local não encontrado com o ID: " +id);
         }
         localToPutRepository.deleteById(id);
-    }
-
-    // Método para buscar produtos por data de criação
-    @Transactional
-    public Page<LocalToPutDTO> getLocalToPutsByDateCreated(String dateString, int page, int size){
-        // 1. Converte a String para LocalDate (apenas data)
-        LocalDate date = DateUtils.parseDate(dateString);
-
-        // 2. Cria o início do dia (00:00:00) e o fim do dia (23:59:59)
-        LocalDateTime startDay = date.atStartOfDay();
-        LocalDateTime endDay = date.atTime(LocalTime.MAX);
-
-        // 3. Chama o repositório com o intervalo
-        Page<LocalToPut> localToPut = localToPutRepository.findByDateCreatedBetween(startDay, endDay, PageRequest.of(page, size));
-
-        // 4. Verifica se algum módulo pai foi encontrado
-        if(localToPut.isEmpty()){
-            throw new NotFoundException("Nenhum tamanho encontrado na data: " + dateString);
-        }
-
-        // 5. Retorna os módulos pais
-        return localToPut.map(LocalToPutDTO::new);
-    }
-
-
-    // Método para buscar produtos por data de atualização
-    @Transactional
-    public Page<LocalToPutDTO> getLocalToPutsByDateUpdated(String dateString, int page, int size){
-        // 1. Converte a String para LocalDate (apenas data)
-        LocalDate date = DateUtils.parseDate(dateString);
-
-        // 2. Cria o início do dia (00:00:00) e o fim do dia (23:59:59)
-        LocalDateTime startDay = date.atStartOfDay();
-        LocalDateTime endDay = date.atTime(LocalTime.MAX);
-
-        // 3. Chama o repositório com o intervalo
-        Page<LocalToPut> localToPut = localToPutRepository.findByDateUpdatedBetween(startDay, endDay, PageRequest.of(page, size));
-
-        // 4. Verifica se algum módulo pai foi encontrado
-        if(localToPut.isEmpty()){
-            throw new NotFoundException("Nenhum tamanho encontrado na data: " + dateString);
-        }
-        
-        // 5. Retorna os módulos pais
-        return localToPut.map(LocalToPutDTO::new);
     }
 }

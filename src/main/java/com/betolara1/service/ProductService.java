@@ -16,7 +16,7 @@ import com.betolara1.model.Product;
 import com.betolara1.repository.ProductRepository;
 import com.betolara1.util.DateUtils;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductService {
@@ -28,7 +28,7 @@ public class ProductService {
 
 
     // Método para buscar todos os produtos
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ProductDTO> findAll(int page, int size){
         Page<Product> product = productRepository.findAll(PageRequest.of(page, size));
 
@@ -41,7 +41,7 @@ public class ProductService {
 
 
     // Método para buscar produtos por tipo
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ProductDTO> findByTypeProduct(String type, int page, int size){
         Page<Product> product = productRepository.findByTypeProduct(type, PageRequest.of(page, size));
 
@@ -54,7 +54,7 @@ public class ProductService {
 
 
     // Método para buscar produtos por ID
-    @Transactional
+    @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
         Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("Produto não encontrado com ID: " + id));
         return new ProductDTO(product);
@@ -62,7 +62,7 @@ public class ProductService {
 
 
     // Método para buscar produtos por local de colocação
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ProductDTO> findByLocalToPut(Long idLocalToPut, int page, int size){
         Page<Product> product = productRepository.findByIdLocalToPut(idLocalToPut, PageRequest.of(page, size));
 
@@ -75,7 +75,7 @@ public class ProductService {
 
 
     // Método para buscar produtos por ID do módulo pai
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ProductDTO> findByIdModuleFather(Long idModuleFather, int page, int size){
         Page<Product> product = productRepository.findByIdModuleFather(idModuleFather, PageRequest.of(page, size));
 
@@ -88,7 +88,7 @@ public class ProductService {
 
 
     // Método para buscar produtos por ID do módulo filho
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ProductDTO> findByIdModuleChild(Long idModuleChild, int page, int size){
         Page<Product> product = productRepository.findByIdModuleChild(idModuleChild, PageRequest.of(page, size));
 
@@ -101,7 +101,7 @@ public class ProductService {
 
 
     // Método para buscar produtos por status de atividade
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ProductDTO> findByIsActive(Boolean isActive, int page, int size){
         Page<Product> product = productRepository.findByIsActive(isActive, PageRequest.of(page, size));
 
@@ -114,7 +114,7 @@ public class ProductService {
 
 
     // Método para buscar produtos por data de criação
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ProductDTO> getProductByDateCreated(String dateString, int page, int size){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
@@ -137,7 +137,7 @@ public class ProductService {
 
 
     // Método para buscar produtos por data de atualização
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ProductDTO> getProductByDateUpdated(String dateString, int page, int size){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);

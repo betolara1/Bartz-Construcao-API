@@ -16,7 +16,7 @@ import com.betolara1.model.Size;
 import com.betolara1.repository.SizeRepository;
 import com.betolara1.util.DateUtils;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SizeService {
@@ -25,7 +25,7 @@ public class SizeService {
         this.sizeRepository = sizeRepository;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<SizeDTO> findAll(int page, int size){
         Page<Size> sizes = sizeRepository.findAll(PageRequest.of(page, size));
         if(sizes.isEmpty()){
@@ -35,20 +35,20 @@ public class SizeService {
         return sizes.map(SizeDTO::new);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public SizeDTO findById(Long id){
         Size size = sizeRepository.findById(id).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID: " + id));
         return new SizeDTO(size);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public SizeDTO findByIdProduct(Long idProduct){
         Size size = sizeRepository.findByIdProduct(idProduct).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID do produto: " + idProduct));
         return new SizeDTO(size);
     }
 
         // Método para buscar produtos por data de criação
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<SizeDTO> getSizeByDateCreated(String dateString, int page, int size){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
@@ -71,7 +71,7 @@ public class SizeService {
 
 
     // Método para buscar produtos por data de atualização
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<SizeDTO> getSizeByDateUpdated(String dateString, int page, int size){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);

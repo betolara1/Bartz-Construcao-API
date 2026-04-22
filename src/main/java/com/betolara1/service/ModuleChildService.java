@@ -16,7 +16,7 @@ import com.betolara1.model.ModuleChild;
 import com.betolara1.repository.ModuleChildRepository;
 import com.betolara1.util.DateUtils;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ModuleChildService {
@@ -29,7 +29,7 @@ public class ModuleChildService {
 
 
     // Método para buscar todos os módulos filhos
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ModuleChildDTO> findAll(int page, int size){
         // Busca todos os módulos filhos
         Page<ModuleChild> moduleChild = moduleChildRepository.findAll(PageRequest.of(page, size));
@@ -45,7 +45,7 @@ public class ModuleChildService {
 
 
     // Método para buscar um módulo filho por ID
-    @Transactional
+    @Transactional(readOnly = true)
     public ModuleChildDTO getModuleChildById(Long id){
         ModuleChild moduleChild = moduleChildRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo filho não encontrado com ID: " + id));
         return new ModuleChildDTO(moduleChild);
@@ -53,14 +53,14 @@ public class ModuleChildService {
 
 
     // Método para buscar um módulo filho por nome
-    @Transactional
+    @Transactional(readOnly = true)
     public ModuleChildDTO getModuleChildByName(String name){
         ModuleChild moduleChild = moduleChildRepository.findByName(name).orElseThrow(() -> new NotFoundException("Módulo filho não encontrado com nome: " + name));
         return new ModuleChildDTO(moduleChild);
     }
 
     // Método para buscar um módulo filho por ID do módulo pai
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ModuleChildDTO> getModuleChildByIdModuleFather(Long id, int page, int size){
         Page<ModuleChild> moduleChild = moduleChildRepository.findByIdModuleFather(id, PageRequest.of(page, size));
         
@@ -73,7 +73,7 @@ public class ModuleChildService {
 
 
     // Método para buscar um módulo filho por data de criação
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ModuleChildDTO> getModuleChildByDateCreated(String dateString, int page, int size){
 
         // 1. Converte a String para LocalDate (apenas data)
@@ -94,7 +94,7 @@ public class ModuleChildService {
     }
 
     // Método para buscar um módulo pai por data de atualização
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ModuleChildDTO> getModuleChildByDateUpdated(String dateString, int page, int size){
         // 1. Converte a String para LocalDate (apenas data)
         LocalDate date = DateUtils.parseDate(dateString);
