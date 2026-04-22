@@ -32,10 +32,6 @@ public class ProductService {
     public Page<ProductDTO> findAll(int page, int size){
         Page<Product> product = productRepository.findAll(PageRequest.of(page, size));
 
-        if(product.isEmpty()){
-            throw new NotFoundException("Nenhum produto encontrado.");
-        }
-
         return product.map(ProductDTO::new);
     }
 

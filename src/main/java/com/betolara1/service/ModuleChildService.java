@@ -34,11 +34,6 @@ public class ModuleChildService {
         // Busca todos os módulos filhos
         Page<ModuleChild> moduleChild = moduleChildRepository.findAll(PageRequest.of(page, size));
 
-        // Verifica se algum módulo filho foi encontrado
-        if(moduleChild.isEmpty()){
-            throw new NotFoundException("Nenhum módulo filho encontrado");
-        }
-
         // Retorna os módulos filhos
         return moduleChild.map(ModuleChildDTO::new); 
     }

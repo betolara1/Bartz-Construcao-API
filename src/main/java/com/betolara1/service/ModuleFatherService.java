@@ -33,9 +33,6 @@ public class ModuleFatherService {
     public Page<ModuleFatherDTO> findAll(int page, int size) {
         Page<ModuleFather> moduleFathers = moduleFatherRepository.findAll(PageRequest.of(page, size));
 
-        if (moduleFathers.isEmpty()) {
-            throw new NotFoundException("Nenhum módulo pai registrado.");
-        }
         return moduleFathers.map(ModuleFatherDTO::new);
     }
 

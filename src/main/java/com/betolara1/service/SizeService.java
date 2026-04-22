@@ -28,9 +28,6 @@ public class SizeService {
     @Transactional(readOnly = true)
     public Page<SizeDTO> findAll(int page, int size){
         Page<Size> sizes = sizeRepository.findAll(PageRequest.of(page, size));
-        if(sizes.isEmpty()){
-            throw new NotFoundException("Nenhum tamanho encontrado.");
-        }
 
         return sizes.map(SizeDTO::new);
     }
