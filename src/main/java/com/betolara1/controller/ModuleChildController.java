@@ -1,9 +1,7 @@
 package com.betolara1.controller;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +18,7 @@ import com.betolara1.dto.request.SaveModuleChildRequest;
 import com.betolara1.dto.request.UpdateModuleChildRequest;
 import com.betolara1.dto.response.ModuleChildDTO;
 import com.betolara1.service.ModuleChildService;
+import com.betolara1.util.PaginationUtils;
 
 import jakarta.validation.Valid;
 
@@ -41,8 +40,8 @@ public class ModuleChildController {
                                                         @RequestParam(defaultValue = "dateCreated") String sortBy,
                                                         @RequestParam(defaultValue = "desc") String direction){
         
-        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
+        // Chamada estática: Classe.metodo()
+        Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         
         return ResponseEntity.ok(moduleChildService.findAll(pageable));
     }
@@ -70,8 +69,8 @@ public class ModuleChildController {
                                                                                 @RequestParam(defaultValue = "dateCreated") String sortBy,
                                                                                 @RequestParam(defaultValue = "desc") String direction){
         
-        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
+        // Chamada estática: Classe.metodo()
+        Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         
         return ResponseEntity.ok(moduleChildService.getModuleChildByIdModuleFather(id, pageable));
     }
@@ -85,8 +84,8 @@ public class ModuleChildController {
                                                                             @RequestParam(defaultValue = "dateCreated") String sortBy,
                                                                             @RequestParam(defaultValue = "desc") String direction){
         
-        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
+        // Chamada estática: Classe.metodo()
+        Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         
 
         return ResponseEntity.ok(moduleChildService.getModuleChildByDateCreated(date, pageable));
@@ -101,8 +100,8 @@ public class ModuleChildController {
                                                                             @RequestParam(defaultValue = "dateCreated") String sortBy,
                                                                             @RequestParam(defaultValue = "desc") String direction){
         
-        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
+        // Chamada estática: Classe.metodo()
+        Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         
 
         return ResponseEntity.ok(moduleChildService.getModuleChildByDateUpdated(date, pageable));

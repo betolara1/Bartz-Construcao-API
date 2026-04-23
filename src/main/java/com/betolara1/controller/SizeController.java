@@ -1,9 +1,7 @@
 package com.betolara1.controller;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +18,7 @@ import com.betolara1.dto.request.UpdateSizeRequest;
 import com.betolara1.dto.response.SizeDTO;
 import com.betolara1.model.Size;
 import com.betolara1.service.SizeService;
+import com.betolara1.util.PaginationUtils;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
@@ -39,9 +38,8 @@ public class SizeController {
                                                 @RequestParam(defaultValue = "dateCreated") String sortBy,
                                                 @RequestParam(defaultValue = "desc") String direction){
         
-        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
-
+        // Chamada estática: Classe.metodo()
+        Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         return ResponseEntity.ok(sizeService.findAll(pageable));
     }
 
@@ -63,9 +61,8 @@ public class SizeController {
                                                             @RequestParam(defaultValue = "dateCreated") String sortBy,
                                                             @RequestParam(defaultValue = "desc") String direction){
                 
-        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
-        
+        // Chamada estática: Classe.metodo()
+        Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         return ResponseEntity.ok(sizeService.getSizeByDateCreated(dateString, pageable));
     }
 
@@ -77,9 +74,8 @@ public class SizeController {
                                                             @RequestParam(defaultValue = "dateCreated") String sortBy,
                                                             @RequestParam(defaultValue = "desc") String direction){
         
-        Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
-        
+        // Chamada estática: Classe.metodo()
+        Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         return ResponseEntity.ok(sizeService.getSizeByDateUpdated(dateString, pageable));
     }
 
