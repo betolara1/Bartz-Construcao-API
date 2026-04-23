@@ -27,106 +27,97 @@ import jakarta.validation.Valid;
 public class ModuleChildController {
 
     private final ModuleChildService moduleChildService;
+
     public ModuleChildController(ModuleChildService moduleChildService) {
         this.moduleChildService = moduleChildService;
     }
 
-
     // Método para buscar todos os módulos filhos
     @GetMapping("/all")
     public ResponseEntity<Page<ModuleChildDTO>> findAll(
-                                                        @RequestParam(defaultValue="0") int page, 
-                                                        @RequestParam(defaultValue="10") int size,
-                                                        @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                        @RequestParam(defaultValue = "desc") String direction){
-        
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "dateCreated") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
-        
+
         return ResponseEntity.ok(moduleChildService.findAll(pageable));
     }
 
-
     // Método para buscar um módulo filho por ID
     @GetMapping("/id")
-    public ResponseEntity<ModuleChildDTO> getModuleChildById(@RequestParam Long id){
+    public ResponseEntity<ModuleChildDTO> getModuleChildById(@RequestParam Long id) {
         return ResponseEntity.ok(moduleChildService.getModuleChildById(id));
     }
 
-
     // Método para buscar um módulo filho por nome
     @GetMapping("/name")
-    public ResponseEntity<ModuleChildDTO> getModuleChildByName(@RequestParam String name){
+    public ResponseEntity<ModuleChildDTO> getModuleChildByName(@RequestParam String name) {
         return ResponseEntity.ok(moduleChildService.getModuleChildByName(name));
     }
 
-
     // Método para buscar um módulo filho por ID do módulo pai
     @GetMapping("/idModuleFather")
-    public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByIdModuleFather( @RequestParam Long id, 
-                                                                                @RequestParam(defaultValue="0") int page, 
-                                                                                @RequestParam(defaultValue="10") int size,
-                                                                                @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                                                @RequestParam(defaultValue = "desc") String direction){
-        
+    public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByIdModuleFather(@RequestParam Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "dateCreated") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
-        
+
         return ResponseEntity.ok(moduleChildService.getModuleChildByIdModuleFather(id, pageable));
     }
 
-
     // Método para buscar um módulo filho por data de criação
     @GetMapping("/dateCreated")
-    public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByDateCreated(@RequestParam String date, 
-                                                                            @RequestParam(defaultValue="0") int page, 
-                                                                            @RequestParam(defaultValue="10") int size,
-                                                                            @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                                            @RequestParam(defaultValue = "desc") String direction){
-        
+    public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByDateCreated(@RequestParam String date,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "dateCreated") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
-        
 
         return ResponseEntity.ok(moduleChildService.getModuleChildByDateCreated(date, pageable));
     }
 
-
     // Método para buscar um módulo filho por data de atualização
     @GetMapping("/dateUpdated")
-    public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByDateUpdated(@RequestParam String date, 
-                                                                            @RequestParam(defaultValue="0") int page, 
-                                                                            @RequestParam(defaultValue="10") int size,
-                                                                            @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                                            @RequestParam(defaultValue = "desc") String direction){
-        
+    public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByDateUpdated(@RequestParam String date,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "dateCreated") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
-        
 
         return ResponseEntity.ok(moduleChildService.getModuleChildByDateUpdated(date, pageable));
     }
 
-
     // Método para criar um módulo filho
     @PostMapping
-    public ResponseEntity<ModuleChildDTO> createModuleChild(@Valid @RequestBody SaveModuleChildRequest request){
+    public ResponseEntity<ModuleChildDTO> createModuleChild(@Valid @RequestBody SaveModuleChildRequest request) {
         ModuleChildDTO moduleChildDTO = moduleChildService.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(moduleChildDTO);
     }
 
-
     // Método para atualizar um módulo filho
     @PutMapping("/{id}")
-    public ResponseEntity<ModuleChildDTO> updateModuleChild(@Valid @RequestBody UpdateModuleChildRequest request, @PathVariable Long id){
+    public ResponseEntity<ModuleChildDTO> updateModuleChild(@Valid @RequestBody UpdateModuleChildRequest request,
+            @PathVariable Long id) {
         ModuleChildDTO moduleChildDTO = moduleChildService.update(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(moduleChildDTO);
     }
 
-
     // Método para deletar um módulo filho
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteModeuleChild(@PathVariable Long id){
+    public ResponseEntity<String> deleteModeuleChild(@PathVariable Long id) {
         moduleChildService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body("Módulo filho deletado com sucesso");
     }

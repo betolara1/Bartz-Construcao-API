@@ -23,77 +23,77 @@ import com.betolara1.util.PaginationUtils;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/local")
+@RequestMapping("/locals")
 public class LocalToPutController {
     private final LocalToPutService localToPutService;
-    public LocalToPutController(LocalToPutService localToPutService){
+
+    public LocalToPutController(LocalToPutService localToPutService) {
         this.localToPutService = localToPutService;
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<Page<LocalToPutDTO>> findAll(                                                
-                                                    @RequestParam(defaultValue="0") int page, 
-                                                    @RequestParam(defaultValue="10") int size,
-                                                    @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                    @RequestParam(defaultValue = "desc") String direction){
-        
+    @GetMapping
+    public ResponseEntity<Page<LocalToPutDTO>> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "dateCreated") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         return ResponseEntity.ok(localToPutService.findAll(pageable));
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<LocalToPutDTO> findById(@RequestParam Long id){
+    @GetMapping
+    public ResponseEntity<LocalToPutDTO> findById(@RequestParam Long id) {
         return ResponseEntity.ok(localToPutService.findById(id));
     }
 
-    @GetMapping("/name")
-    public ResponseEntity<LocalToPutDTO> findByName(@RequestParam String name){
+    @GetMapping
+    public ResponseEntity<LocalToPutDTO> findByName(@RequestParam String name) {
         return ResponseEntity.ok(localToPutService.findByName(name));
     }
 
-    @GetMapping("/dateCreated")
-    public ResponseEntity<Page<LocalToPutDTO>> getModuleChildByDateCreated(@RequestParam String date, 
-                                                                            @RequestParam(defaultValue="0") int page, 
-                                                                            @RequestParam(defaultValue="10") int size,
-                                                                            @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                                            @RequestParam(defaultValue = "desc") String direction){
-        
+    @GetMapping
+    public ResponseEntity<Page<LocalToPutDTO>> getModuleChildByDateCreated(@RequestParam String date,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "dateCreated") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
-        
 
         return ResponseEntity.ok(localToPutService.getLocalToPutsByDateCreated(date, pageable));
     }
 
-    @GetMapping("/dateUpdated")
-    public ResponseEntity<Page<LocalToPutDTO>> getModuleChildByDateUpdated(@RequestParam String date, 
-                                                                            @RequestParam(defaultValue="0") int page, 
-                                                                            @RequestParam(defaultValue="10") int size,
-                                                                            @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                                            @RequestParam(defaultValue = "desc") String direction){
-        
+    @GetMapping
+    public ResponseEntity<Page<LocalToPutDTO>> getModuleChildByDateUpdated(@RequestParam String date,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "dateCreated") String sortBy,
+            @RequestParam(defaultValue = "desc") String direction) {
+
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
-        
 
         return ResponseEntity.ok(localToPutService.getLocalToPutsByDateUpdated(date, pageable));
     }
 
     @PostMapping
-    public ResponseEntity<LocalToPutDTO> save(@Valid @RequestBody SaveLocalToPutRequest request){
+    public ResponseEntity<LocalToPutDTO> save(@Valid @RequestBody SaveLocalToPutRequest request) {
         LocalToPutDTO localToPutDTO = localToPutService.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(localToPutDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LocalToPutDTO> update(@PathVariable Long id, @Valid @RequestBody UpdateLocalToPutRequest request){
+    public ResponseEntity<LocalToPutDTO> update(@PathVariable Long id,
+            @Valid @RequestBody UpdateLocalToPutRequest request) {
         LocalToPutDTO localToPutDTO = localToPutService.update(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(localToPutDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteLocal(@PathVariable Long id){
+    public ResponseEntity<String> deleteLocal(@PathVariable Long id) {
         localToPutService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body("Local deletado com sucesso");
     }

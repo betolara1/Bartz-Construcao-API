@@ -31,6 +31,19 @@ public class GlobalHandlerException {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<StandardErrorDTO> handleIllegalArgument(IllegalArgumentException ex,
+        HttpServletRequest request) {
+    StandardErrorDTO erro = new StandardErrorDTO(
+            LocalDateTime.now(),
+            HttpStatus.BAD_REQUEST.value(),
+            "Requisição Inválida",
+            ex.getMessage(),
+            request.getRequestURI()
+    );
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, List<String>>> handleValidationErrors(MethodArgumentNotValidException ex) {
 
