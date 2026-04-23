@@ -11,6 +11,12 @@ services:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped          # Reinicia se cair
+    healthcheck:                     # Verifica se o DB está pronto
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   # Serviço da sua API Java
   api:
@@ -22,8 +28,10 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:${POSTGRES_PORT}/${POSTGRES_DB}
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+    restart: unless-stopped
     depends_on:
-      - db
+      - db:
+        condition: service_healthy   # Só inicia quando o DB estiver saudável
 
 volumes:
   pgdata:
