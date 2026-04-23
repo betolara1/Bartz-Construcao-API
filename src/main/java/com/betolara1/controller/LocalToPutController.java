@@ -52,6 +52,34 @@ public class LocalToPutController {
         return ResponseEntity.ok(localToPutService.findByName(name));
     }
 
+    @GetMapping("/dateCreated")
+    public ResponseEntity<Page<LocalToPutDTO>> getModuleChildByDateCreated(@RequestParam String date, 
+                                                                            @RequestParam(defaultValue="0") int page, 
+                                                                            @RequestParam(defaultValue="10") int size,
+                                                                            @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                                            @RequestParam(defaultValue = "desc") String direction){
+        
+        // Chamada estática: Classe.metodo()
+        Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
+        
+
+        return ResponseEntity.ok(localToPutService.getLocalToPutsByDateCreated(date, pageable));
+    }
+
+    @GetMapping("/dateUpdated")
+    public ResponseEntity<Page<LocalToPutDTO>> getModuleChildByDateUpdated(@RequestParam String date, 
+                                                                            @RequestParam(defaultValue="0") int page, 
+                                                                            @RequestParam(defaultValue="10") int size,
+                                                                            @RequestParam(defaultValue = "dateCreated") String sortBy,
+                                                                            @RequestParam(defaultValue = "desc") String direction){
+        
+        // Chamada estática: Classe.metodo()
+        Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
+        
+
+        return ResponseEntity.ok(localToPutService.getLocalToPutsByDateUpdated(date, pageable));
+    }
+
     @PostMapping
     public ResponseEntity<LocalToPutDTO> save(@Valid @RequestBody SaveLocalToPutRequest request){
         LocalToPutDTO localToPutDTO = localToPutService.save(request);

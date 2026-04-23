@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ModuleChildService {
 
     // Injeção de dependência
-    private ModuleChildRepository moduleChildRepository;
+    private final ModuleChildRepository moduleChildRepository;
     public ModuleChildService(ModuleChildRepository moduleChildRepository){
         this.moduleChildRepository = moduleChildRepository;
     }

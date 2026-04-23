@@ -30,7 +30,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
     restart: unless-stopped
     depends_on:
-      - db:
+      db:
         condition: service_healthy   # Só inicia quando o DB estiver saudável
 
 volumes:

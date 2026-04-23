@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ProductService {
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
