@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.betolara1.dto.ProductDTO;
 import com.betolara1.dto.request.SaveProductRequest;
 import com.betolara1.dto.request.UpdateProductRequest;
+import com.betolara1.dto.response.ProductDTO;
 import com.betolara1.exception.NotFoundException;
 import com.betolara1.model.Product;
 import com.betolara1.repository.ProductRepository;
@@ -69,7 +69,7 @@ public class ProductService {
     // Método para buscar produtos por local de colocação
     @Transactional(readOnly = true)
     public Page<ProductDTO> findByLocalToPut(Long idLocalToPut, Pageable pageable){
-        Page<Product> product = productRepository.findByIdLocalToPut(idLocalToPut, pageable);
+        Page<Product> product = productRepository.findByLocalToPutId(idLocalToPut, pageable);
 
         if(product.isEmpty()){
             throw new NotFoundException("Nenhum produto encontrado com o local de colocação: " + idLocalToPut);
@@ -82,7 +82,7 @@ public class ProductService {
     // Método para buscar produtos por ID do módulo pai
     @Transactional(readOnly = true)
     public Page<ProductDTO> findByIdModuleFather(Long idModuleFather, Pageable pageable){
-        Page<Product> product = productRepository.findByIdModuleFather(idModuleFather, pageable);
+        Page<Product> product = productRepository.findByModuleFatherId(idModuleFather, pageable);
 
         if(product.isEmpty()){
             throw new NotFoundException("Nenhum produto encontrado com o ID do módulo pai: " + idModuleFather);
@@ -95,7 +95,7 @@ public class ProductService {
     // Método para buscar produtos por ID do módulo filho
     @Transactional(readOnly = true)
     public Page<ProductDTO> findByIdModuleChild(Long idModuleChild, Pageable pageable){
-        Page<Product> product = productRepository.findByIdModuleChild(idModuleChild, pageable);
+        Page<Product> product = productRepository.findByModuleChildId(idModuleChild, pageable);
 
         if(product.isEmpty()){
             throw new NotFoundException("Nenhum produto encontrado com o ID do módulo filho: " + idModuleChild);
@@ -171,9 +171,9 @@ public class ProductService {
 
         product.setName(request.getName());
         product.setTypeProduct(request.getTypeProduct());
-        product.setIdLocalToPut(request.getIdLocalToPut());
-        product.setIdModuleFather(request.getIdModuleFather());
-        product.setIdModuleChild(request.getIdModuleChild());
+        product.setLocalToPut(request.getLocalToPut());
+        product.setModuleFather(request.getModuleFather());
+        product.setModuleChild(request.getModuleChild());
         product.setIsActive(request.getIsActive());
 
         return productRepository.save(product);
@@ -191,14 +191,14 @@ public class ProductService {
         if(request.getTypeProduct() != null){
             product.setTypeProduct(request.getTypeProduct());
         }
-        if(request.getIdLocalToPut() != null){
-            product.setIdLocalToPut(request.getIdLocalToPut());
+        if(request.getLocalToPut() != null){
+            product.setLocalToPut(request.getLocalToPut());
         }
-        if(request.getIdModuleFather() != null){
-            product.setIdModuleFather(request.getIdModuleFather());
+        if(request.getModuleFather() != null){
+            product.setModuleFather(request.getModuleFather());
         }
-        if(request.getIdModuleChild() != null){
-            product.setIdModuleChild(request.getIdModuleChild());
+        if(request.getModuleChild() != null){
+            product.setModuleChild(request.getModuleChild());
         }
         if(request.getIsActive() != null){
             product.setIsActive(request.getIsActive());

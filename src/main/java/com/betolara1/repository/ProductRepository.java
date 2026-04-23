@@ -23,13 +23,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByTypeProduct(String typeProduct, Pageable pageable);
     
     // Busca por local de colocação
-    Page<Product> findByIdLocalToPut(Long idLocalToPut, Pageable pageable);
+    Page<Product> findByLocalToPutId(Long idLocalToPut, Pageable pageable);
     
     // Busca por ID do módulo pai
-    Page<Product> findByIdModuleFather(Long idModuleFather, Pageable pageable);
+    Page<Product> findByModuleFatherId(Long idModuleFather, Pageable pageable);
     
     // Busca por ID do módulo filho
-    Page<Product> findByIdModuleChild(Long idModuleChild, Pageable pageable);
+    Page<Product> findByModuleChildId(Long idModuleChild, Pageable pageable);
     
     // Busca por status de atividade
     Page<Product> findByIsActive(Boolean isActive, Pageable pageable);

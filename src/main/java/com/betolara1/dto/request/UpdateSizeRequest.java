@@ -1,10 +1,12 @@
 package com.betolara1.dto.request;
 
+import com.betolara1.model.Product;
+
 import lombok.Data;
 
 @Data
 public class UpdateSizeRequest {
-    private Long idProduct;
+    private Product product;
     
     private Double heightMax;
     private Double heightMin;

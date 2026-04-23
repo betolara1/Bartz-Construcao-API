@@ -1,5 +1,6 @@
-package com.betolara1.dto;
+package com.betolara1.dto.response;
 
+import com.betolara1.model.Product;
 import com.betolara1.model.Size;
 
 import lombok.Data;
@@ -7,7 +8,7 @@ import lombok.Data;
 @Data
 public class SizeDTO {
     private Long id;
-    private Long idProduct;
+    private Product product;
     
     private Double heightMax;
     private Double heightMin;
@@ -22,7 +23,7 @@ public class SizeDTO {
 
     public SizeDTO(Size size) {
         this.id = size.getId();
-        this.idProduct = size.getIdProduct();
+        this.product = size.getProduct();
         this.heightMax = size.getHeightMax();
         this.heightMin = size.getHeightMin();
         this.widthMax = size.getWidthMax();

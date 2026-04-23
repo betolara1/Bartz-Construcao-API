@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.betolara1.dto.LocalToPutDTO;
 import com.betolara1.dto.request.SaveLocalToPutRequest;
 import com.betolara1.dto.request.UpdateLocalToPutRequest;
+import com.betolara1.dto.response.LocalToPutDTO;
 import com.betolara1.exception.NotFoundException;
 import com.betolara1.model.LocalToPut;
 import com.betolara1.repository.LocalToPutRepository;

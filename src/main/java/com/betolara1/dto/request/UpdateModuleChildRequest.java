@@ -1,5 +1,7 @@
 package com.betolara1.dto.request;
 
+import com.betolara1.model.ModuleFather;
+
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -10,5 +12,5 @@ public class UpdateModuleChildRequest {
     @Size(min = 2, max = 100, message = "O nome do módulo filho deve ter entre 2 e 100 caracteres.")
     private String name;
 
-    private Long idModuleFather;
+    private ModuleFather moduleFather;
 }

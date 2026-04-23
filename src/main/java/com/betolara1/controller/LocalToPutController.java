@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betolara1.dto.LocalToPutDTO;
 import com.betolara1.dto.request.SaveLocalToPutRequest;
 import com.betolara1.dto.request.UpdateLocalToPutRequest;
+import com.betolara1.dto.response.LocalToPutDTO;
 import com.betolara1.service.LocalToPutService;
 
 import jakarta.validation.Valid;

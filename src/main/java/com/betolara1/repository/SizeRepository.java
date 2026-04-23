@@ -17,7 +17,7 @@ public interface SizeRepository extends JpaRepository<Size, Long> {
     Page<Size> findAll(Pageable pageable);
 
     @NonNull
-    Optional<Size> findByIdProduct(Long idProduct);
+    Optional<Size> findByProductId(Long idProduct);
 
     // Busca tudo que foi criado entre o início do dia (00:00:00) e o fim (23:59:59)
     Page<Size> findByDateCreatedBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);

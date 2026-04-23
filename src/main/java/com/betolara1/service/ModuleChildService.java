@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.betolara1.dto.ModuleChildDTO;
 import com.betolara1.dto.request.SaveModuleChildRequest;
 import com.betolara1.dto.request.UpdateModuleChildRequest;
+import com.betolara1.dto.response.ModuleChildDTO;
 import com.betolara1.exception.NotFoundException;
 import com.betolara1.model.ModuleChild;
 import com.betolara1.repository.ModuleChildRepository;
@@ -57,7 +57,7 @@ public class ModuleChildService {
     // Método para buscar um módulo filho por ID do módulo pai
     @Transactional(readOnly = true)
     public Page<ModuleChildDTO> getModuleChildByIdModuleFather(Long id, Pageable pageable){
-        Page<ModuleChild> moduleChild = moduleChildRepository.findByIdModuleFather(id, pageable);
+        Page<ModuleChild> moduleChild = moduleChildRepository.findByModuleFatherId(id, pageable);
         
         if(moduleChild.isEmpty()){
             throw new NotFoundException("Nenhum módulo filho encontrado com ID do módulo pai: " + id);
@@ -117,7 +117,7 @@ public class ModuleChildService {
         ModuleChild module = new ModuleChild();
 
         module.setName(request.getName());
-        module.setIdModuleFather(request.getIdModuleFather());
+        module.setModuleFather(request.getModuleFather());
 
         return new ModuleChildDTO(moduleChildRepository.save(module));
     }
@@ -131,8 +131,8 @@ public class ModuleChildService {
         if(request.getName() != null){
             module.setName(request.getName());
         }
-        if(request.getIdModuleFather() != null){
-            module.setIdModuleFather(request.getIdModuleFather());
+        if(request.getModuleFather() != null){
+            module.setModuleFather(request.getModuleFather());
         }
 
         return new ModuleChildDTO(moduleChildRepository.save(module));

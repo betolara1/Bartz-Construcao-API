@@ -1,4 +1,4 @@
-package com.betolara1.dto;
+package com.betolara1.dto.response;
 
 import java.time.LocalDateTime;
 

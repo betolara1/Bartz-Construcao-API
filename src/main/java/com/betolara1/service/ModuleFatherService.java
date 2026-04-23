@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.betolara1.dto.ModuleFatherDTO;
 import com.betolara1.dto.request.SaveModuleFatherRequest;
 import com.betolara1.dto.request.UpdateModuleFatherRequest;
+import com.betolara1.dto.response.ModuleFatherDTO;
 import com.betolara1.exception.NotFoundException;
 import com.betolara1.model.ModuleFather;
 import com.betolara1.repository.ModuleFatherRepository;

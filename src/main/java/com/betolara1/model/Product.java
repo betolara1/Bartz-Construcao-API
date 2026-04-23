@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -20,9 +22,19 @@ public class Product {
     private Long id;
     private String name;
     private String typeProduct;
-    private Long idLocalToPut;
-    private Long idModuleFather;
-    private Long idModuleChild;
+
+    @ManyToOne
+    @JoinColumn(name = "id_local_to_put")
+    private LocalToPut localToPut;
+
+    @ManyToOne
+    @JoinColumn(name = "id_module_father")
+    private ModuleFather moduleFather;
+
+    @ManyToOne
+    @JoinColumn(name = "id_module_child")
+    private ModuleChild moduleChild;
+
     private Boolean isActive;
     private LocalDateTime dateCreated;
     private LocalDateTime dateUpdated;

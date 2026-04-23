@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betolara1.dto.ModuleChildDTO;
 import com.betolara1.dto.request.SaveModuleChildRequest;
 import com.betolara1.dto.request.UpdateModuleChildRequest;
+import com.betolara1.dto.response.ModuleChildDTO;
 import com.betolara1.service.ModuleChildService;
 
 import jakarta.validation.Valid;

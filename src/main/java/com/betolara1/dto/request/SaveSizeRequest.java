@@ -1,5 +1,7 @@
 package com.betolara1.dto.request;
 
+import com.betolara1.model.Product;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -8,7 +10,7 @@ public class SaveSizeRequest {
     private Long id;
 
     @NotNull(message = "O ID do produto é obrigatório.")
-    private Long idProduct;
+    private Product product;
     
     @NotNull(message = "A altura máxima é obrigatória.")
     private Double heightMax;

@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betolara1.dto.SizeDTO;
 import com.betolara1.dto.request.SaveSizeRequest;
 import com.betolara1.dto.request.UpdateSizeRequest;
+import com.betolara1.dto.response.SizeDTO;
 import com.betolara1.model.Size;
 import com.betolara1.service.SizeService;
 

@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betolara1.dto.ProductDTO;
 import com.betolara1.dto.request.SaveProductRequest;
 import com.betolara1.dto.request.UpdateProductRequest;
+import com.betolara1.dto.response.ProductDTO;
 import com.betolara1.model.Product;
 import com.betolara1.service.ProductService;
 

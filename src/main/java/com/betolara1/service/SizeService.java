@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.betolara1.dto.SizeDTO;
 import com.betolara1.dto.request.SaveSizeRequest;
 import com.betolara1.dto.request.UpdateSizeRequest;
+import com.betolara1.dto.response.SizeDTO;
 import com.betolara1.exception.NotFoundException;
 import com.betolara1.model.Size;
 import com.betolara1.repository.SizeRepository;
@@ -40,7 +40,7 @@ public class SizeService {
 
     @Transactional(readOnly = true)
     public SizeDTO findByIdProduct(Long idProduct){
-        Size size = sizeRepository.findByIdProduct(idProduct).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID do produto: " + idProduct));
+        Size size = sizeRepository.findByProductId(idProduct).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID do produto: " + idProduct));
         return new SizeDTO(size);
     }
 
@@ -92,7 +92,7 @@ public class SizeService {
     @Transactional
     public Size save(SaveSizeRequest saveSizeRequest){
         Size size = new Size();
-        size.setIdProduct(saveSizeRequest.getIdProduct());
+        size.setProduct(saveSizeRequest.getProduct());
         size.setHeightMax(saveSizeRequest.getHeightMax());
         size.setHeightMin(saveSizeRequest.getHeightMin());
         size.setWidthMax(saveSizeRequest.getWidthMax());
@@ -106,8 +106,8 @@ public class SizeService {
     public Size update(Long id, UpdateSizeRequest updateSizeRequest){
         Size size = sizeRepository.findById(id).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID: " + id));
 
-        if(updateSizeRequest.getIdProduct() != null){
-            size.setIdProduct(updateSizeRequest.getIdProduct());
+        if(updateSizeRequest.getProduct() != null){
+            size.setProduct(updateSizeRequest.getProduct());
         }
         if(updateSizeRequest.getHeightMax() != null){
             size.setHeightMax(updateSizeRequest.getHeightMax());

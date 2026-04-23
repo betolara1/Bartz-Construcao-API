@@ -1,8 +1,9 @@
-package com.betolara1.dto;
+package com.betolara1.dto.response;
 
 import java.time.LocalDateTime;
 
 import com.betolara1.model.ModuleChild;
+import com.betolara1.model.ModuleFather;
 
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import lombok.Data;
 public class ModuleChildDTO {
     private Long id;
     private String name;
-    private Long idModuleFather;
+    private ModuleFather moduleFather;
     private LocalDateTime dateCreated;
     private LocalDateTime dateUpdated;
 
@@ -19,7 +20,7 @@ public class ModuleChildDTO {
     public ModuleChildDTO(ModuleChild moduleChild) {
         this.id = moduleChild.getId();
         this.name = moduleChild.getName();
-        this.idModuleFather = moduleChild.getIdModuleFather();
+        this.moduleFather = moduleChild.getModuleFather();
         this.dateCreated = moduleChild.getDateCreated();
         this.dateUpdated = moduleChild.getDateUpdated();
     }

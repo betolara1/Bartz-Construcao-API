@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betolara1.dto.ModuleFatherDTO;
 import com.betolara1.dto.request.SaveModuleFatherRequest;
 import com.betolara1.dto.request.UpdateModuleFatherRequest;
+import com.betolara1.dto.response.ModuleFatherDTO;
 import com.betolara1.model.ModuleFather;
 import com.betolara1.service.ModuleFatherService;
 
