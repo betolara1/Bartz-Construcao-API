@@ -24,13 +24,13 @@ public class Size {
     @ManyToOne
     @JoinColumn(name = "id_product")
     private Product product;
-    
+
     private Double heightMax;
     private Double heightMin;
-    
+
     private Double widthMax;
     private Double widthMin;
-    
+
     private Double depthMax;
     private Double depthMin;
 

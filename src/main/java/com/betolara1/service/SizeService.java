@@ -44,7 +44,7 @@ public class SizeService {
         return new SizeDTO(size);
     }
 
-        // Método para buscar produtos por data de criação
+    // Método para buscar produtos por data de criação
     @Transactional(readOnly = true)
     public Page<SizeDTO> getSizeByDateCreated(String dateString, Pageable pageable){
         // 1. Converte a String para LocalDate (apenas data)

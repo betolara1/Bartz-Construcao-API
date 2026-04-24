@@ -23,12 +23,12 @@ public class ModuleFather {
     private LocalDateTime dateUpdated;
 
     @PrePersist
-    protected void onCreated(){
+    protected void onCreated() {
         this.dateCreated = LocalDateTime.now();
     }
 
     @PreUpdate
-    protected void onUpdate(){
+    protected void onUpdate() {
         this.dateUpdated = LocalDateTime.now();
     }
 

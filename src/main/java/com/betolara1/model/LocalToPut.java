@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "local_to_put")
 public class LocalToPut {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,12 +25,12 @@ public class LocalToPut {
     private LocalDateTime dateUpdated;
 
     @PrePersist
-    protected void onCreated(){
+    protected void onCreated() {
         this.dateCreated = LocalDateTime.now();
     }
 
     @PreUpdate
-    protected void onUpdate(){
+    protected void onUpdate() {
         this.dateUpdated = LocalDateTime.now();
     }
 }

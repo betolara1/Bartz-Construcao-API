@@ -23,7 +23,7 @@ import com.betolara1.util.PaginationUtils;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/locals")
+@RequestMapping("/local")
 public class LocalToPutController {
     private final LocalToPutService localToPutService;
 
@@ -31,7 +31,7 @@ public class LocalToPutController {
         this.localToPutService = localToPutService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<Page<LocalToPutDTO>> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -43,18 +43,18 @@ public class LocalToPutController {
         return ResponseEntity.ok(localToPutService.findAll(pageable));
     }
 
-    @GetMapping
+    @GetMapping("/id")
     public ResponseEntity<LocalToPutDTO> findById(@RequestParam Long id) {
         return ResponseEntity.ok(localToPutService.findById(id));
     }
 
-    @GetMapping
+    @GetMapping("/name")
     public ResponseEntity<LocalToPutDTO> findByName(@RequestParam String name) {
         return ResponseEntity.ok(localToPutService.findByName(name));
     }
 
-    @GetMapping
-    public ResponseEntity<Page<LocalToPutDTO>> getModuleChildByDateCreated(@RequestParam String date,
+    @GetMapping("/createdDate")
+    public ResponseEntity<Page<LocalToPutDTO>> getLocalToPutByDateCreated(@RequestParam String date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "dateCreated") String sortBy,
@@ -66,8 +66,8 @@ public class LocalToPutController {
         return ResponseEntity.ok(localToPutService.getLocalToPutsByDateCreated(date, pageable));
     }
 
-    @GetMapping
-    public ResponseEntity<Page<LocalToPutDTO>> getModuleChildByDateUpdated(@RequestParam String date,
+    @GetMapping("/updatedDate")
+    public ResponseEntity<Page<LocalToPutDTO>> getLocalToPutByDateUpdated(@RequestParam String date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "dateCreated") String sortBy,
