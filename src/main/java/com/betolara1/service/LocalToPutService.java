@@ -16,9 +16,12 @@ import com.betolara1.model.LocalToPut;
 import com.betolara1.repository.LocalToPutRepository;
 import com.betolara1.util.DateUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 public class LocalToPutService {
     
     private final LocalToPutRepository localToPutRepository;
@@ -92,23 +95,31 @@ public class LocalToPutService {
     }
 
     @Transactional
-    public LocalToPutDTO save(SaveLocalToPutRequest request){
+    public LocalToPut save(SaveLocalToPutRequest request){
         LocalToPut localToPut = new LocalToPut();
+        log.info("Salvando Local: ");
 
         localToPut.setName(request.getName());
 
-        return new LocalToPutDTO(localToPutRepository.save(localToPut));
+        LocalToPut saved = localToPutRepository.save(localToPut);
+        log.info("Local {} foi salvo.", request.getId());
+
+        return saved;
     }
 
     @Transactional
-    public LocalToPutDTO update(Long id, UpdateLocalToPutRequest request){
+    public LocalToPut update(Long id, UpdateLocalToPutRequest request){
         LocalToPut localToPut = localToPutRepository.findById(id).orElseThrow(() -> new NotFoundException("Local não encontrado com esse ID:" +id));
+        log.info("Alterando Local {}: ", id);
 
         if(request.getName() != null){
             localToPut.setName(request.getName());
         }
 
-        return new LocalToPutDTO(localToPutRepository.save(localToPut));
+        LocalToPut updated = localToPutRepository.save(localToPut);
+        log.info("Local {} foi Alterado. ", id);
+
+        return updated;
     }
 
     @Transactional

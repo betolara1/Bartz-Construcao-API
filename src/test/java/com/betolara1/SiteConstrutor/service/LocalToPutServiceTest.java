@@ -135,13 +135,13 @@ public class LocalToPutServiceTest {
             return saved;
         });
 
-        // EXECUTAR: O service retorna um DTO
-        LocalToPutDTO result = localToPutService.save(request);
+        // EXECUTAR: O service retorna a entidade agora
+        LocalToPut result = localToPutService.save(request);
 
         // VERIFICAR
         assertNotNull(result);
-        assertEquals(1L, result.id());
-        assertEquals("Parede", result.name());
+        assertEquals(1L, result.getId());
+        assertEquals("Parede", result.getName());
     }
 
     // ==================== TESTES DO update ====================
@@ -162,11 +162,11 @@ public class LocalToPutServiceTest {
         request.setName("Chão");
 
         // EXECUTAR
-        LocalToPutDTO result = localToPutService.update(1L, request);
+        LocalToPut result = localToPutService.update(1L, request);
 
         // VERIFICAR: O nome deve ter sido atualizado
-        assertEquals(1L, result.id());
-        assertEquals("Chão", result.name());
+        assertEquals(1L, result.getId());
+        assertEquals("Chão", result.getName());
     }
 
     @Test

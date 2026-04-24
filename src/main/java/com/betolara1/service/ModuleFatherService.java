@@ -16,9 +16,12 @@ import com.betolara1.model.ModuleFather;
 import com.betolara1.repository.ModuleFatherRepository;
 import com.betolara1.util.DateUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 public class ModuleFatherService {
 
     // Injeção de dependência
@@ -103,10 +106,14 @@ public class ModuleFatherService {
     @Transactional
     public ModuleFather save(SaveModuleFatherRequest request) {
         ModuleFather moduleFather = new ModuleFather();
+        log.info("Salvando Modulo Pai: ");
 
         moduleFather.setName(request.getName());
 
-        return moduleFatherRepository.save(moduleFather);
+        ModuleFather saved = moduleFatherRepository.save(moduleFather);
+        log.info("Modulo Pai {} salvo.", request.getId());
+
+        return saved;
     }
 
 
@@ -114,12 +121,16 @@ public class ModuleFatherService {
     @Transactional
     public ModuleFather update(Long id, UpdateModuleFatherRequest request){
         ModuleFather moduleFather = moduleFatherRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com ID: " + id));
+        log.info("Alterando Modulo Pai: {}", id);
 
         if(request.getName() != null){
             moduleFather.setName(request.getName());
         }
 
-        return moduleFatherRepository.save(moduleFather);
+        ModuleFather updated = moduleFatherRepository.save(moduleFather);
+        log.info("Módulo Pai {} foi alterado.", id);
+
+        return updated;
     }
 
 

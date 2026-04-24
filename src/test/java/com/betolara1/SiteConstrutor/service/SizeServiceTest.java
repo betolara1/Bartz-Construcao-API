@@ -189,24 +189,20 @@ public class SizeServiceTest {
 
     @Test
     void delete_deveDeletarComSucesso_quandoIdExistir() {
-        // PREPARAR: Cria um Size que "existe no banco"
-        Size size = new Size();
-        size.setId(1L);
-
-        // O delete primeiro busca o registro pelo ID
-        when(sizeRepository.findById(1L)).thenReturn(Optional.of(size));
+        // PREPARAR: Ensina o mock a dizer que o ID 1 existe
+        when(sizeRepository.existsById(1L)).thenReturn(true);
 
         // EXECUTAR: Chama o método delete do service
         sizeService.delete(1L);
 
-        // VERIFICAR: Garante que o método delete do repositório foi realmente chamado
-        verify(sizeRepository).delete(size);
+        // VERIFICAR: Garante que o método deleteById do repositório foi realmente chamado
+        verify(sizeRepository).deleteById(1L);
     }
 
     @Test
     void delete_deveLancarNotFoundException_quandoIdNaoExistir() {
-        // PREPARAR: Ensina o mock a retornar vazio
-        when(sizeRepository.findById(999L)).thenReturn(Optional.empty());
+        // PREPARAR: Ensina o mock a dizer que o ID 999 NÃO existe
+        when(sizeRepository.existsById(999L)).thenReturn(false);
 
         // EXECUTAR E VERIFICAR: Garante que lança exceção
         assertThrows(NotFoundException.class, () -> sizeService.delete(999L));

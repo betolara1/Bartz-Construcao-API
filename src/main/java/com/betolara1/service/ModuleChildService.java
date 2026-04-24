@@ -16,9 +16,12 @@ import com.betolara1.model.ModuleChild;
 import com.betolara1.repository.ModuleChildRepository;
 import com.betolara1.util.DateUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 public class ModuleChildService {
 
     // Injeção de dependência
@@ -113,20 +116,25 @@ public class ModuleChildService {
 
     // Método para salvar um módulo filho
     @Transactional
-    public ModuleChildDTO save(SaveModuleChildRequest request) { 
+    public ModuleChild save(SaveModuleChildRequest request) { 
         ModuleChild module = new ModuleChild();
+        log.info("Salvando Modulo Filho: ");
 
         module.setName(request.getName());
         module.setModuleFather(request.getModuleFather());
 
-        return new ModuleChildDTO(moduleChildRepository.save(module));
+        ModuleChild saved = moduleChildRepository.save(module);
+        log.info("Modulo Filho {} salvo.", request.getId());
+
+        return saved;
     }
 
 
     // Método para atualizar um módulo filho
     @Transactional
-    public ModuleChildDTO update(Long id, UpdateModuleChildRequest request) { 
+    public ModuleChild update(Long id, UpdateModuleChildRequest request) { 
         ModuleChild module = moduleChildRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo filho não encontrado com ID: " + id));
+        log.info("Alterando Modulo Filho: {}", id);
         
         if(request.getName() != null){
             module.setName(request.getName());
@@ -135,16 +143,24 @@ public class ModuleChildService {
             module.setModuleFather(request.getModuleFather());
         }
 
-        return new ModuleChildDTO(moduleChildRepository.save(module));
+        ModuleChild updated =moduleChildRepository.save(module);
+        log.info("Modulo filho {} foi alterado.", id);
+
+        return updated;
     }
 
 
     // Método para deletar um módulo filho
     @Transactional
     public void delete(Long id) {
+        log.info("Deletando modulo filho: {}", id);
+
         if (!moduleChildRepository.existsById(id)) {
             throw new NotFoundException("Módulo filho não encontrado com ID: " + id);
         }
+        
         moduleChildRepository.deleteById(id);
+
+        log.info("Módulo Filho {} deletado.", id);
     }
 }

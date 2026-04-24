@@ -16,9 +16,12 @@ import com.betolara1.model.Product;
 import com.betolara1.repository.ProductRepository;
 import com.betolara1.util.DateUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 public class ProductService {
 
     private final ProductRepository productRepository;
@@ -168,6 +171,7 @@ public class ProductService {
     @Transactional
     public Product save(SaveProductRequest request) {
         Product product = new Product();
+        log.info("Salvando produto: ");
 
         product.setName(request.getName());
         product.setTypeProduct(request.getTypeProduct());
@@ -176,7 +180,10 @@ public class ProductService {
         product.setModuleChild(request.getModuleChild());
         product.setIsActive(request.getIsActive());
 
-        return productRepository.save(product);
+        Product saved = productRepository.save(product);
+        log.info("Produto salvo como {}", request.getId());
+
+        return saved;
     }
 
 
@@ -184,6 +191,7 @@ public class ProductService {
     @Transactional
     public Product update(Long id, UpdateProductRequest request) {
         Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("Produto não encontrado com ID: " + id));
+        log.info("Alterando produto {}: ", id);
 
         if(request.getName() != null){
             product.setName(request.getName());
@@ -204,16 +212,22 @@ public class ProductService {
             product.setIsActive(request.getIsActive());
         }
 
-        return productRepository.save(product);
+        Product updated = productRepository.save(product);
+        log.info("Produto {} foi alterado. ", id);
+
+        return updated;
     }
 
 
     // Método para deletar um produto
     @Transactional
     public void delete(Long id){
+        log.info("Deletando produto {} ", id);
+
         if(!productRepository.existsById(id)){
             throw new NotFoundException("Produto não encontrado com ID: " + id);
         }
         productRepository.deleteById(id);
+        log.info("Produto {} foi deletado.", id);
     }
 }

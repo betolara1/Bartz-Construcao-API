@@ -171,13 +171,13 @@ public class ModuleChildServiceTest {
             return saved;
         });
 
-        // EXECUTAR: O service retorna um DTO (diferente dos outros services)
-        ModuleChildDTO result = moduleChildService.save(request);
+        // EXECUTAR: O service retorna a entidade ModuleChild agora
+        ModuleChild result = moduleChildService.save(request);
 
         // VERIFICAR
         assertNotNull(result);
-        assertEquals(1L, result.id());
-        assertEquals("Módulo Pia", result.name());
+        assertEquals(1L, result.getId());
+        assertEquals("Módulo Pia", result.getName());
     }
 
     // ==================== TESTES DO update ====================
@@ -198,11 +198,11 @@ public class ModuleChildServiceTest {
         request.setName("Nome Novo");
 
         // EXECUTAR
-        ModuleChildDTO result = moduleChildService.update(1L, request);
+        ModuleChild result = moduleChildService.update(1L, request);
 
         // VERIFICAR: O nome deve ter sido atualizado
-        assertEquals(1L, result.id());
-        assertEquals("Nome Novo", result.name());
+        assertEquals(1L, result.getId());
+        assertEquals("Nome Novo", result.getName());
     }
 
     @Test

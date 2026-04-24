@@ -7,8 +7,6 @@ import lombok.Data;
 
 @Data
 public class UpdateModuleChildRequest {
-    private Long id;
-
     @Size(min = 2, max = 100, message = "O nome do módulo filho deve ter entre 2 e 100 caracteres.")
     private String name;
 

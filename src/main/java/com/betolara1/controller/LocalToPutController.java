@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.betolara1.dto.request.SaveLocalToPutRequest;
 import com.betolara1.dto.request.UpdateLocalToPutRequest;
 import com.betolara1.dto.response.LocalToPutDTO;
+import com.betolara1.model.LocalToPut;
 import com.betolara1.service.LocalToPutService;
 import com.betolara1.util.PaginationUtils;
 
@@ -55,6 +56,7 @@ public class LocalToPutController {
 
     @GetMapping("/createdDate")
     public ResponseEntity<Page<LocalToPutDTO>> getLocalToPutByDateCreated(@RequestParam String date,
+
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "dateCreated") String sortBy,
@@ -80,16 +82,15 @@ public class LocalToPutController {
     }
 
     @PostMapping
-    public ResponseEntity<LocalToPutDTO> save(@Valid @RequestBody SaveLocalToPutRequest request) {
-        LocalToPutDTO localToPutDTO = localToPutService.save(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(localToPutDTO);
+    public ResponseEntity<LocalToPut> save(@Valid @RequestBody SaveLocalToPutRequest request) {
+        LocalToPut localToPut = localToPutService.save(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(localToPut);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LocalToPutDTO> update(@PathVariable Long id,
-            @Valid @RequestBody UpdateLocalToPutRequest request) {
-        LocalToPutDTO localToPutDTO = localToPutService.update(id, request);
-        return ResponseEntity.status(HttpStatus.OK).body(localToPutDTO);
+    public ResponseEntity<LocalToPut> update(@PathVariable Long id, @Valid @RequestBody UpdateLocalToPutRequest request) {
+        LocalToPut localToPut = localToPutService.update(id, request);
+        return ResponseEntity.status(HttpStatus.OK).body(localToPut);
     }
 
     @DeleteMapping("/{id}")

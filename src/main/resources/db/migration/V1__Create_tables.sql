@@ -1,18 +1,18 @@
-CREATE TABLE IF NOT EXISTS "local_to_put"(
+CREATE TABLE IF NOT EXISTS local_to_put(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     date_created TIMESTAMP NOT NULL,    
     date_updated TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS "module_father"(
+CREATE TABLE IF NOT EXISTS module_father(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     date_created TIMESTAMP NOT NULL,
     date_updated TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS "module_child"(
+CREATE TABLE IF NOT EXISTS module_child(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     id_module_father BIGINT NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS "module_child"(
     CONSTRAINT fk_module_father FOREIGN KEY (id_module_father) REFERENCES module_father(id)
 );
 
-CREATE TABLE IF NOT EXISTS "products"(
+CREATE TABLE IF NOT EXISTS products(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     type_product VARCHAR(255) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS "products"(
     CONSTRAINT fk_module_child FOREIGN KEY (id_module_child) REFERENCES module_child(id)
 );
 
-CREATE TABLE IF NOT EXISTS "sizes"(
+CREATE TABLE IF NOT EXISTS sizes(
     id BIGSERIAL PRIMARY KEY,
     id_product BIGINT NOT NULL,
     height_max DOUBLE PRECISION NOT NULL,

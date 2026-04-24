@@ -119,10 +119,8 @@ public class ModuleChildControllerTest {
         moduleChild.setId(1L);
         moduleChild.setName("Módulo Novo");
 
-        ModuleChildDTO dto = new ModuleChildDTO(moduleChild);
-
-        // O save do ModuleChildService retorna um DTO (diferente dos outros)
-        when(moduleChildService.save(any())).thenReturn(dto);
+        // O save do ModuleChildService agora retorna a Entidade ModuleChild
+        when(moduleChildService.save(any())).thenReturn(moduleChild);
 
         // JSON do corpo da requisição
         String json = """
@@ -149,10 +147,8 @@ public class ModuleChildControllerTest {
         moduleChild.setId(1L);
         moduleChild.setName("Módulo Atualizado");
 
-        ModuleChildDTO dto = new ModuleChildDTO(moduleChild);
-
-        // O update do ModuleChildService também retorna DTO
-        when(moduleChildService.update(eq(1L), any())).thenReturn(dto);
+        // O update do ModuleChildService agora retorna a Entidade ModuleChild
+        when(moduleChildService.update(eq(1L), any())).thenReturn(moduleChild);
 
         String json = """
                 {

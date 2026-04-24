@@ -16,9 +16,12 @@ import com.betolara1.model.Size;
 import com.betolara1.repository.SizeRepository;
 import com.betolara1.util.DateUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j // CRIA O LOG 
 public class SizeService {
     private final SizeRepository sizeRepository;
     public SizeService(SizeRepository sizeRepository) {
@@ -92,6 +95,8 @@ public class SizeService {
     @Transactional
     public Size save(SaveSizeRequest saveSizeRequest){
         Size size = new Size();
+        log.info("Salvando dimensões do produto: ");
+
         size.setProduct(saveSizeRequest.getProduct());
         size.setHeightMax(saveSizeRequest.getHeightMax());
         size.setHeightMin(saveSizeRequest.getHeightMin());
@@ -99,41 +104,54 @@ public class SizeService {
         size.setWidthMin(saveSizeRequest.getWidthMin());
         size.setDepthMax(saveSizeRequest.getDepthMax());
         size.setDepthMin(saveSizeRequest.getDepthMin());
-        return sizeRepository.save(size);
+        
+        Size saved = sizeRepository.save(size);
+        log.info("Dimensões salvas do produto {}", saved.getId());
+
+        return saved;
     }
 
     @Transactional
-    public Size update(Long id, UpdateSizeRequest updateSizeRequest){
+    public Size update(Long id, UpdateSizeRequest request){
         Size size = sizeRepository.findById(id).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID: " + id));
+        log.info("Alterando as dimensões do produto {} ", id);
 
-        if(updateSizeRequest.getProduct() != null){
-            size.setProduct(updateSizeRequest.getProduct());
+        if(request.getProduct() != null){
+            size.setProduct(request.getProduct());
         }
-        if(updateSizeRequest.getHeightMax() != null){
-            size.setHeightMax(updateSizeRequest.getHeightMax());
+        if(request.getHeightMax() != null){
+            size.setHeightMax(request.getHeightMax());
         }
-        if(updateSizeRequest.getHeightMin() != null){
-            size.setHeightMin(updateSizeRequest.getHeightMin());
+        if(request.getHeightMin() != null){
+            size.setHeightMin(request.getHeightMin());
         }
-        if(updateSizeRequest.getWidthMax() != null){
-            size.setWidthMax(updateSizeRequest.getWidthMax());
+        if(request.getWidthMax() != null){
+            size.setWidthMax(request.getWidthMax());
         }
-        if(updateSizeRequest.getWidthMin() != null){
-            size.setWidthMin(updateSizeRequest.getWidthMin());
+        if(request.getWidthMin() != null){
+            size.setWidthMin(request.getWidthMin());
         }
-        if(updateSizeRequest.getDepthMax() != null){
-            size.setDepthMax(updateSizeRequest.getDepthMax());
+        if(request.getDepthMax() != null){
+            size.setDepthMax(request.getDepthMax());
         }       
-        if(updateSizeRequest.getDepthMin() != null){
-            size.setDepthMin(updateSizeRequest.getDepthMin());
+        if(request.getDepthMin() != null){
+            size.setDepthMin(request.getDepthMin());
         }
         
-        return sizeRepository.save(size);
+        Size updated = sizeRepository.save(size);
+        log.info("Dimensões do produto {} alterado.", id);
+        
+        return updated;
     }
 
     @Transactional
     public void delete(Long id){
-        Size size = sizeRepository.findById(id).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID: " + id));
-        sizeRepository.delete(size);
+        log.info("Deletando as dimensões do produto {} ", id);
+
+        if(!sizeRepository.existsById(id)){
+            throw new NotFoundException("Produto não encontrado com ID: " + id);
+        }
+        sizeRepository.deleteById(id);
+        log.info("Dimensões do produto {} excluidas.", id);
     }
 }

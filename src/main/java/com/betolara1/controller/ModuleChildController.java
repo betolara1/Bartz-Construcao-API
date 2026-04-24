@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.betolara1.dto.request.SaveModuleChildRequest;
 import com.betolara1.dto.request.UpdateModuleChildRequest;
 import com.betolara1.dto.response.ModuleChildDTO;
+import com.betolara1.model.ModuleChild;
 import com.betolara1.service.ModuleChildService;
 import com.betolara1.util.PaginationUtils;
 
@@ -102,17 +103,17 @@ public class ModuleChildController {
 
     // Método para criar um módulo filho
     @PostMapping
-    public ResponseEntity<ModuleChildDTO> createModuleChild(@Valid @RequestBody SaveModuleChildRequest request) {
-        ModuleChildDTO moduleChildDTO = moduleChildService.save(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(moduleChildDTO);
+    public ResponseEntity<ModuleChild> createModuleChild(@Valid @RequestBody SaveModuleChildRequest request) {
+        ModuleChild moduleChild = moduleChildService.save(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(moduleChild);
     }
 
     // Método para atualizar um módulo filho
     @PutMapping("/{id}")
-    public ResponseEntity<ModuleChildDTO> updateModuleChild(@Valid @RequestBody UpdateModuleChildRequest request,
+    public ResponseEntity<ModuleChild> updateModuleChild(@Valid @RequestBody UpdateModuleChildRequest request,
             @PathVariable Long id) {
-        ModuleChildDTO moduleChildDTO = moduleChildService.update(id, request);
-        return ResponseEntity.status(HttpStatus.OK).body(moduleChildDTO);
+        ModuleChild moduleChild = moduleChildService.update(id, request);
+        return ResponseEntity.status(HttpStatus.OK).body(moduleChild);
     }
 
     // Método para deletar um módulo filho

@@ -118,11 +118,8 @@ public class LocalToPutControllerTest {
         LocalToPut local = new LocalToPut();
         local.setId(1L);
         local.setName("Parede");
-
-        LocalToPutDTO dto = new LocalToPutDTO(local);
-
-        // O save do LocalToPutService retorna um DTO
-        when(localToPutService.save(any())).thenReturn(dto);
+        // O save do LocalToPutService agora retorna a Entidade LocalToPut
+        when(localToPutService.save(any())).thenReturn(local);
 
         String json = """
                 {
@@ -147,10 +144,8 @@ public class LocalToPutControllerTest {
         local.setId(1L);
         local.setName("Chão");
 
-        LocalToPutDTO dto = new LocalToPutDTO(local);
-
-        // O update do LocalToPutService também retorna DTO
-        when(localToPutService.update(eq(1L), any())).thenReturn(dto);
+        // O update do LocalToPutService agora retorna a Entidade LocalToPut
+        when(localToPutService.update(eq(1L), any())).thenReturn(local);
 
         String json = """
                 {
