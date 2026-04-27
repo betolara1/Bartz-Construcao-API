@@ -3,6 +3,7 @@ package com.betolara1.controller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,13 +24,17 @@ public class AuthController {
     private String password;
 
     private final JwtUtil jwtUtil;
-    public AuthController(JwtUtil jwtUtil){
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthController(JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
         this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDTO request){
-        if(username.equals(request.username()) && password.equals(request.password())){
+    public ResponseEntity<String> login(@RequestBody LoginDTO request) {
+        // Em vez de .equals(), você usa o encoder passwordEncoder.matches(senha_pura, senha_do_banco_criptografada)
+        if (username.equals(request.username()) && passwordEncoder.matches(request.password(), password)) {
             String token = jwtUtil.generateToken(username);
             return ResponseEntity.ok(token);
         }

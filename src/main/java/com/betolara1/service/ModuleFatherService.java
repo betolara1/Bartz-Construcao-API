@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ModuleFatherService {
 
     // Injeção de dependência
-    private ModuleFatherRepository moduleFatherRepository;
+    private final ModuleFatherRepository moduleFatherRepository;
     public ModuleFatherService(ModuleFatherRepository moduleFatherRepository) {
         this.moduleFatherRepository = moduleFatherRepository;
     }

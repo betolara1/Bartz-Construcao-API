@@ -94,8 +94,8 @@ public class LocalToPutController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteLocal(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteLocal(@PathVariable Long id) {
         localToPutService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Local deletado com sucesso");
+        return ResponseEntity.noContent().build();
     }
 }

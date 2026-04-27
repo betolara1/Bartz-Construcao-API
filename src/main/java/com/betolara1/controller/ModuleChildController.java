@@ -118,8 +118,8 @@ public class ModuleChildController {
 
     // Método para deletar um módulo filho
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteModeuleChild(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteModeuleChild(@PathVariable Long id) {
         moduleChildService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Módulo filho deletado com sucesso");
+        return ResponseEntity.noContent().build();
     }
 }

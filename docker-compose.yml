@@ -7,13 +7,18 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - USERNAME_LOGIN=${USERNAME_LOGIN}
+      - PASSWORD_LOGIN=${PASSWORD_LOGIN}
+      
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     volumes:
       - pgdata:/var/lib/postgresql/data
-    restart: unless-stopped          # Reinicia se cair
-    healthcheck:                     # Verifica se o DB está pronto
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+    restart: unless-stopped # Reinicia se cair
+    healthcheck:
+      # Verifica se o DB está pronto
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -31,7 +36,7 @@ services:
     restart: unless-stopped
     depends_on:
       db:
-        condition: service_healthy   # Só inicia quando o DB estiver saudável
+        condition: service_healthy # Só inicia quando o DB estiver saudável
 
 volumes:
   pgdata:

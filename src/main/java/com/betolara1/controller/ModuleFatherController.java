@@ -104,8 +104,8 @@ public class ModuleFatherController {
 
     // Método para deletar um módulo pai
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteModeuleFather(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteModeuleFather(@PathVariable Long id) {
         moduleFatherService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Módulo pai deletado com sucesso.");
+        return ResponseEntity.noContent().build();
     }
 }
