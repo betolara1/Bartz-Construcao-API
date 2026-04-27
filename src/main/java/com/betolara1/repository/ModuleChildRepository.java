@@ -15,7 +15,7 @@ import com.betolara1.model.ModuleChild;
 @Repository
 public interface ModuleChildRepository extends JpaRepository<ModuleChild, Long> {
     @NonNull
-    Page<ModuleChild> findAll(Pageable pageable);
+    Page<ModuleChild> findAll(@NonNull Pageable pageable);
 
     Page<ModuleChild> findByModuleFatherId(Long id, Pageable pageable);
 

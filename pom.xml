@@ -92,6 +92,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+
+		<!-- JWT que eu criei -->
+		<dependency>
+			<groupId>com.betolara1</groupId>
+			<artifactId>jwt-package</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

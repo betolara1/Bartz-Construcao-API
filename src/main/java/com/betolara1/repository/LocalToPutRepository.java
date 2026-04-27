@@ -16,7 +16,7 @@ public interface LocalToPutRepository extends JpaRepository<LocalToPut, Long> {
     Optional<LocalToPut> findByName(String name);
 
     @NonNull
-    Page<LocalToPut> findAll(Pageable pageable);
+    Page<LocalToPut> findAll(@NonNull Pageable pageable);
 
     // Busca tudo que foi criado entre o início do dia (00:00:00) e o fim (23:59:59)
     Page<LocalToPut> findByDateCreatedBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);

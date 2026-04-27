@@ -14,7 +14,7 @@ import com.betolara1.model.Size;
 @Repository
 public interface SizeRepository extends JpaRepository<Size, Long> {
     @NonNull
-    Page<Size> findAll(Pageable pageable);
+    Page<Size> findAll(@NonNull Pageable pageable);
 
     @NonNull
     Optional<Size> findByProductId(Long idProduct);
