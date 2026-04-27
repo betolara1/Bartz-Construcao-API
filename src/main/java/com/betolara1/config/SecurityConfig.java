@@ -30,7 +30,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
                         .requestMatchers("/actuator/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/**").permitAll() // LIBERADO TUDO O QUE FOR GET
                         .anyRequest().authenticated() // OUTROS METODOS (PUT, POST, DELETE) REQUER AUTENTICAÇÃO DE TOKEN
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
