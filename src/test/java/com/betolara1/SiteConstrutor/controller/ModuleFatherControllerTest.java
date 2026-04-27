@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 // @WebMvcTest carrega APENAS o ModuleFatherController (não sobe toda a aplicação)
 @WebMvcTest(ModuleFatherController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class ModuleFatherControllerTest {
 
     // MockMvc simula requisições HTTP sem precisar de um servidor real

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betolara1.dto.request.LoginRequest;
+import com.betolara1.dto.response.LoginDTO;
 import com.betolara1.jwt_package.security.JwtUtil;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request){
+    public ResponseEntity<String> login(@RequestBody LoginDTO request){
         if(username.equals(request.username()) && password.equals(request.password())){
             String token = jwtUtil.generateToken(username);
             return ResponseEntity.ok(token);

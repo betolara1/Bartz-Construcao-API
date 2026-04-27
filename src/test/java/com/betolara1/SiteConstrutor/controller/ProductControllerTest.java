@@ -4,6 +4,9 @@ package com.betolara1.SiteConstrutor.controller;
 import com.betolara1.controller.ProductController;
 import com.betolara1.dto.response.ProductDTO;
 import com.betolara1.exception.NotFoundException;
+import com.betolara1.model.LocalToPut;
+import com.betolara1.model.ModuleChild;
+import com.betolara1.model.ModuleFather;
 import com.betolara1.model.Product;
 import com.betolara1.service.ProductService;
 
@@ -24,6 +27,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.data.domain.Page;
@@ -35,6 +39,7 @@ import org.springframework.test.web.servlet.MockMvc;
 // @WebMvcTest carrega APENAS o controller especificado (não sobe toda a aplicação).
 // Isso torna o teste muito mais rápido do que subir o Spring Boot inteiro.
 @WebMvcTest(ProductController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class ProductControllerTest {
 
     // MockMvc permite simular requisições HTTP (GET, POST, PUT, DELETE)
@@ -56,6 +61,9 @@ public class ProductControllerTest {
         product.setName("Mesa de Escritório");
         product.setTypeProduct("mesa");
         product.setIsActive(true);
+        product.setLocalToPut(new LocalToPut());
+        product.setModuleFather(new ModuleFather());
+        product.setModuleChild(new ModuleChild());
 
         // Cria o DTO a partir do produto (é o que o controller retorna)
         ProductDTO dto = new ProductDTO(product);
@@ -90,6 +98,9 @@ public class ProductControllerTest {
         Product product = new Product();
         product.setId(1L);
         product.setName("Mesa");
+        product.setLocalToPut(new LocalToPut());
+        product.setModuleFather(new ModuleFather());
+        product.setModuleChild(new ModuleChild());
 
         Page<ProductDTO> page = new PageImpl<>(List.of(new ProductDTO(product)));
 

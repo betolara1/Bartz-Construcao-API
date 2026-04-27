@@ -58,6 +58,9 @@ public class ProductServiceTest {
         product.setName("Mesa de Escritório");
         product.setTypeProduct("mesa");
         product.setIsActive(true);
+        product.setLocalToPut(new LocalToPut());
+        product.setModuleFather(new ModuleFather());
+        product.setModuleChild(new ModuleChild());
 
         // Cria uma página contendo apenas esse produto (simulando o resultado do banco)
         Page<Product> page = new PageImpl<>(List.of(product));
@@ -86,6 +89,9 @@ public class ProductServiceTest {
         product.setName("Mesa de Escritório");
         product.setTypeProduct("mesa");
         product.setIsActive(true);
+        product.setLocalToPut(new LocalToPut());
+        product.setModuleFather(new ModuleFather());
+        product.setModuleChild(new ModuleChild());
 
         // Ensina o mock: "quando pedirem o ID 1, retorne este produto"
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
@@ -118,6 +124,9 @@ public class ProductServiceTest {
         Product product = new Product();
         product.setId(1L);
         product.setName("Mesa de Escritório");
+        product.setLocalToPut(new LocalToPut());
+        product.setModuleFather(new ModuleFather());
+        product.setModuleChild(new ModuleChild());
 
         Page<Product> page = new PageImpl<>(List.of(product));
         Pageable pageable = PageRequest.of(0, 10);
@@ -153,6 +162,9 @@ public class ProductServiceTest {
         Product product = new Product();
         product.setId(1L);
         product.setTypeProduct("mesa");
+        product.setLocalToPut(new LocalToPut());
+        product.setModuleFather(new ModuleFather());
+        product.setModuleChild(new ModuleChild());
 
         Page<Product> page = new PageImpl<>(List.of(product));
         Pageable pageable = PageRequest.of(0, 10);
@@ -186,6 +198,9 @@ public class ProductServiceTest {
         // PREPARAR: Cria produto com local de colocação
         Product product = new Product();
         product.setId(1L);
+        product.setLocalToPut(new LocalToPut());
+        product.setModuleFather(new ModuleFather());
+        product.setModuleChild(new ModuleChild());
 
         Page<Product> page = new PageImpl<>(List.of(product));
         Pageable pageable = PageRequest.of(0, 10);
@@ -215,6 +230,9 @@ public class ProductServiceTest {
     void findByIdModuleFather_deveRetornarPagina_quandoModuleFatherExistir() {
         Product product = new Product();
         product.setId(1L);
+        product.setLocalToPut(new LocalToPut());
+        product.setModuleFather(new ModuleFather());
+        product.setModuleChild(new ModuleChild());
 
         Page<Product> page = new PageImpl<>(List.of(product));
         Pageable pageable = PageRequest.of(0, 10);
@@ -242,6 +260,9 @@ public class ProductServiceTest {
     void findByIdModuleChild_deveRetornarPagina_quandoModuleChildExistir() {
         Product product = new Product();
         product.setId(1L);
+        product.setLocalToPut(new LocalToPut());
+        product.setModuleFather(new ModuleFather());
+        product.setModuleChild(new ModuleChild());
 
         Page<Product> page = new PageImpl<>(List.of(product));
         Pageable pageable = PageRequest.of(0, 10);
@@ -270,6 +291,9 @@ public class ProductServiceTest {
         Product product = new Product();
         product.setId(1L);
         product.setIsActive(true);
+        product.setLocalToPut(new LocalToPut());
+        product.setModuleFather(new ModuleFather());
+        product.setModuleChild(new ModuleChild());
 
         Page<Product> page = new PageImpl<>(List.of(product));
         Pageable pageable = PageRequest.of(0, 10);
