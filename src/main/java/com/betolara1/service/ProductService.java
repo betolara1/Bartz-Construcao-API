@@ -181,7 +181,7 @@ public class ProductService {
         product.setIsActive(request.getIsActive());
 
         Product saved = productRepository.save(product);
-        log.info("Produto salvo como {}", request.getId());
+        log.info("Produto {} salvo.", request.getName());
 
         return saved;
     }

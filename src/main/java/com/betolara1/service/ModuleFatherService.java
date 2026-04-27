@@ -111,7 +111,7 @@ public class ModuleFatherService {
         moduleFather.setName(request.getName());
 
         ModuleFather saved = moduleFatherRepository.save(moduleFather);
-        log.info("Modulo Pai {} salvo.", request.getId());
+        log.info("Modulo Pai {} salvo.", request.getName());
 
         return saved;
     }

@@ -7,8 +7,6 @@ import lombok.Data;
 
 @Data
 public class SaveSizeRequest {
-    private Long id;
-
     @NotNull(message = "O ID do produto é obrigatório.")
     private Product product;
     

@@ -102,7 +102,7 @@ public class LocalToPutService {
         localToPut.setName(request.getName());
 
         LocalToPut saved = localToPutRepository.save(localToPut);
-        log.info("Local {} foi salvo.", request.getId());
+        log.info("Local {} foi salvo.", request.getName());
 
         return saved;
     }

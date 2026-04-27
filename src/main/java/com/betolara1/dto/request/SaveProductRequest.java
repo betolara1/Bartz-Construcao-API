@@ -11,8 +11,6 @@ import lombok.Data;
 
 @Data
 public class SaveProductRequest {
-    private Long id;
-
     @NotBlank(message = "O nome do produto é obrigatório.")
     @Size(min = 2, max = 100, message = "O nome do produto deve ter entre 2 e 100 caracteres.")
     private String name;

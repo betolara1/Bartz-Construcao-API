@@ -124,7 +124,7 @@ public class ModuleChildService {
         module.setModuleFather(request.getModuleFather());
 
         ModuleChild saved = moduleChildRepository.save(module);
-        log.info("Modulo Filho {} salvo.", request.getId());
+        log.info("Modulo Filho {} salvo.", request.getName());
 
         return saved;
     }

@@ -9,8 +9,6 @@ import lombok.Data;
 
 @Data
 public class SaveModuleChildRequest {
-    private Long id;
-
     @NotBlank(message = "O nome do módulo filho é obrigatório.")
     @Size(min = 2, max = 100, message = "O nome do módulo filho deve ter entre 2 e 100 caracteres.")
     private String name;
