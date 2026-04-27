@@ -4,10 +4,20 @@
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
 
+# Copia dependências locais e as instala no repositório interno do Maven
+COPY libs/ /libs/
+RUN mvn install:install-file \
+    -Dfile=/libs/jwt-package-1.0.3.jar \
+    -DgroupId=com.betolara1 \
+    -DartifactId=jwt-package \
+    -Dversion=1.0.3 \
+    -Dpackaging=jar
+
 # Cache do Maven: Se o pom.xml não mudar, o Docker reutiliza as dependências baixadas
 # Copia o pom.xml e baixa as dependências
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
+
 # Copia o resto do código
 COPY src ./src
 # Compila o projeto
