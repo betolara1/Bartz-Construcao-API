@@ -205,7 +205,7 @@ public class ProductControllerTest {
 
         // EXECUTAR E VERIFICAR
         mockMvc.perform(delete("/product/1"))    // Simula DELETE /product/1
-                .andExpect(status().isOk());      // Espera HTTP 200
+                .andExpect(status().isNoContent());      // Espera HTTP 204
     }
 
     @Test

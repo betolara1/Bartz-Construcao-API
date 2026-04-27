@@ -189,7 +189,7 @@ public class ModuleChildControllerTest {
         doNothing().when(moduleChildService).delete(1L);
 
         mockMvc.perform(delete("/moduleChild/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test

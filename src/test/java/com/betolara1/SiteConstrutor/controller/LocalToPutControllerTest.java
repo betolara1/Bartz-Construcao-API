@@ -186,7 +186,7 @@ public class LocalToPutControllerTest {
         doNothing().when(localToPutService).delete(1L);
 
         mockMvc.perform(delete("/local/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
