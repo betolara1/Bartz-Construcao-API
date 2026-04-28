@@ -4,6 +4,7 @@ package com.betolara1.SiteConstrutor.controller;
 import com.betolara1.controller.SizeController;
 import com.betolara1.dto.response.SizeDTO;
 import com.betolara1.exception.NotFoundException;
+import com.betolara1.model.Product;
 import com.betolara1.model.Size;
 import com.betolara1.service.SizeService;
 
@@ -55,6 +56,9 @@ public class SizeControllerTest {
         size.setId(1L);
         size.setHeightMax(1200.0);
         size.setHeightMin(100.0);
+        
+        Product product = new Product(); product.setId(1L);
+        size.setProduct(product);
 
         SizeDTO dto = new SizeDTO(size);
 
@@ -84,6 +88,9 @@ public class SizeControllerTest {
     void findByIdProduct_deveRetornar200_quandoProductIdExistir() throws Exception {
         Size size = new Size();
         size.setId(1L);
+        
+        Product product = new Product(); product.setId(1L);
+        size.setProduct(product);
 
         SizeDTO dto = new SizeDTO(size);
 
@@ -102,6 +109,9 @@ public class SizeControllerTest {
         Size size = new Size();
         size.setId(1L);
         size.setHeightMax(500.0);
+        
+        Product product = new Product(); product.setId(1L);
+        size.setProduct(product);
 
         Page<SizeDTO> page = new PageImpl<>(List.of(new SizeDTO(size)));
 
@@ -125,13 +135,16 @@ public class SizeControllerTest {
         size.setWidthMin(80.0);
         size.setDepthMax(150.0);
         size.setDepthMin(40.0);
+        
+        Product product = new Product(); product.setId(1L);
+        size.setProduct(product);
 
         when(sizeService.save(any())).thenReturn(size);
 
         // JSON do corpo da requisição
         String json = """
                 {
-                    "product": {"id": 1},
+                    "productId": 1,
                     "heightMax": 100.0,
                     "heightMin": 50.0,
                     "widthMax": 200.0,
@@ -157,6 +170,9 @@ public class SizeControllerTest {
         Size size = new Size();
         size.setId(1L);
         size.setHeightMax(1000.0);
+        
+        Product product = new Product(); product.setId(1L);
+        size.setProduct(product);
 
         when(sizeService.update(eq(1L), any())).thenReturn(size);
 

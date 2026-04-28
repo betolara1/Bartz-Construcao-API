@@ -106,7 +106,6 @@ public class ModuleFatherService {
     @Transactional
     public ModuleFather save(SaveModuleFatherRequest request) {
         ModuleFather moduleFather = new ModuleFather();
-        log.info("Salvando Modulo Pai: ");
 
         moduleFather.setName(request.getName());
 
@@ -121,7 +120,6 @@ public class ModuleFatherService {
     @Transactional
     public ModuleFather update(Long id, UpdateModuleFatherRequest request){
         ModuleFather moduleFather = moduleFatherRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com ID: " + id));
-        log.info("Alterando Modulo Pai: {}", id);
 
         if(request.getName() != null){
             moduleFather.setName(request.getName());
@@ -141,5 +139,6 @@ public class ModuleFatherService {
             throw new NotFoundException("Módulo pai não encontrado com ID: " + id);
         }
         moduleFatherRepository.deleteById(id);
+        log.info("Módulo Pai {} foi excluido.", id);
     }
 }

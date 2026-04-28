@@ -1,7 +1,5 @@
 package com.betolara1.dto.request;
 
-import com.betolara1.model.ModuleFather;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,5 +12,5 @@ public class SaveModuleChildRequest {
     private String name;
 
     @NotNull(message = "O ID do módulo pai é obrigatório.")
-    private ModuleFather moduleFather;
+    private Long moduleFatherId;
 }

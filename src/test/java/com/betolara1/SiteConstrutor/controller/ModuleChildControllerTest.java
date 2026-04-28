@@ -5,6 +5,7 @@ import com.betolara1.controller.ModuleChildController;
 import com.betolara1.dto.response.ModuleChildDTO;
 import com.betolara1.exception.NotFoundException;
 import com.betolara1.model.ModuleChild;
+import com.betolara1.model.ModuleFather;
 import com.betolara1.service.ModuleChildService;
 
 // Importações do Spring Test para simular requisições HTTP
@@ -54,6 +55,10 @@ public class ModuleChildControllerTest {
         ModuleChild moduleChild = new ModuleChild();
         moduleChild.setId(1L);
         moduleChild.setName("Módulo Pia");
+        
+        ModuleFather father = new ModuleFather();
+        father.setId(1L);
+        moduleChild.setModuleFather(father);
 
         ModuleChildDTO dto = new ModuleChildDTO(moduleChild);
 
@@ -84,6 +89,10 @@ public class ModuleChildControllerTest {
         ModuleChild moduleChild = new ModuleChild();
         moduleChild.setId(1L);
         moduleChild.setName("Módulo Pia");
+        
+        ModuleFather father = new ModuleFather();
+        father.setId(1L);
+        moduleChild.setModuleFather(father);
 
         ModuleChildDTO dto = new ModuleChildDTO(moduleChild);
 
@@ -102,6 +111,10 @@ public class ModuleChildControllerTest {
         ModuleChild moduleChild = new ModuleChild();
         moduleChild.setId(1L);
         moduleChild.setName("Módulo Pia");
+        
+        ModuleFather father = new ModuleFather();
+        father.setId(1L);
+        moduleChild.setModuleFather(father);
 
         Page<ModuleChildDTO> page = new PageImpl<>(List.of(new ModuleChildDTO(moduleChild)));
 
@@ -120,6 +133,10 @@ public class ModuleChildControllerTest {
         ModuleChild moduleChild = new ModuleChild();
         moduleChild.setId(1L);
         moduleChild.setName("Módulo Novo");
+        
+        ModuleFather father = new ModuleFather();
+        father.setId(1L);
+        moduleChild.setModuleFather(father);
 
         // O save do ModuleChildService agora retorna a Entidade ModuleChild
         when(moduleChildService.save(any())).thenReturn(moduleChild);
@@ -128,7 +145,7 @@ public class ModuleChildControllerTest {
         String json = """
                 {
                     "name": "Módulo Novo",
-                    "moduleFather": {"id": 1}
+                    "moduleFatherId": 1
                 }
                 """;
 
@@ -148,6 +165,10 @@ public class ModuleChildControllerTest {
         ModuleChild moduleChild = new ModuleChild();
         moduleChild.setId(1L);
         moduleChild.setName("Módulo Atualizado");
+        
+        ModuleFather father = new ModuleFather();
+        father.setId(1L);
+        moduleChild.setModuleFather(father);
 
         // O update do ModuleChildService agora retorna a Entidade ModuleChild
         when(moduleChildService.update(eq(1L), any())).thenReturn(moduleChild);

@@ -12,7 +12,9 @@ import com.betolara1.dto.request.SaveSizeRequest;
 import com.betolara1.dto.request.UpdateSizeRequest;
 import com.betolara1.dto.response.SizeDTO;
 import com.betolara1.exception.NotFoundException;
+import com.betolara1.model.Product;
 import com.betolara1.model.Size;
+import com.betolara1.repository.ProductRepository;
 import com.betolara1.repository.SizeRepository;
 import com.betolara1.util.DateUtils;
 
@@ -24,8 +26,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j // CRIA O LOG 
 public class SizeService {
     private final SizeRepository sizeRepository;
-    public SizeService(SizeRepository sizeRepository) {
+    private final ProductRepository productRepository;
+
+    public SizeService(SizeRepository sizeRepository, ProductRepository productRepository) {
         this.sizeRepository = sizeRepository;
+        this.productRepository = productRepository;
     }
 
     @Transactional(readOnly = true)
@@ -93,17 +98,17 @@ public class SizeService {
     }
 
     @Transactional
-    public Size save(SaveSizeRequest saveSizeRequest){
+    public Size save(SaveSizeRequest request){
         Size size = new Size();
-        log.info("Salvando dimensões do produto: ");
+        Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new NotFoundException("Produto não encontrado com ID: " + request.getProductId()));
 
-        size.setProduct(saveSizeRequest.getProduct());
-        size.setHeightMax(saveSizeRequest.getHeightMax());
-        size.setHeightMin(saveSizeRequest.getHeightMin());
-        size.setWidthMax(saveSizeRequest.getWidthMax());
-        size.setWidthMin(saveSizeRequest.getWidthMin());
-        size.setDepthMax(saveSizeRequest.getDepthMax());
-        size.setDepthMin(saveSizeRequest.getDepthMin());
+        size.setProduct(product);
+        size.setHeightMax(request.getHeightMax());
+        size.setHeightMin(request.getHeightMin());
+        size.setWidthMax(request.getWidthMax());
+        size.setWidthMin(request.getWidthMin());
+        size.setDepthMax(request.getDepthMax());
+        size.setDepthMin(request.getDepthMin());
         
         Size saved = sizeRepository.save(size);
         log.info("Dimensões salvas do produto {}", saved.getId());
@@ -114,10 +119,10 @@ public class SizeService {
     @Transactional
     public Size update(Long id, UpdateSizeRequest request){
         Size size = sizeRepository.findById(id).orElseThrow(() -> new NotFoundException("Tamanho não encontrado com ID: " + id));
-        log.info("Alterando as dimensões do produto {} ", id);
 
-        if(request.getProduct() != null){
-            size.setProduct(request.getProduct());
+        if(request.getProductId() != null){
+            Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new NotFoundException("Produto não encontrado com ID: " + request.getProductId()));
+            size.setProduct(product);
         }
         if(request.getHeightMax() != null){
             size.setHeightMax(request.getHeightMax());
@@ -146,8 +151,6 @@ public class SizeService {
 
     @Transactional
     public void delete(Long id){
-        log.info("Deletando as dimensões do produto {} ", id);
-
         if(!sizeRepository.existsById(id)){
             throw new NotFoundException("Produto não encontrado com ID: " + id);
         }

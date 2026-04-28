@@ -13,7 +13,9 @@ import com.betolara1.dto.request.UpdateModuleChildRequest;
 import com.betolara1.dto.response.ModuleChildDTO;
 import com.betolara1.exception.NotFoundException;
 import com.betolara1.model.ModuleChild;
+import com.betolara1.model.ModuleFather;
 import com.betolara1.repository.ModuleChildRepository;
+import com.betolara1.repository.ModuleFatherRepository;
 import com.betolara1.util.DateUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +28,10 @@ public class ModuleChildService {
 
     // Injeção de dependência
     private final ModuleChildRepository moduleChildRepository;
-    public ModuleChildService(ModuleChildRepository moduleChildRepository){
+    private final ModuleFatherRepository moduleFatherRepository;
+    public ModuleChildService(ModuleChildRepository moduleChildRepository, ModuleFatherRepository moduleFatherRepository){
         this.moduleChildRepository = moduleChildRepository;
+        this.moduleFatherRepository = moduleFatherRepository;
     }
 
 
@@ -118,10 +122,10 @@ public class ModuleChildService {
     @Transactional
     public ModuleChild save(SaveModuleChildRequest request) { 
         ModuleChild module = new ModuleChild();
-        log.info("Salvando Modulo Filho: ");
+        ModuleFather moduleFather = moduleFatherRepository.findById(request.getModuleFatherId()).orElseThrow(() -> new NotFoundException("Módulo pai não encontrador com o ID: " + request.getModuleFatherId()));
 
         module.setName(request.getName());
-        module.setModuleFather(request.getModuleFather());
+        module.setModuleFather(moduleFather);
 
         ModuleChild saved = moduleChildRepository.save(module);
         log.info("Modulo Filho {} salvo.", request.getName());
@@ -134,13 +138,13 @@ public class ModuleChildService {
     @Transactional
     public ModuleChild update(Long id, UpdateModuleChildRequest request) { 
         ModuleChild module = moduleChildRepository.findById(id).orElseThrow(() -> new NotFoundException("Módulo filho não encontrado com ID: " + id));
-        log.info("Alterando Modulo Filho: {}", id);
         
         if(request.getName() != null){
             module.setName(request.getName());
         }
-        if(request.getModuleFather() != null){
-            module.setModuleFather(request.getModuleFather());
+        if(request.getModuleFatherId() != null){
+            ModuleFather moduleFather = moduleFatherRepository.findById(request.getModuleFatherId()).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com o ID: " + request.getModuleFatherId()));
+            module.setModuleFather(moduleFather);
         }
 
         ModuleChild updated =moduleChildRepository.save(module);
@@ -153,8 +157,6 @@ public class ModuleChildService {
     // Método para deletar um módulo filho
     @Transactional
     public void delete(Long id) {
-        log.info("Deletando modulo filho: {}", id);
-
         if (!moduleChildRepository.existsById(id)) {
             throw new NotFoundException("Módulo filho não encontrado com ID: " + id);
         }

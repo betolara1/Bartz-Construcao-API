@@ -12,7 +12,13 @@ import com.betolara1.dto.request.SaveProductRequest;
 import com.betolara1.dto.request.UpdateProductRequest;
 import com.betolara1.dto.response.ProductDTO;
 import com.betolara1.exception.NotFoundException;
+import com.betolara1.model.LocalToPut;
+import com.betolara1.model.ModuleChild;
+import com.betolara1.model.ModuleFather;
 import com.betolara1.model.Product;
+import com.betolara1.repository.LocalToPutRepository;
+import com.betolara1.repository.ModuleChildRepository;
+import com.betolara1.repository.ModuleFatherRepository;
 import com.betolara1.repository.ProductRepository;
 import com.betolara1.util.DateUtils;
 
@@ -25,8 +31,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    public ProductService(ProductRepository productRepository) {
+    private final ModuleFatherRepository moduleFatherRepository;
+    private final ModuleChildRepository moduleChildRepository;
+    private final LocalToPutRepository localToPutRepository;
+
+    public ProductService(  ProductRepository productRepository, 
+                            ModuleFatherRepository moduleFatherRepository, 
+                            ModuleChildRepository moduleChildRepository, 
+                            LocalToPutRepository localToPutRepository
+                        ) {
         this.productRepository = productRepository;
+        this.moduleChildRepository = moduleChildRepository;
+        this.moduleFatherRepository = moduleFatherRepository;
+        this.localToPutRepository = localToPutRepository;
     }
 
 
@@ -171,13 +188,15 @@ public class ProductService {
     @Transactional
     public Product save(SaveProductRequest request) {
         Product product = new Product();
-        log.info("Salvando produto: ");
+        LocalToPut local = localToPutRepository.findById(request.getLocalToPutId()).orElseThrow(() -> new NotFoundException("Local não encontrado com id: " + request.getLocalToPutId()));
+        ModuleFather moduleFather = moduleFatherRepository.findById(request.getModuleFatherId()).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com id: " + request.getModuleFatherId()));
+        ModuleChild moduleChild = moduleChildRepository.findById(request.getModuleChildId()).orElseThrow(() -> new NotFoundException("Módulo filho não encontrado com id: " + request.getModuleChildId()));
 
         product.setName(request.getName());
         product.setTypeProduct(request.getTypeProduct());
-        product.setLocalToPut(request.getLocalToPut());
-        product.setModuleFather(request.getModuleFather());
-        product.setModuleChild(request.getModuleChild());
+        product.setLocalToPut(local);
+        product.setModuleFather(moduleFather);
+        product.setModuleChild(moduleChild);
         product.setIsActive(request.getIsActive());
 
         Product saved = productRepository.save(product);
@@ -191,7 +210,6 @@ public class ProductService {
     @Transactional
     public Product update(Long id, UpdateProductRequest request) {
         Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("Produto não encontrado com ID: " + id));
-        log.info("Alterando produto {}: ", id);
 
         if(request.getName() != null){
             product.setName(request.getName());
@@ -199,14 +217,17 @@ public class ProductService {
         if(request.getTypeProduct() != null){
             product.setTypeProduct(request.getTypeProduct());
         }
-        if(request.getLocalToPut() != null){
-            product.setLocalToPut(request.getLocalToPut());
+        if(request.getLocalToPutId() != null){
+            LocalToPut local = localToPutRepository.findById(request.getLocalToPutId()).orElseThrow(() -> new NotFoundException("Local não encontrado com id: " + request.getLocalToPutId()));
+            product.setLocalToPut(local);
         }
-        if(request.getModuleFather() != null){
-            product.setModuleFather(request.getModuleFather());
+        if(request.getModuleFatherId() != null){
+            ModuleFather moduleFather = moduleFatherRepository.findById(request.getModuleFatherId()).orElseThrow(() -> new NotFoundException("Módulo pai não encontrado com id: " + request.getModuleFatherId()));
+            product.setModuleFather(moduleFather);
         }
-        if(request.getModuleChild() != null){
-            product.setModuleChild(request.getModuleChild());
+        if(request.getModuleChildId() != null){
+            ModuleChild moduleChild = moduleChildRepository.findById(request.getModuleChildId()).orElseThrow(() -> new NotFoundException("Módulo filho não encontrado com id: " + request.getModuleChildId()));
+            product.setModuleChild(moduleChild);
         }
         if(request.getIsActive() != null){
             product.setIsActive(request.getIsActive());
@@ -222,8 +243,6 @@ public class ProductService {
     // Método para deletar um produto
     @Transactional
     public void delete(Long id){
-        log.info("Deletando produto {} ", id);
-
         if(!productRepository.existsById(id)){
             throw new NotFoundException("Produto não encontrado com ID: " + id);
         }

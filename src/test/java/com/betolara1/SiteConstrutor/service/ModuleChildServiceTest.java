@@ -8,6 +8,7 @@ import com.betolara1.dto.request.UpdateModuleChildRequest;
 import com.betolara1.dto.response.ModuleChildDTO;
 import com.betolara1.exception.NotFoundException;
 import com.betolara1.repository.ModuleChildRepository;
+import com.betolara1.repository.ModuleFatherRepository;
 import com.betolara1.service.ModuleChildService;
 
 // Importações do JUnit 5 para asserções e anotações de teste
@@ -42,6 +43,9 @@ public class ModuleChildServiceTest {
     @Mock
     private ModuleChildRepository moduleChildRepository;
 
+    @Mock
+    private ModuleFatherRepository moduleFatherRepository;
+
     // Injeta o mock do repositório dentro do service real que queremos testar
     @InjectMocks
     private ModuleChildService moduleChildService;
@@ -54,7 +58,9 @@ public class ModuleChildServiceTest {
         ModuleChild moduleChild = new ModuleChild();
         moduleChild.setId(1L);
         moduleChild.setName("Módulo Pia");
-        moduleChild.setModuleFather(new ModuleFather()); // Define o módulo pai associado
+        ModuleFather father = new ModuleFather();
+        father.setId(1L);
+        moduleChild.setModuleFather(father); // Define o módulo pai associado
 
         // Cria uma página com o módulo filho
         Page<ModuleChild> page = new PageImpl<>(List.of(moduleChild));
@@ -78,6 +84,9 @@ public class ModuleChildServiceTest {
         ModuleChild moduleChild = new ModuleChild();
         moduleChild.setId(1L);
         moduleChild.setName("Módulo Pia");
+        ModuleFather father = new ModuleFather();
+        father.setId(1L);
+        moduleChild.setModuleFather(father);
 
         when(moduleChildRepository.findById(1L)).thenReturn(Optional.of(moduleChild));
 
@@ -105,6 +114,9 @@ public class ModuleChildServiceTest {
         ModuleChild moduleChild = new ModuleChild();
         moduleChild.setId(1L);
         moduleChild.setName("Módulo Pia");
+        ModuleFather father = new ModuleFather();
+        father.setId(1L);
+        moduleChild.setModuleFather(father);
 
         when(moduleChildRepository.findByName("Módulo Pia")).thenReturn(Optional.of(moduleChild));
 
@@ -131,6 +143,9 @@ public class ModuleChildServiceTest {
         ModuleChild moduleChild = new ModuleChild();
         moduleChild.setId(1L);
         moduleChild.setName("Módulo Pia");
+        ModuleFather father = new ModuleFather();
+        father.setId(1L);
+        moduleChild.setModuleFather(father);
 
         Page<ModuleChild> page = new PageImpl<>(List.of(moduleChild));
         Pageable pageable = PageRequest.of(0, 10);
@@ -162,12 +177,18 @@ public class ModuleChildServiceTest {
         // PREPARAR: Cria o request com os dados enviados pelo usuário
         SaveModuleChildRequest request = new SaveModuleChildRequest();
         request.setName("Módulo Pia");
-        request.setModuleFather(new ModuleFather()); // Define qual módulo pai está associado
+        request.setModuleFatherId(1L); // Define qual módulo pai está associado
+
+        ModuleFather father = new ModuleFather();
+        father.setId(1L);
+
+        when(moduleFatherRepository.findById(1L)).thenReturn(Optional.of(father));
 
         // Usa any() porque o service cria internamente um NOVO ModuleChild
         when(moduleChildRepository.save(any(ModuleChild.class))).thenAnswer(invocation -> {
             ModuleChild saved = invocation.getArgument(0); // Pega o objeto criado pelo service
             saved.setId(1L); // Simula o ID gerado pelo banco
+            // O pai já foi setado pelo service, então o mock só precisa retornar o objeto
             return saved;
         });
 
@@ -188,21 +209,29 @@ public class ModuleChildServiceTest {
         ModuleChild existente = new ModuleChild();
         existente.setId(1L);
         existente.setName("Nome Antigo");
+        
+        ModuleFather paiFake = new ModuleFather();
+        paiFake.setId(2L);
 
         // O update primeiro busca o registro pelo ID
         when(moduleChildRepository.findById(1L)).thenReturn(Optional.of(existente));
         when(moduleChildRepository.save(any(ModuleChild.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        // Cria o request com o novo nome
+        // Cria o request com o novo nome e novo pai
         UpdateModuleChildRequest request = new UpdateModuleChildRequest();
         request.setName("Nome Novo");
+        request.setModuleFatherId(2L);
+
+        // Simula a busca do novo pai
+        when(moduleFatherRepository.findById(2L)).thenReturn(Optional.of(paiFake));
 
         // EXECUTAR
         ModuleChild result = moduleChildService.update(1L, request);
 
-        // VERIFICAR: O nome deve ter sido atualizado
+        // VERIFICAR: O nome e o pai devem ter sido atualizados
         assertEquals(1L, result.getId());
         assertEquals("Nome Novo", result.getName());
+        assertEquals(2L, result.getModuleFather().getId());
     }
 
     @Test

@@ -1,11 +1,12 @@
 package com.betolara1.dto.response;
 
-import com.betolara1.model.Product;
 import com.betolara1.model.Size;
 
 public record SizeDTO (
     Long id,
-    Product product,
+
+    Long productId,
+
     Double heightMax,
     Double heightMin,
     Double widthMax,
@@ -15,12 +16,13 @@ public record SizeDTO (
 
     public SizeDTO(Size size) {
         this(size.getId(),
-        size.getProduct(),
-        size.getHeightMax(),
-        size.getHeightMin(),
-        size.getWidthMax(),
-        size.getWidthMin(),
-        size.getDepthMax(),
-        size.getDepthMin());
+            size.getProduct().getId(),
+            size.getHeightMax(),
+            size.getHeightMin(),
+            size.getWidthMax(),
+            size.getWidthMin(),
+            size.getDepthMax(),
+            size.getDepthMin()
+        );
     }
 }

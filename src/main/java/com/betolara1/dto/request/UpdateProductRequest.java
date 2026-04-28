@@ -1,9 +1,5 @@
 package com.betolara1.dto.request;  
 
-import com.betolara1.model.LocalToPut;
-import com.betolara1.model.ModuleChild;
-import com.betolara1.model.ModuleFather;
-
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -12,13 +8,13 @@ public class UpdateProductRequest {
     @Size(min = 2, max = 100, message = "O nome do produto deve ter entre 2 e 100 caracteres.")
     private String name;
 
-    private ModuleFather moduleFather;
+    private Long moduleFatherId;
 
     private String typeProduct;
 
-    private LocalToPut localToPut;
+    private Long localToPutId;
 
-    private ModuleChild moduleChild;
+    private Long moduleChildId;
 
     private Boolean isActive;
 }

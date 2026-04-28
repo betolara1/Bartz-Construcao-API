@@ -1,9 +1,5 @@
 package com.betolara1.dto.request;
 
-import com.betolara1.model.LocalToPut;
-import com.betolara1.model.ModuleChild;
-import com.betolara1.model.ModuleFather;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,16 +12,16 @@ public class SaveProductRequest {
     private String name;
 
     @NotNull(message = "O ID do módulo pai é obrigatório.")
-    private ModuleFather moduleFather;
+    private Long moduleFatherId;
 
     @NotBlank(message = "O tipo do produto é obrigatório.")
     private String typeProduct;
 
     @NotNull(message = "O local de colocação é obrigatório.")
-    private LocalToPut localToPut;
+    private Long localToPutId;
 
     @NotNull(message = "O ID do módulo filho é obrigatório.")
-    private ModuleChild moduleChild;
+    private Long moduleChildId;
 
     @NotNull(message = "O status do produto é obrigatório.")
     private Boolean isActive;

@@ -7,6 +7,7 @@ import com.betolara1.dto.request.SaveSizeRequest;
 import com.betolara1.dto.request.UpdateSizeRequest;
 import com.betolara1.dto.response.SizeDTO;
 import com.betolara1.exception.NotFoundException;
+import com.betolara1.repository.ProductRepository;
 import com.betolara1.repository.SizeRepository;
 import com.betolara1.service.SizeService;
 
@@ -36,6 +37,9 @@ public class SizeServiceTest {
     @Mock
     private SizeRepository sizeRepository;
 
+    @Mock
+    private ProductRepository productRepository;
+
     // Injeta o mock do repositório dentro do service real que queremos testar
     @InjectMocks
     private SizeService sizeService;
@@ -53,6 +57,10 @@ public class SizeServiceTest {
         size.setWidthMin(50.0);
         size.setDepthMax(200.0);
         size.setDepthMin(30.0);
+        
+        Product product = new Product();
+        product.setId(1L);
+        size.setProduct(product);
 
         // Ensina o mock: "quando pedirem o ID 1, retorne este Size"
         when(sizeRepository.findById(1L)).thenReturn(Optional.of(size));
@@ -115,13 +123,18 @@ public class SizeServiceTest {
     void save_deveSalvarERetornarSize() {
         // PREPARAR: Cria o request com os dados que seriam enviados pelo usuário
         SaveSizeRequest request = new SaveSizeRequest();
-        request.setProduct(new Product());
+        request.setProductId(1L);
         request.setHeightMax(100.0);
         request.setHeightMin(50.0);
         request.setWidthMax(200.0);
         request.setWidthMin(80.0);
         request.setDepthMax(150.0);
         request.setDepthMin(40.0);
+
+        Product product = new Product();
+        product.setId(1L);
+
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
         // Usa any(Size.class) porque o service cria um NOVO objeto Size internamente,
         // que é diferente do objeto que criamos aqui no teste.
@@ -157,6 +170,9 @@ public class SizeServiceTest {
         sizeExistente.setHeightMax(500.0);
         sizeExistente.setHeightMin(100.0);
 
+        Product product = new Product();
+        product.setId(2L);
+
         // O update primeiro busca o Size pelo ID antes de atualizar
         when(sizeRepository.findById(1L)).thenReturn(Optional.of(sizeExistente));
 
@@ -166,6 +182,10 @@ public class SizeServiceTest {
         // Cria o request de atualização com os novos valores
         UpdateSizeRequest request = new UpdateSizeRequest();
         request.setHeightMax(1000.0); // Altera a altura máxima de 500 para 1000
+        request.setProductId(2L);
+
+        // Simula a busca do novo produto
+        when(productRepository.findById(2L)).thenReturn(Optional.of(product));
 
         // EXECUTAR: Chama o método update
         Size result = sizeService.update(1L, request);
@@ -174,6 +194,7 @@ public class SizeServiceTest {
         assertEquals(1L, result.getId());
         assertEquals(1000.0, result.getHeightMax()); // Valor novo
         assertEquals(100.0, result.getHeightMin()); // Valor que não foi alterado permanece igual
+        assertEquals(2L, result.getProduct().getId());
     }
 
     @Test

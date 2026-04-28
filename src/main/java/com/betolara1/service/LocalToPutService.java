@@ -97,7 +97,6 @@ public class LocalToPutService {
     @Transactional
     public LocalToPut save(SaveLocalToPutRequest request){
         LocalToPut localToPut = new LocalToPut();
-        log.info("Salvando Local: ");
 
         localToPut.setName(request.getName());
 
@@ -110,7 +109,6 @@ public class LocalToPutService {
     @Transactional
     public LocalToPut update(Long id, UpdateLocalToPutRequest request){
         LocalToPut localToPut = localToPutRepository.findById(id).orElseThrow(() -> new NotFoundException("Local não encontrado com esse ID:" +id));
-        log.info("Alterando Local {}: ", id);
 
         if(request.getName() != null){
             localToPut.setName(request.getName());
@@ -128,5 +126,6 @@ public class LocalToPutService {
             throw new NotFoundException("Local não encontrado com o ID: " +id);
         }
         localToPutRepository.deleteById(id);
+        log.info("Local {} foi excluido. ", id);
     }
 }

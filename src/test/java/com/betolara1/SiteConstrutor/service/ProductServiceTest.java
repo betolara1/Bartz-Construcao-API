@@ -9,6 +9,9 @@ import com.betolara1.dto.request.SaveProductRequest;
 import com.betolara1.dto.request.UpdateProductRequest;
 import com.betolara1.dto.response.ProductDTO;
 import com.betolara1.exception.NotFoundException;
+import com.betolara1.repository.LocalToPutRepository;
+import com.betolara1.repository.ModuleChildRepository;
+import com.betolara1.repository.ModuleFatherRepository;
 import com.betolara1.repository.ProductRepository;
 import com.betolara1.service.ProductService;
 
@@ -43,6 +46,15 @@ public class ProductServiceTest {
     // Cria um "dublê" (mock) do repositório — NÃO conecta no banco de dados real
     @Mock
     private ProductRepository productRepository;
+
+    @Mock
+    private ModuleFatherRepository moduleFatherRepository;
+
+    @Mock
+    private ModuleChildRepository moduleChildRepository;
+
+    @Mock
+    private LocalToPutRepository localToPutRepository;
 
     // Injeta o mock do repositório dentro do service real que queremos testar
     @InjectMocks
@@ -323,19 +335,27 @@ public class ProductServiceTest {
         SaveProductRequest request = new SaveProductRequest();
         request.setName("Mesa de Escritório");
         request.setTypeProduct("mesa");
-        request.setLocalToPut(new LocalToPut());
-        request.setModuleFather(new ModuleFather());
-        request.setModuleChild(new ModuleChild());
+        request.setLocalToPutId(1L);
+        request.setModuleFatherId(1L);
+        request.setModuleChildId(1L);
         request.setIsActive(true);
 
-        // Usa any(Product.class) porque o service cria internamente um NOVO Product,
-        // que é uma instância diferente da que criamos no teste.
-        // O thenAnswer captura o Product criado pelo service e adiciona um ID,
-        // simulando o que o banco faria ao gerar o ID automaticamente.
+        ModuleFather moduleFather = new ModuleFather();
+        moduleFather.setId(1L);
+        ModuleChild moduleChild = new ModuleChild();
+        moduleChild.setId(1L);
+        LocalToPut local = new LocalToPut();
+        local.setId(1L);
+
+        when(moduleFatherRepository.findById(1L)).thenReturn(Optional.of(moduleFather));
+        when(moduleChildRepository.findById(1L)).thenReturn(Optional.of(moduleChild));
+        when(localToPutRepository.findById(1L)).thenReturn(Optional.of(local));
+
+        // Usa any(Product.class) porque o service cria internamente um NOVO Product
         when(productRepository.save(any(Product.class))).thenAnswer(invocation -> {
-            Product savedProduct = invocation.getArgument(0); // Pega o Product que o service criou
-            savedProduct.setId(1L); // Simula o ID gerado pelo banco
-            return savedProduct; // Retorna o Product com ID
+            Product savedProduct = invocation.getArgument(0);
+            savedProduct.setId(1L);
+            return savedProduct;
         });
 
         // EXECUTAR: Chama o método save do service
@@ -345,8 +365,9 @@ public class ProductServiceTest {
         assertNotNull(result);
         assertEquals(1L, result.getId());
         assertEquals("Mesa de Escritório", result.getName());
-        assertEquals("mesa", result.getTypeProduct());
-        assertEquals(true, result.getIsActive());
+        assertEquals(1L, result.getModuleFather().getId());
+        assertEquals(1L, result.getModuleChild().getId());
+        assertEquals(1L, result.getLocalToPut().getId());
     }
 
     // ==================== TESTES DO update ====================
@@ -360,6 +381,9 @@ public class ProductServiceTest {
         produtoExistente.setTypeProduct("mesa");
         produtoExistente.setIsActive(true);
 
+        LocalToPut novoLocal = new LocalToPut();
+        novoLocal.setId(2L);
+
         // O método update primeiro busca o produto pelo ID (findById)
         when(productRepository.findById(1L)).thenReturn(Optional.of(produtoExistente));
 
@@ -369,15 +393,19 @@ public class ProductServiceTest {
         // Cria o request de atualização com os novos valores
         UpdateProductRequest request = new UpdateProductRequest();
         request.setName("Mesa Nova"); // Altera o nome
+        request.setLocalToPutId(2L); // Altera o local
+
+        // Simula a busca do novo local
+        when(localToPutRepository.findById(2L)).thenReturn(Optional.of(novoLocal));
 
         // EXECUTAR: Chama o método update
         Product result = productService.update(1L, request);
 
-        // VERIFICAR: O nome deve ter sido atualizado, mas o restante permanece igual
+        // VERIFICAR: O nome e o local devem ter sido atualizados
         assertEquals(1L, result.getId());
-        assertEquals("Mesa Nova", result.getName()); // Valor novo
-        assertEquals("mesa", result.getTypeProduct()); // Valor que não foi alterado permanece
-        assertEquals(true, result.getIsActive()); // Valor que não foi alterado permanece
+        assertEquals("Mesa Nova", result.getName());
+        assertEquals(2L, result.getLocalToPut().getId());
+        assertEquals("mesa", result.getTypeProduct()); 
     }
 
     @Test

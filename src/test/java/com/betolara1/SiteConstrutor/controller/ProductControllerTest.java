@@ -61,9 +61,14 @@ public class ProductControllerTest {
         product.setName("Mesa de Escritório");
         product.setTypeProduct("mesa");
         product.setIsActive(true);
-        product.setLocalToPut(new LocalToPut());
-        product.setModuleFather(new ModuleFather());
-        product.setModuleChild(new ModuleChild());
+        
+        LocalToPut local = new LocalToPut(); local.setId(1L);
+        ModuleFather father = new ModuleFather(); father.setId(1L);
+        ModuleChild child = new ModuleChild(); child.setId(1L);
+        
+        product.setLocalToPut(local);
+        product.setModuleFather(father);
+        product.setModuleChild(child);
 
         // Cria o DTO a partir do produto (é o que o controller retorna)
         ProductDTO dto = new ProductDTO(product);
@@ -98,9 +103,14 @@ public class ProductControllerTest {
         Product product = new Product();
         product.setId(1L);
         product.setName("Mesa");
-        product.setLocalToPut(new LocalToPut());
-        product.setModuleFather(new ModuleFather());
-        product.setModuleChild(new ModuleChild());
+        
+        LocalToPut local = new LocalToPut(); local.setId(1L);
+        ModuleFather father = new ModuleFather(); father.setId(1L);
+        ModuleChild child = new ModuleChild(); child.setId(1L);
+        
+        product.setLocalToPut(local);
+        product.setModuleFather(father);
+        product.setModuleChild(child);
 
         Page<ProductDTO> page = new PageImpl<>(List.of(new ProductDTO(product)));
 
@@ -123,6 +133,14 @@ public class ProductControllerTest {
         product.setName("Mesa Nova");
         product.setTypeProduct("mesa");
         product.setIsActive(true);
+        
+        LocalToPut local = new LocalToPut(); local.setId(1L);
+        ModuleFather father = new ModuleFather(); father.setId(1L);
+        ModuleChild child = new ModuleChild(); child.setId(1L);
+        
+        product.setLocalToPut(local);
+        product.setModuleFather(father);
+        product.setModuleChild(child);
 
         // Ensina o mock a retornar o produto salvo
         when(productService.save(any())).thenReturn(product);
@@ -132,9 +150,9 @@ public class ProductControllerTest {
                 {
                     "name": "Mesa Nova",
                     "typeProduct": "mesa",
-                    "localToPut": {"id": 1},
-                    "moduleFather": {"id": 1},
-                    "moduleChild": {"id": 1},
+                    "localToPutId": 1,
+                    "moduleFatherId": 1,
+                    "moduleChildId": 1,
                     "isActive": true
                 }
                 """;
@@ -158,6 +176,14 @@ public class ProductControllerTest {
         product.setName("Mesa Atualizada");
         product.setTypeProduct("mesa");
         product.setIsActive(true);
+        
+        LocalToPut local = new LocalToPut(); local.setId(1L);
+        ModuleFather father = new ModuleFather(); father.setId(1L);
+        ModuleChild child = new ModuleChild(); child.setId(1L);
+        
+        product.setLocalToPut(local);
+        product.setModuleFather(father);
+        product.setModuleChild(child);
 
         // Ensina o mock a retornar o produto atualizado
         when(productService.update(eq(1L), any())).thenReturn(product);
