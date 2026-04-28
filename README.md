@@ -15,6 +15,14 @@
 
 ---
 
+## 📸 Preview (Swagger UI)
+
+<div align="center">
+  <img src="assets/swagger-ui.jpg" alt="Swagger UI Preview" width="100%">
+</div>
+
+---
+
 ## 📌 Sobre o Projeto
 
 A **Bartz Construção API** é o backend do site institucional de uma construtora, responsável por gerenciar todo o catálogo de produtos e materiais exibidos ao cliente. A API fornece endpoints RESTful completos para que o frontend do site consuma e apresente os produtos de forma dinâmica, filtrada e paginada.
