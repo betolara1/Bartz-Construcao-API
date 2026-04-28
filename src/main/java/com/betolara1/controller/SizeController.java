@@ -31,7 +31,7 @@ public class SizeController {
         this.sizeService = sizeService;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Page<SizeDTO>> findAll(
                                                 @RequestParam(defaultValue="0") int page, 
                                                 @RequestParam(defaultValue="10") int size,
@@ -43,17 +43,17 @@ public class SizeController {
         return ResponseEntity.ok(sizeService.findAll(pageable));
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<SizeDTO> findById(@RequestParam Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<SizeDTO> findById(@PathVariable Long id){
         return ResponseEntity.ok(sizeService.findById(id));
     }
 
-    @GetMapping("/idProduct")
+    @GetMapping(params = "idProduct")
     public ResponseEntity<SizeDTO> findByIdProduct(@RequestParam Long idProduct){
         return ResponseEntity.ok(sizeService.findByIdProduct(idProduct));
     }
 
-    @GetMapping("/dateCreated")
+    @GetMapping(params = "dateCreated")
     public ResponseEntity<Page<SizeDTO>> getSizeByDateCreated(
                                                             @RequestParam String dateString,
                                                             @RequestParam(defaultValue="0") int page, 
@@ -66,7 +66,7 @@ public class SizeController {
         return ResponseEntity.ok(sizeService.getSizeByDateCreated(dateString, pageable));
     }
 
-    @GetMapping("/dateUpdated")
+    @GetMapping(params = "dateUpdated")
     public ResponseEntity<Page<SizeDTO>> getSizeByDateUpdated(
                                                             @RequestParam String dateString,                                                 
                                                             @RequestParam(defaultValue="0") int page, 

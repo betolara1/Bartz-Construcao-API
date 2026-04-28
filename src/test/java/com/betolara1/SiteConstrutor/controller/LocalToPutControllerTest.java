@@ -60,8 +60,7 @@ public class LocalToPutControllerTest {
         when(localToPutService.findById(1L)).thenReturn(dto);
 
         // EXECUTAR E VERIFICAR
-        mockMvc.perform(get("/local/id")
-                .param("id", "1"))
+        mockMvc.perform(get("/locals/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Parede"));
@@ -72,8 +71,7 @@ public class LocalToPutControllerTest {
         when(localToPutService.findById(999L))
                 .thenThrow(new NotFoundException("ID não Encontrado"));
 
-        mockMvc.perform(get("/local/id")
-                .param("id", "999"))
+        mockMvc.perform(get("/locals/999"))
                 .andExpect(status().isNotFound());
     }
 
@@ -89,7 +87,7 @@ public class LocalToPutControllerTest {
 
         when(localToPutService.findByName("Chão")).thenReturn(dto);
 
-        mockMvc.perform(get("/local/name")
+        mockMvc.perform(get("/locals")
                 .param("name", "Chão"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Chão"));
@@ -107,7 +105,7 @@ public class LocalToPutControllerTest {
 
         when(localToPutService.findAll(any(Pageable.class))).thenReturn(page);
 
-        mockMvc.perform(get("/local/all"))
+        mockMvc.perform(get("/locals"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("Parede"));
     }
@@ -130,7 +128,7 @@ public class LocalToPutControllerTest {
                 """;
 
         // EXECUTAR E VERIFICAR
-        mockMvc.perform(post("/local")
+        mockMvc.perform(post("/locals")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isCreated()) // Espera HTTP 201
@@ -155,7 +153,7 @@ public class LocalToPutControllerTest {
                 }
                 """;
 
-        mockMvc.perform(put("/local/1")
+        mockMvc.perform(put("/locals/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isOk())
@@ -173,7 +171,7 @@ public class LocalToPutControllerTest {
                 }
                 """;
 
-        mockMvc.perform(put("/local/999")
+        mockMvc.perform(put("/locals/999")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isNotFound());
@@ -185,7 +183,7 @@ public class LocalToPutControllerTest {
     void deleteLocal_deveRetornar200_quandoIdExistir() throws Exception {
         doNothing().when(localToPutService).delete(1L);
 
-        mockMvc.perform(delete("/local/1"))
+        mockMvc.perform(delete("/locals/1"))
                 .andExpect(status().isNoContent());
     }
 
@@ -194,7 +192,7 @@ public class LocalToPutControllerTest {
         doThrow(new NotFoundException("Local não encontrado"))
                 .when(localToPutService).delete(999L);
 
-        mockMvc.perform(delete("/local/999"))
+        mockMvc.perform(delete("/locals/999"))
                 .andExpect(status().isNotFound());
     }
 }

@@ -24,7 +24,7 @@ import com.betolara1.util.PaginationUtils;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/local")
+@RequestMapping("/locals")
 public class LocalToPutController {
     private final LocalToPutService localToPutService;
 
@@ -32,7 +32,7 @@ public class LocalToPutController {
         this.localToPutService = localToPutService;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Page<LocalToPutDTO>> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -44,17 +44,17 @@ public class LocalToPutController {
         return ResponseEntity.ok(localToPutService.findAll(pageable));
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<LocalToPutDTO> findById(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<LocalToPutDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(localToPutService.findById(id));
     }
 
-    @GetMapping("/name")
+    @GetMapping(params = "name")
     public ResponseEntity<LocalToPutDTO> findByName(@RequestParam String name) {
         return ResponseEntity.ok(localToPutService.findByName(name));
     }
 
-    @GetMapping("/createdDate")
+    @GetMapping(params = "createdDate")
     public ResponseEntity<Page<LocalToPutDTO>> getLocalToPutByDateCreated(@RequestParam String date,
 
             @RequestParam(defaultValue = "0") int page,
@@ -68,7 +68,7 @@ public class LocalToPutController {
         return ResponseEntity.ok(localToPutService.getLocalToPutsByDateCreated(date, pageable));
     }
 
-    @GetMapping("/updatedDate")
+    @GetMapping(params = "updatedDate")
     public ResponseEntity<Page<LocalToPutDTO>> getLocalToPutByDateUpdated(@RequestParam String date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,

@@ -24,7 +24,7 @@ import com.betolara1.util.PaginationUtils;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/moduleChild")
+@RequestMapping("/moduleChilds")
 public class ModuleChildController {
 
     private final ModuleChildService moduleChildService;
@@ -34,7 +34,7 @@ public class ModuleChildController {
     }
 
     // Método para buscar todos os módulos filhos
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Page<ModuleChildDTO>> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -48,19 +48,19 @@ public class ModuleChildController {
     }
 
     // Método para buscar um módulo filho por ID
-    @GetMapping("/id")
-    public ResponseEntity<ModuleChildDTO> getModuleChildById(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ModuleChildDTO> getModuleChildById(@PathVariable Long id) {
         return ResponseEntity.ok(moduleChildService.getModuleChildById(id));
     }
 
     // Método para buscar um módulo filho por nome
-    @GetMapping("/name")
+    @GetMapping(params = "name")
     public ResponseEntity<ModuleChildDTO> getModuleChildByName(@RequestParam String name) {
         return ResponseEntity.ok(moduleChildService.getModuleChildByName(name));
     }
 
     // Método para buscar um módulo filho por ID do módulo pai
-    @GetMapping("/idModuleFather")
+    @GetMapping(params = "idModuleFather")
     public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByIdModuleFather(@RequestParam Long id,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -74,7 +74,7 @@ public class ModuleChildController {
     }
 
     // Método para buscar um módulo filho por data de criação
-    @GetMapping("/dateCreated")
+    @GetMapping(params = "dateCreated")
     public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByDateCreated(@RequestParam String date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -88,7 +88,7 @@ public class ModuleChildController {
     }
 
     // Método para buscar um módulo filho por data de atualização
-    @GetMapping("/dateUpdated")
+    @GetMapping(params = "dateUpdated")
     public ResponseEntity<Page<ModuleChildDTO>> getModuleChildByDateUpdated(@RequestParam String date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,

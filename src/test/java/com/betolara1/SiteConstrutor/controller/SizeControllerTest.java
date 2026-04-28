@@ -65,8 +65,7 @@ public class SizeControllerTest {
         when(sizeService.findById(1L)).thenReturn(dto);
 
         // EXECUTAR E VERIFICAR
-        mockMvc.perform(get("/sizes/id")
-                .param("id", "1"))
+        mockMvc.perform(get("/sizes/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.heightMax").value(1200.0));
@@ -77,8 +76,7 @@ public class SizeControllerTest {
         when(sizeService.findById(999L))
                 .thenThrow(new NotFoundException("Tamanho não encontrado"));
 
-        mockMvc.perform(get("/sizes/id")
-                .param("id", "999"))
+        mockMvc.perform(get("/sizes/999"))
                 .andExpect(status().isNotFound());
     }
 
@@ -96,7 +94,7 @@ public class SizeControllerTest {
 
         when(sizeService.findByIdProduct(1L)).thenReturn(dto);
 
-        mockMvc.perform(get("/sizes/idProduct")
+        mockMvc.perform(get("/sizes")
                 .param("idProduct", "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
@@ -117,7 +115,7 @@ public class SizeControllerTest {
 
         when(sizeService.findAll(any(Pageable.class))).thenReturn(page);
 
-        mockMvc.perform(get("/sizes/all"))
+        mockMvc.perform(get("/sizes"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].heightMax").value(500.0));
     }

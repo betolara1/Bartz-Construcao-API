@@ -60,8 +60,7 @@ public class ModuleFatherControllerTest {
         when(moduleFatherService.getModuleFatherById(1L)).thenReturn(dto);
 
         // EXECUTAR E VERIFICAR: Envia GET e confere a resposta
-        mockMvc.perform(get("/moduleFather/id")
-                .param("id", "1"))
+        mockMvc.perform(get("/moduleFathers/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Módulo Cozinha"));
@@ -72,8 +71,7 @@ public class ModuleFatherControllerTest {
         when(moduleFatherService.getModuleFatherById(999L))
                 .thenThrow(new NotFoundException("Módulo pai não encontrado"));
 
-        mockMvc.perform(get("/moduleFather/id")
-                .param("id", "999"))
+        mockMvc.perform(get("/moduleFathers/999"))
                 .andExpect(status().isNotFound());
     }
 
@@ -89,7 +87,7 @@ public class ModuleFatherControllerTest {
 
         when(moduleFatherService.getModuleFatherByName("Módulo Cozinha")).thenReturn(dto);
 
-        mockMvc.perform(get("/moduleFather/name")
+        mockMvc.perform(get("/moduleFathers")
                 .param("name", "Módulo Cozinha"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Módulo Cozinha"));
@@ -107,7 +105,7 @@ public class ModuleFatherControllerTest {
 
         when(moduleFatherService.findAll(any(Pageable.class))).thenReturn(page);
 
-        mockMvc.perform(get("/moduleFather/all"))
+        mockMvc.perform(get("/moduleFathers"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("Módulo Cozinha"));
     }
@@ -131,7 +129,7 @@ public class ModuleFatherControllerTest {
                 """;
 
         // EXECUTAR E VERIFICAR
-        mockMvc.perform(post("/moduleFather")
+        mockMvc.perform(post("/moduleFathers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isCreated()) // Espera HTTP 201
@@ -155,7 +153,7 @@ public class ModuleFatherControllerTest {
                 }
                 """;
 
-        mockMvc.perform(put("/moduleFather/1")
+        mockMvc.perform(put("/moduleFathers/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isOk())
@@ -173,7 +171,7 @@ public class ModuleFatherControllerTest {
                 }
                 """;
 
-        mockMvc.perform(put("/moduleFather/999")
+        mockMvc.perform(put("/moduleFathers/999")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isNotFound());
@@ -185,7 +183,7 @@ public class ModuleFatherControllerTest {
     void deleteModuleFather_deveRetornar200_quandoIdExistir() throws Exception {
         doNothing().when(moduleFatherService).delete(1L);
 
-        mockMvc.perform(delete("/moduleFather/1"))
+        mockMvc.perform(delete("/moduleFathers/1"))
                 .andExpect(status().isNoContent());
     }
 
@@ -194,7 +192,7 @@ public class ModuleFatherControllerTest {
         doThrow(new NotFoundException("Módulo pai não encontrado"))
                 .when(moduleFatherService).delete(999L);
 
-        mockMvc.perform(delete("/moduleFather/999"))
+        mockMvc.perform(delete("/moduleFathers/999"))
                 .andExpect(status().isNotFound());
     }
 }

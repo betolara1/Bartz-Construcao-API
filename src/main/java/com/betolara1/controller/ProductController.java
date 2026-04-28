@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -32,113 +32,122 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Page<ProductDTO>> findAll(
                                                     @RequestParam(defaultValue="0") int page, 
                                                     @RequestParam(defaultValue="10") int size,
                                                     @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                    @RequestParam(defaultValue = "desc") String direction){
+                                                    @RequestParam(defaultValue = "desc") String direction
+    ){
         
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         return ResponseEntity.ok(productService.findAll(pageable));
     }
 
-    @GetMapping("/type")
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
+        return ResponseEntity.ok(productService.findById(id));
+    }
+
+    @GetMapping(params = "type")
     public ResponseEntity<Page<ProductDTO>> findByTypeProduct(  @RequestParam String type,
                                                                 @RequestParam(defaultValue="0") int page, 
                                                                 @RequestParam(defaultValue="10") int size,
                                                                 @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                                @RequestParam(defaultValue = "desc") String direction){
+                                                                @RequestParam(defaultValue = "desc") String direction
+    ){
         
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         return ResponseEntity.ok(productService.findByTypeProduct(type, pageable));
     }
 
-    @GetMapping("/name")
+    @GetMapping(params = "name")
     public ResponseEntity<Page<ProductDTO>> findByName( @RequestParam String name, 
                                                         @RequestParam(defaultValue="0") int page, 
                                                         @RequestParam(defaultValue="10") int size,
                                                         @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                        @RequestParam(defaultValue = "desc") String direction){
+                                                        @RequestParam(defaultValue = "desc") String direction
+    ){
         
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         return ResponseEntity.ok(productService.findByName(name, pageable));
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<ProductDTO> findById(@RequestParam Long id){
-        return ResponseEntity.ok(productService.findById(id));
-    }
-
-    @GetMapping("/localToPut")
+    @GetMapping(params = "local")
     public ResponseEntity<Page<ProductDTO>> findByLocalToPut(@RequestParam Long idLocalToPut, 
                                                             @RequestParam(defaultValue="0") int page, 
                                                             @RequestParam(defaultValue="10") int size,
                                                             @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                            @RequestParam(defaultValue = "desc") String direction){
+                                                            @RequestParam(defaultValue = "desc") String direction
+    ){
         
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         return ResponseEntity.ok(productService.findByLocalToPut(idLocalToPut, pageable));
     }
 
-    @GetMapping("/idModuleFather")
+    @GetMapping(params = "moduleFather")
     public ResponseEntity<Page<ProductDTO>> findByIdModuleFather(@RequestParam Long idModuleFather, 
                                                                 @RequestParam(defaultValue="0") int page, 
                                                                 @RequestParam(defaultValue="10") int size,
                                                                 @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                                @RequestParam(defaultValue = "desc") String direction){
+                                                                @RequestParam(defaultValue = "desc") String direction
+    ){
         
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         return ResponseEntity.ok(productService.findByIdModuleFather(idModuleFather, pageable));
     }
 
-    @GetMapping("/idModuleChild")
+    @GetMapping(params = "moduleChild")
     public ResponseEntity<Page<ProductDTO>> findByIdModuleChild(@RequestParam Long idModuleChild,
                                                                 @RequestParam(defaultValue="0") int page, 
                                                                 @RequestParam(defaultValue="10") int size,
                                                                 @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                                @RequestParam(defaultValue = "desc") String direction){
+                                                                @RequestParam(defaultValue = "desc") String direction
+    ){
         
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         return ResponseEntity.ok(productService.findByIdModuleChild(idModuleChild, pageable));
     }
 
-    @GetMapping("/isActive")
+    @GetMapping(params = "active")
     public ResponseEntity<Page<ProductDTO>> findByIsActive( @RequestParam Boolean isActive, 
                                                             @RequestParam(defaultValue="0") int page, 
                                                             @RequestParam(defaultValue="10") int size,
                                                             @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                            @RequestParam(defaultValue = "desc") String direction){
+                                                            @RequestParam(defaultValue = "desc") String direction
+    ){
         
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         return ResponseEntity.ok(productService.findByIsActive(isActive, pageable));
     }
 
-    @GetMapping("/dateCreated")
+    @GetMapping(params = "dateCreated")
     public ResponseEntity<Page<ProductDTO>> getProductByDateCreated(@RequestParam String dateString,
                                                                     @RequestParam(defaultValue="0") int page, 
                                                                     @RequestParam(defaultValue="10") int size,
                                                                     @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                                    @RequestParam(defaultValue = "desc") String direction){
+                                                                    @RequestParam(defaultValue = "desc") String direction
+    ){
         
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);
         return ResponseEntity.ok(productService.getProductByDateCreated(dateString, pageable));
     }
 
-    @GetMapping("/dateUpdated")
+    @GetMapping(params = "dataUpdated")
     public ResponseEntity<Page<ProductDTO>> getProductByDateUpdated(@RequestParam String dateString,                                                 
                                                                     @RequestParam(defaultValue="0") int page, 
                                                                     @RequestParam(defaultValue="10") int size,
                                                                     @RequestParam(defaultValue = "dateCreated") String sortBy,
-                                                                    @RequestParam(defaultValue = "desc") String direction){
+                                                                    @RequestParam(defaultValue = "desc") String direction
+    ){
         
         // Chamada estática: Classe.metodo()
         Pageable pageable = PaginationUtils.createPageable(page, size, sortBy, direction);

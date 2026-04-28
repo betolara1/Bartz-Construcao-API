@@ -24,7 +24,7 @@ import com.betolara1.util.PaginationUtils;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/moduleFather")
+@RequestMapping("/moduleFathers")
 public class ModuleFatherController {
 
     private final ModuleFatherService moduleFatherService;
@@ -33,7 +33,7 @@ public class ModuleFatherController {
     }
 
     // Método para buscar todos os módulos pais
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Page<ModuleFatherDTO>> findAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -46,19 +46,19 @@ public class ModuleFatherController {
     }
 
     // Método para buscar um módulo pai por ID
-    @GetMapping("/id")
-    public ResponseEntity<ModuleFatherDTO> getModuleFatherById(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ModuleFatherDTO> getModuleFatherById(@PathVariable Long id) {
         return ResponseEntity.ok(moduleFatherService.getModuleFatherById(id));
     }
 
     // Método para buscar um módulo pai por nome
-    @GetMapping("/name")
+    @GetMapping(params = "name")
     public ResponseEntity<ModuleFatherDTO> getModuleFatherByName(@RequestParam String name) {
         return ResponseEntity.ok(moduleFatherService.getModuleFatherByName(name));
     }
 
     // Método para buscar um módulo pai por data de criação
-    @GetMapping("/dateCreated")
+    @GetMapping(params = "dateCreated")
     public ResponseEntity<Page<ModuleFatherDTO>> getModuleFatherByDateCreated(@RequestParam String date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -71,7 +71,7 @@ public class ModuleFatherController {
     }
 
     // Método para buscar um módulo pai por data de atualização
-    @GetMapping("/dateUpdated")
+    @GetMapping(params = "dateUpdated")
     public ResponseEntity<Page<ModuleFatherDTO>> getModuleFatherByDateUpdated(@RequestParam String date,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,

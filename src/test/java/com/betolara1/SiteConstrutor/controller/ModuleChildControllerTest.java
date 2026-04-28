@@ -65,8 +65,7 @@ public class ModuleChildControllerTest {
         when(moduleChildService.getModuleChildById(1L)).thenReturn(dto);
 
         // EXECUTAR E VERIFICAR
-        mockMvc.perform(get("/moduleChild/id")
-                .param("id", "1"))
+        mockMvc.perform(get("/moduleChilds/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Módulo Pia"));
@@ -77,8 +76,7 @@ public class ModuleChildControllerTest {
         when(moduleChildService.getModuleChildById(999L))
                 .thenThrow(new NotFoundException("Módulo filho não encontrado"));
 
-        mockMvc.perform(get("/moduleChild/id")
-                .param("id", "999"))
+        mockMvc.perform(get("/moduleChilds/999"))
                 .andExpect(status().isNotFound());
     }
 
@@ -98,7 +96,7 @@ public class ModuleChildControllerTest {
 
         when(moduleChildService.getModuleChildByName("Módulo Pia")).thenReturn(dto);
 
-        mockMvc.perform(get("/moduleChild/name")
+        mockMvc.perform(get("/moduleChilds")
                 .param("name", "Módulo Pia"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Módulo Pia"));
@@ -120,7 +118,7 @@ public class ModuleChildControllerTest {
 
         when(moduleChildService.findAll(any(Pageable.class))).thenReturn(page);
 
-        mockMvc.perform(get("/moduleChild/all"))
+        mockMvc.perform(get("/moduleChilds"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("Módulo Pia"));
     }
@@ -150,7 +148,7 @@ public class ModuleChildControllerTest {
                 """;
 
         // EXECUTAR E VERIFICAR
-        mockMvc.perform(post("/moduleChild")
+        mockMvc.perform(post("/moduleChilds")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isCreated()) // Espera HTTP 201
@@ -179,7 +177,7 @@ public class ModuleChildControllerTest {
                 }
                 """;
 
-        mockMvc.perform(put("/moduleChild/1")
+        mockMvc.perform(put("/moduleChilds/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isOk())
@@ -197,7 +195,7 @@ public class ModuleChildControllerTest {
                 }
                 """;
 
-        mockMvc.perform(put("/moduleChild/999")
+        mockMvc.perform(put("/moduleChilds/999")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isNotFound());
@@ -209,7 +207,7 @@ public class ModuleChildControllerTest {
     void deleteModuleChild_deveRetornar200_quandoIdExistir() throws Exception {
         doNothing().when(moduleChildService).delete(1L);
 
-        mockMvc.perform(delete("/moduleChild/1"))
+        mockMvc.perform(delete("/moduleChilds/1"))
                 .andExpect(status().isNoContent());
     }
 
@@ -218,7 +216,7 @@ public class ModuleChildControllerTest {
         doThrow(new NotFoundException("Módulo filho não encontrado"))
                 .when(moduleChildService).delete(999L);
 
-        mockMvc.perform(delete("/moduleChild/999"))
+        mockMvc.perform(delete("/moduleChilds/999"))
                 .andExpect(status().isNotFound());
     }
 }

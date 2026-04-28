@@ -77,8 +77,7 @@ public class ProductControllerTest {
         when(productService.findById(1L)).thenReturn(dto);
 
         // EXECUTAR E VERIFICAR: Envia uma requisição GET e verifica a resposta
-        mockMvc.perform(get("/product/id")         // Simula GET /product/id
-                .param("id", "1"))                  // Adiciona o parâmetro ?id=1
+        mockMvc.perform(get("/products/1"))
                 .andExpect(status().isOk())          // Espera status HTTP 200
                 .andExpect(jsonPath("$.id").value(1)) // Verifica se o JSON contém id=1
                 .andExpect(jsonPath("$.name").value("Mesa de Escritório")); // Verifica o nome
@@ -90,8 +89,7 @@ public class ProductControllerTest {
         when(productService.findById(999L)).thenThrow(new NotFoundException("Produto não encontrado"));
 
         // EXECUTAR E VERIFICAR: Espera que retorne 404
-        mockMvc.perform(get("/product/id")
-                .param("id", "999"))
+        mockMvc.perform(get("/products/999"))
                 .andExpect(status().isNotFound()); // Espera status HTTP 404
     }
 
@@ -118,7 +116,7 @@ public class ProductControllerTest {
         when(productService.findAll(any(Pageable.class))).thenReturn(page);
 
         // EXECUTAR E VERIFICAR
-        mockMvc.perform(get("/product/all"))
+        mockMvc.perform(get("/products"))
                 .andExpect(status().isOk()) // Espera HTTP 200
                 .andExpect(jsonPath("$.content[0].name").value("Mesa")); // Verifica o nome no JSON
     }
@@ -158,7 +156,7 @@ public class ProductControllerTest {
                 """;
 
         // EXECUTAR E VERIFICAR
-        mockMvc.perform(post("/product")                // Simula POST /product
+        mockMvc.perform(post("/products")                // Simula POST /products
                 .contentType(MediaType.APPLICATION_JSON) // Define o tipo do corpo como JSON
                 .content(json))                          // Envia o JSON no corpo da requisição
                 .andExpect(status().isCreated())          // Espera HTTP 201 (Created)
@@ -196,7 +194,7 @@ public class ProductControllerTest {
                 """;
 
         // EXECUTAR E VERIFICAR
-        mockMvc.perform(put("/product/1")                // Simula PUT /product/1
+        mockMvc.perform(put("/products/1")                // Simula PUT /products/1
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isOk())                // Espera HTTP 200
@@ -216,7 +214,7 @@ public class ProductControllerTest {
                 """;
 
         // EXECUTAR E VERIFICAR
-        mockMvc.perform(put("/product/999")
+        mockMvc.perform(put("/products/999")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isNotFound()); // Espera HTTP 404
@@ -230,7 +228,7 @@ public class ProductControllerTest {
         doNothing().when(productService).delete(1L);
 
         // EXECUTAR E VERIFICAR
-        mockMvc.perform(delete("/product/1"))    // Simula DELETE /product/1
+        mockMvc.perform(delete("/products/1"))    // Simula DELETE /products/1
                 .andExpect(status().isNoContent());      // Espera HTTP 204
     }
 
@@ -240,7 +238,7 @@ public class ProductControllerTest {
         doThrow(new NotFoundException("Produto não encontrado")).when(productService).delete(999L);
 
         // EXECUTAR E VERIFICAR
-        mockMvc.perform(delete("/product/999"))
+        mockMvc.perform(delete("/products/999"))
                 .andExpect(status().isNotFound()); // Espera HTTP 404
     }
 }
